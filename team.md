@@ -9,6 +9,9 @@ I also had a specialty tied to my Undergrad major that focus on game development
 I'm Looking forward to creating a project from scratch in a more team focused setting.
 ___
 
-### Next Person:
+### Joshua Shilts:
+Hello my name is Joshua Shilts I am graduate student at Bostone University working on my Masters in sofdtware development. I have been a software engineer now for
+five years now working in the medical device and telecommunciations industry. I came to BU to further my skills with new technology in order to help
+advance my career. I look forward to creating a application with the team.
 
 ___
