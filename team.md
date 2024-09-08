@@ -15,3 +15,11 @@ five years now working in the medical device and telecommunciations industry. I 
 advance my career. I look forward to creating a application with the team.
 
 ___
+
+### Ricky Zheng:
+Hi, my name is Ricky Zheng and I'm pursuing a Masters in Software Development at Boston University. I am a Software and Systems Engineer that has worked on 
+software maintenance testing frameworks, system test requirements, and software test procedures. My goal of pursuing this graduate degree is to obtain the knowledge and 
+skills to becoming a better full stack developer and engineer as I have not really worked on many front end applications. I'm excited to work with my team on a new 
+application where I can utilize the many skills I learned from my previous graduate courses and past work experience.
+
+___
