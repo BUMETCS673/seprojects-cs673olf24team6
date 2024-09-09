@@ -23,3 +23,8 @@ skills to becoming a better full stack developer and engineer as I have not real
 application where I can utilize the many skills I learned from my previous graduate courses and past work experience.
 
 ___
+
+### James Zheng
+Hello, my name is James Zheng a recent graduate from the University of Massachusetts Amherst. Now pursing my Masters in Software Development at Boston University, currently in my second year. I had limited experience with python, java, and html program language during my time in undergrade with my IT minor. I felt a deep interest in learning and shapening my skills in computer programming langauge or anthing computer software related. I am looking forward to working with my team on this project and learning from them as much as I can.
+
+___
