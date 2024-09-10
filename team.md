@@ -28,3 +28,7 @@ ___
 Hello, my name is James Zheng a recent graduate from the University of Massachusetts Amherst. Now pursing my Masters in Software Development at Boston University, currently in my second year. I had limited experience with python, java, and html program language during my time in undergrade with my IT minor. I felt a deep interest in learning and shapening my skills in computer programming langauge or anthing computer software related. I am looking forward to working with my team on this project and learning from them as much as I can.
 
 ___
+
+### Elizabeth Tyree
+Hello, my name is Elizabeth Tyree and I am currently pursuing a Masters in Software Development at BU, and have a Masters in Physics from Worcester Polytechnic Institute. I have worked on different types of engineering projects from Mechanical Engineering to Data Science\Data Engineering projects. I am familiar with Python and SQL, and taken courses in Java. My goal is to pivot into Cybersecurity and to learn secure coning and threat analysis and detection. I'm excited to get to know my team mates and to learn as much as possible from this course.
+___
