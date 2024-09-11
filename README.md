@@ -61,6 +61,10 @@ Please follow download and installation instructions from the link: https://www.
 
 pip should be installed with the Python downloaded from https://www.python.org/.
 
+**Python Flask**
+
+Using the Python version installed along with pip, please follow the instructions at the link: https://flask.palletsprojects.com/en/3.0.x/installation/.
+
 **SQLite**
 
 sqlite3 is part of the Python library when Python was downloaded and installed.
