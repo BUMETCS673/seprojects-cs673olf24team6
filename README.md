@@ -4,7 +4,7 @@
 
 ## Project Description
 
-Team Blockbuster is creating a microservice Data Science application which will provide the ability to query and display movie data based on various user inputs.
+Team Blockbuster is creating a microservice Data Science application which will provide the ability to query and display movie data based on various user inputs using the Kaggle IMDB Top 250 Movies dataset: <https://www.kaggle.com/datasets/rajugc/imdb-top-250-movies-dataset>
 
 ## Motivation
 
