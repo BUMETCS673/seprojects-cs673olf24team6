@@ -1,4 +1,4 @@
-# Team Blockbuster - Movie Data Analyzer
+# Team Blockbuster - Top Movies API
 
 #### BU MET CS673 O1: Software Engineering, Fall 2024 - Team 6
 
