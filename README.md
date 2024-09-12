@@ -96,7 +96,7 @@ For more information please refer to this link: https://docs.python.org/3/librar
 * SQLite: https://docs.python.org/3/library/sqlite3.html
 
 **Dataset Information**
-* Kaggle IMDB Top 250 Movies dataset: <https://www.kaggle.com/datasets/rajugc/imdb-top-250-movies-dataset>
+* Kaggle IMDB Top 250 Movies dataset: <https://www.kaggle.com/datasets/rajugc/imdb-top-250-movies-dataset>, By Chidambara Raju G (2022)
 
 ## Meet the Team
 
