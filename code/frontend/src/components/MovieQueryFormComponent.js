@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import fetchMovieData from '../services/fetchMovieData';  // Import your data-fetching utility function
 
 
-//This may need to be better refactor into more approiate fuinction calls so they may be unit tested
+//This may need to be better refactor into more appropriate function calls so they may be unit tested
 function MovieQueryFormComponent({ setData, setLoading }) {
     useEffect(() => {
         // Fetch the HTML file and insert it into the container
