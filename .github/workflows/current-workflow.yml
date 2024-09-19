@@ -11,6 +11,7 @@ on:
         description: 'Test scenario tags'  
 jobs:
   Explore-GitHub-Actions:
+    # Docker is available on default ubuntu-latest
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
@@ -24,5 +25,6 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - name: Build the Docker Image
+        working-directory: ./code/backend
         run: docker build -t flask-backend .
       - run: echo "🍏 This job's status is ${{ job.status }}."
