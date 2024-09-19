@@ -1,6 +1,9 @@
 name: Docker Image CI
 run-name: ${{ github.actor }} is testing Docker Image CI 🚀
-on: 
+on:
+  push:
+    branches:
+      - feature/ci-cd-pipeline-integration
   workflow_dispatch:
     inputs:
       logLevel:
