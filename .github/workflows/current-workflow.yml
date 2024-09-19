@@ -1,5 +1,5 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: Docker Image CI
+run-name: ${{ github.actor }} is testing Docker Image CI 🚀
 on: 
   workflow_dispatch:
     inputs:
@@ -23,4 +23,6 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+      - name: Build the Docker Image
+        run: docker build -t flask-backend .
       - run: echo "🍏 This job's status is ${{ job.status }}."
