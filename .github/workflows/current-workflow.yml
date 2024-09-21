@@ -26,8 +26,12 @@ jobs:
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: List files in the repository
         run: ls ${{ github.workspace }}
-      - name: Build the Docker Image
+      
+      - name: Install flask
         working-directory: ./code/backend
+        run: pip install flask
+        
+      - name: Build the Docker Image
         run: docker build -t flask-backend .
       - name: Start a new container
         run: docker run --name created_container -d -p 5000:5000 flask-backend
@@ -45,4 +49,13 @@ jobs:
         run: docker stop created_container
       - name: Remove container
         run: docker rm created_container
+
+      - name: Frontend test
+        working-directory: ./code/frontend
+      - name: Installing npm
+        run: npm install react-scripts --save
+      - name: Running frontend
+        run: |
+          npm start & npx wait-on http://localhost:3000
+        
       - run: echo "🍏 This job's status is ${{ job.status }}."
