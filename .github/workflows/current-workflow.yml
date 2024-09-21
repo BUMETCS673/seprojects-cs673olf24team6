@@ -47,7 +47,7 @@ jobs:
         run: docker stop created_container
       - name: Remove container
         run: docker rm created_container
-      - run: echo "Backend job's status is ${{ job.status }}."
+      - run: echo "Docker-and-Python-Flask-Service job's status is ${{ job.status }}."
   
   Docker-and-Node-Service:
     runs-on: ubuntu-latest
@@ -60,16 +60,16 @@ jobs:
       - run: echo "The repository ${{ github.repository }} has been cloned to runner."
       - run: echo "Workflow is now ready to test code on runner."
       
-      - name: Installing npm and Frontend test
+      - name: Install npm
         working-directory: ./code/frontend
         run: npm install react-scripts --save
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22.8.0'
-      - name: Running frontend
+      - name: Running Docker-and-Node-Service with npm
         run: |
           cd ./code/frontend
           npm start & npx wait-on http://localhost:3000
       
-      - run: echo "Frontend job's status is ${{ job.status }}."
+      - run: echo "Docker-and-Node-Service job's status is ${{ job.status }}."
