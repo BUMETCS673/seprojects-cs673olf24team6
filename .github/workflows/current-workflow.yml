@@ -13,8 +13,7 @@ on:
       tags:
         description: 'Test scenario tags'  
 jobs:
-  Explore-GitHub-Actions:
-    # Docker is available on default ubuntu-latest
+  backend-job:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
@@ -33,12 +32,8 @@ jobs:
       - name: Build the Docker Image
         working-directory: ./code/backend
         run: docker build -t flask-backend .
-      - name: Show current working directory
-        run: pwd
       - name: Start a new container
         run: docker run --name created_container -d -p 5000:5000 flask-backend
-      - name: Show current working directory
-        run: pwd
       - name: List containers
         run: docker ps -a
       - name: Inspect created_container
@@ -53,7 +48,13 @@ jobs:
         run: docker stop created_container
       - name: Remove container
         run: docker rm created_container
-
+      - run: echo "Backend job's status is ${{ job.status }}."
+  
+  frontend-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
       - name: Installing npm and Frontend test
         working-directory: ./code/frontend
         run: npm install react-scripts --save
@@ -64,7 +65,6 @@ jobs:
       - name: Running frontend
         # run: |
         #   npm start & npx wait-on http://localhost:3000
-        # run: npm start
-        run: pwd
-        
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+        run: npm start
+      
+      - run: echo "Frontend job's status is ${{ job.status }}."
