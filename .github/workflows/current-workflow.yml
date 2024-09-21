@@ -1,0 +1,74 @@
+name: Initial Frontend and Backend Workflow
+run-name: ${{ github.actor }} is testing Docker Image CI 🚀
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags'  
+jobs:
+  backend-job:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "Job is running on a ${{ runner.os }} server hosted by GitHub"
+      - run: echo "Branch name is ${{ github.ref }} and repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "The repository ${{ github.repository }} has been cloned to runner."
+      - run: echo "Workflow is now ready to test code on runner."
+      
+      - name: Install flask
+        run: pip install flask
+        
+      - name: Build the Docker Image
+        working-directory: ./code/backend
+        run: docker build -t flask-backend .
+      - name: Start a new container
+        run: docker run --name created_container -d -p 5000:5000 flask-backend
+      - name: List containers
+        run: docker ps -a
+      - name: Inspect created_container
+        run: docker inspect created_container
+      - name: Stop container
+        run: docker stop created_container
+      - name: Restart container
+        run: docker restart created_container
+      - name: Show container status
+        run: docker ps -a
+      - name: Stop container again
+        run: docker stop created_container
+      - name: Remove container
+        run: docker rm created_container
+      - run: echo "Backend job's status is ${{ job.status }}."
+  
+  frontend-job:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "Job is running on a ${{ runner.os }} server hosted by GitHub"
+      - run: echo "Branch name is ${{ github.ref }} and repository is ${{ github.repository }}."
+      - name: Checking out repository code
+        uses: actions/checkout@v4
+      - run: echo "The repository ${{ github.repository }} has been cloned to runner."
+      - run: echo "Workflow is now ready to test code on runner."
+      
+      - name: Installing npm and Frontend test
+        working-directory: ./code/frontend
+        run: npm install react-scripts --save
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.8.0'
+      - name: Running frontend
+        run: |
+          cd ./code/frontend
+          npm start & npx wait-on http://localhost:3000
+      
+      - run: echo "Frontend job's status is ${{ job.status }}."
