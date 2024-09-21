@@ -51,7 +51,7 @@ jobs:
         run: docker rm created_container
 
       - name: Installing npm and Frontend test
-        working-directory: ../frontend
+        working-directory: ./code/frontend
         run: npm install react-scripts --save
       - name: Install Node.js
         uses: actions/setup-node@v4
