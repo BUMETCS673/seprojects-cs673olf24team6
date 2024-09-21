@@ -50,9 +50,8 @@ jobs:
       - name: Remove container
         run: docker rm created_container
 
-      - name: Frontend test
+      - name: Installing npm and Frontend test
         working-directory: ./code/frontend
-      - name: Installing npm
         run: npm install react-scripts --save
       - name: Running frontend
         run: |
