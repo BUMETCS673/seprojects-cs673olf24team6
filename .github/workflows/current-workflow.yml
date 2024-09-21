@@ -62,8 +62,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22.8.0'
-          cache: 'npm'
-          cache-dependency-path: './code/frontend/package.json'
+          persist-credentials: false
       - name: List file structure
         run: ls -l
       - name: Change to frontend directory
