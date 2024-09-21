@@ -65,11 +65,11 @@ jobs:
           persist-credentials: false
       - name: List file structure
         run: ls -l
-      - name: Change to frontend directory
-        run: cd ./code/frontend
       - name: Running frontend
         # run: |
         #   npm start & npx wait-on http://localhost:3000
-        run: npm start
+        run: |
+          cd ./code/frontend
+          npm start
       
       - run: echo "Frontend job's status is ${{ job.status }}."
