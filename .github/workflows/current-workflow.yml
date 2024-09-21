@@ -23,8 +23,6 @@ jobs:
         uses: actions/checkout@v4
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: ls ${{ github.workspace }}
       
       - name: Install flask
         run: pip install flask
@@ -63,13 +61,10 @@ jobs:
         with:
           node-version: '22.8.0'
           persist-credentials: false
-      - name: List file structure
-        run: ls -l
       - name: Running frontend
-        # run: |
-        #   npm start & npx wait-on http://localhost:3000
         run: |
           cd ./code/frontend
-          npm start
+          # npm start
+          npm start & npx wait-on http://localhost:3000
       
       - run: echo "Frontend job's status is ${{ job.status }}."
