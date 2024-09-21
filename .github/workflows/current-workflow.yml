@@ -51,10 +51,12 @@ jobs:
         run: docker rm created_container
 
       - name: Installing npm and Frontend test
-        working-directory: ./code/frontend
+        working-directory: ../frontend
         run: npm install react-scripts --save
       - name: Install Node.js
         uses: actions/setup-node@v4
+        with:
+          node-version: '22.8.0'
       - name: Running frontend
         # run: |
         #   npm start & npx wait-on http://localhost:3000
