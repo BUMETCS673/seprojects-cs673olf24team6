@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev
+      - feature/initial-pipeline-workflow
   workflow_dispatch:
     inputs:
       logLevel:
