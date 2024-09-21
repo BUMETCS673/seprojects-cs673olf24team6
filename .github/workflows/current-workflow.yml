@@ -62,6 +62,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22.8.0'
+      - name: List file structure
+        run: ls -l
+      - name: Change to frontend directory
+        run: cd ./code/frontend
       - name: Running frontend
         # run: |
         #   npm start & npx wait-on http://localhost:3000
