@@ -1,5 +1,5 @@
 name: Initial Frontend and Backend Workflow
-run-name: ${{ github.actor }} is testing Docker Image CI 🚀
+run-name: ${{ github.actor }} is testing Frontend and Backend processes.
 on:
   push:
     branches:
