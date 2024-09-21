@@ -53,8 +53,11 @@ jobs:
       - name: Installing npm and Frontend test
         working-directory: ./code/frontend
         run: npm install react-scripts --save
+      - name: Install Node.js
+        uses: actions/setup-node@v4
       - name: Running frontend
-        run: |
-          npm start & npx wait-on http://localhost:3000
+        # run: |
+        #   npm start & npx wait-on http://localhost:3000
+        run: npm start
         
       - run: echo "🍏 This job's status is ${{ job.status }}."
