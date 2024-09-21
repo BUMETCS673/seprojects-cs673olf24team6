@@ -1,5 +1,5 @@
-name: Initial Frontend and Backend Workflow
-run-name: ${{ github.actor }} is testing Frontend and Backend processes.
+name: Initial Services Workflow
+run-name: ${{ github.actor }} is testing microservices workflow.
 on:
   push:
     branches:
