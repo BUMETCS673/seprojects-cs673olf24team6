@@ -76,7 +76,7 @@ jobs:
           cd ./code/frontend
           npm start & npx wait-on http://localhost:3000
       
-      - run: echo "Python-and-Node-Service job's status is ${{ job.status }}."
+      - run: echo "Node-Service job's status is ${{ job.status }}."
 
   Docker-and-Node-Service:
     runs-on: ubuntu-latest
