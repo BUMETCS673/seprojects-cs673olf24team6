@@ -3,8 +3,7 @@ run-name: ${{ github.actor }} is testing microservices workflow.
 on:
   push:
     branches:
-      - dev
-      - feature/initial-pipeline-workflow
+      - '**'
   workflow_dispatch:
     inputs:
       logLevel:
@@ -25,14 +24,14 @@ jobs:
       - run: echo "The repository ${{ github.repository }} has been cloned to runner."
       - run: echo "Workflow is now ready to test code on runner."
       
-      - name: Install flask
-        run: pip install flask
+      - name: Install required dependencies
+        run: pip install -r requirements.txt
         
       - name: Build the Docker Image
         working-directory: ./code/backend
         run: docker build -t flask-backend .
       - name: Start a new container
-        run: docker run --name created_container -d -p 5000:5000 flask-backend
+        run: docker run --name created_container -d -P flask-backend
       - name: List containers
         run: docker ps -a
       - name: Inspect created_container
@@ -59,14 +58,16 @@ jobs:
         uses: actions/checkout@v4
       - run: echo "The repository ${{ github.repository }} has been cloned to runner."
       - run: echo "Workflow is now ready to test code on runner."
-      
-      - name: Install npm
-        working-directory: ./code/frontend
-        run: npm install react-scripts --save
+
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22.8.0'
+      - name: Install npm
+        working-directory: ./code/frontend
+        run: npm install
+      - name: Install npm react-scripts
+        run: npm install react-scripts --save
       - name: Running Docker-and-Node-Service with npm
         run: |
           cd ./code/frontend
