@@ -95,7 +95,7 @@ jobs:
           node-version: '22.8.0'
       - name: Install npm
         working-directory: ./code/frontend
-        run: npm install
+        run: npm ci
       - name: Install npm react-scripts
         run: npm install react-scripts --save
         
