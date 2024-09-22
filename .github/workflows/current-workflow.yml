@@ -51,7 +51,7 @@ jobs:
         
       - run: echo "Docker-and-Python-Flask-Service job's status is ${{ job.status }}."
   
-  Python-and-Node-Service:
+  Node-Service:
     runs-on: ubuntu-latest
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
@@ -68,7 +68,7 @@ jobs:
           node-version: '22.8.0'
       - name: Install npm
         working-directory: ./code/frontend
-        run: npm install
+        run: npm ci
       - name: Install npm react-scripts
         run: npm install react-scripts --save
       - name: Running Docker-and-Node-Service with npm
