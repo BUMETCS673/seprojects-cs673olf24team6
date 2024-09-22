@@ -65,9 +65,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22.8.0'
-      - name: Install npm
-        working-directory: ./code/frontend
-        run: npm install
+      # - name: Install npm
+      #   working-directory: ./code/frontend
+      #   run: npm install
       - name: Install npm react-scripts
         run: npm install react-scripts --save
       - name: Running Docker-and-Node-Service with npm
