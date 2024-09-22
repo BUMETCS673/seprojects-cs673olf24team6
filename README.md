@@ -28,18 +28,26 @@ Overview:
 
 The following technologies will be used for our project:
 
+- PyCharm Community (**2024.2.2**)
+- GitHub Actions
 - Python (**v3.12**)
 - pip (**v24.2**)
     * Python Flask
     * PyLint
+    * Pandas
 - Docker (**v27.2.0**)
     * Docker Compose (**v2.29.2-desktop.2**)
+- Podman (**5.2.2**)
 - nodeJS (**v20.17.0**)
 - SQLite (**v3**)
 
 ## Installation and Set Up
 
 ##### Please install the specific versions mentioned in the **Tools Used** section above.
+
+**PyCharm Community**
+
+Please follow download and installation instructions from the link: https://www.jetbrains.com/pycharm/download/ depending on OS.
 
 **Docker**
 
@@ -65,6 +73,9 @@ pip should be installed with the Python downloaded from https://www.python.org/.
 
 Using the Python version installed along with pip, please follow the instructions at the link: https://flask.palletsprojects.com/en/3.0.x/installation/.
 
+**Pandas**
+Using the Python version that is installed along with, please use pip to install: Pandas pip3 install pandas
+
 **SQLite**
 
 sqlite3 is part of the Python library when Python was downloaded and installed.
@@ -79,7 +90,22 @@ For more information please refer to this link: https://docs.python.org/3/librar
 
     Note: SSH approach was used for the command above. Please follow the appropriate GitHub guidelines to setup SSH keys before cloning this repository.
 
-2. TBD
+2. Using either filemanager or a terminal window navigate to the code directory.
+
+3. To run this application the services must be started in the correct order or an error may occur. The first service to start is Python Flask
+   a. `cd backend` or navigate to backend directory
+   b. To run the application using python use `python3 backend.py`
+   c. To run the application using Docker or Podman run the commands below
+      i. docker build -t flask_backend .
+      ii. docker run -t flask_backend
+   
+4. To Run the frontend application you need be in the /code/frontend directory.
+     a. To run the application using python use `npm start`
+     b. To run the application using Docker or Podman run the commands below
+      i. docker build -t front_end .
+      ii. docker run  -d -t front_end
+
+5. At this stage in the project you will need to allow a webbrowser to open and you will be able to view the frontend application 
 
 ## Credits
 
@@ -89,10 +115,14 @@ For more information please refer to this link: https://docs.python.org/3/librar
 
 **Tools Installation Information**
 * Docker: https://www.docker.com/ 
-    - Docker Compose 
+    - Docker Compose
+* Podman
 * nodeJS: https://nodejs.org/en
 * Python: https://www.python.org/
     - pip
+    - flask
+    - pandas
+    - pylint
 * SQLite: https://docs.python.org/3/library/sqlite3.html
 
 **Dataset Information**
