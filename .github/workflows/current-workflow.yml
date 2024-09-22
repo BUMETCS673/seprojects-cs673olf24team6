@@ -25,7 +25,9 @@ jobs:
       - run: echo "Workflow is now ready to test code on runner."
       
       - name: Install required dependencies
-        run: pip install -r requirements.txt
+        run: |
+          cd ./code/backend
+          pip install -r requirements.txt
         
       - name: Build the Docker Image
         working-directory: ./code/backend
