@@ -1,70 +1,41 @@
-#from flask_cors import CORS
-#from flask import Flask, request, jsonify# Adjust according to your structure
-
-#app = Flask(__name__)
-#CORS(app)
-
-#@app.route('/api/getData', methods = ['POST'])
-
-
-import requests
 import json
+import requests
+from flask import Flask, jsonify
+from flask_cors import CORS
 
-# Base URL for the API
-BASE_URL = 'http://127.0.0.1:5000/api/movies'
+# Create a test Flask application
+test_app = Flask(__name__)
+CORS(test_app)
 
+# Define the base URL for the backend API
+BASE_URL = 'http://localhost:5000/api/getData'  # Adjust the URL if necessary
 
-def setup_database():
-    """Set up the database with test data."""
-    # This could be a function that initializes your database with sample data
-    pass  # Implement as needed
+# Function to test the getData endpoint
+def test_get_data():
+    # Input data to send to the API
+    input_data = {
+        'input1': 'test_value_1',
+        'input2': 'test_value_2'
+    }
 
+    # Make a POST request to the backend API
+    response = requests.post(BASE_URL, json=input_data)
 
-def test_get_movies_by_genre():
-    """Test querying movies by genre."""
-    response = requests.get(f'{BASE_URL}?genre=Action')
-    assert response.status_code == 200, "Expected status code 200"
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Parse the JSON response
+        response_data = response.json()
+        print("Response from API:", response_data)
 
-    movies = response.json()
-    assert isinstance(movies, list), "Expected a list of movies"
-    print(f"Movies in Action genre: {movies}")
+        # Validate the response message
+        expected_message = f"Received input1: {input_data['input1']}, input2: {input_data['input2']}"
+        assert response_data['message'] == expected_message, "Response message does not match the expected value."
+        print("Response validation passed!")
+    else:
+        print(f"Error: Received status code {response.status_code}")
 
-
-def test_get_movies_by_country():
-    """Test querying movies by country."""
-    response = requests.get(f'{BASE_URL}?country=USA')
-    assert response.status_code == 200, "Expected status code 200"
-
-    movies = response.json()
-    assert isinstance(movies, list), "Expected a list of movies"
-    print(f"Movies from USA: {movies}")
-
-
-def test_get_movies_by_min_rating():
-    """Test querying movies by minimum rating."""
-    response = requests.get(f'{BASE_URL}?min_rating=7.5')
-    assert response.status_code == 200, "Expected status code 200"
-
-    movies = response.json()
-    assert isinstance(movies, list), "Expected a list of movies"
-    print(f"Movies with rating >= 7.5: {movies}")
-
-
-def test_get_movies_no_results():
-    """Test querying movies with no results."""
-    response = requests.get(f'{BASE_URL}?genre=Horror')
-    assert response.status_code == 200, "Expected status code 200"
-
-    movies = response.json()
-    assert isinstance(movies, list) and len(
-        movies) == 0, "Expected no movies found"
-    print("No movies found in Horror genre.")
-
-
+# Run the test when this script is executed
 if __name__ == '__main__':
-    setup_database()  # Optionally populate the database with test data
-    test_get_movies_by_genre()
-    test_get_movies_by_country()
-    test_get_movies_by_min_rating()
-    test_get_movies_no_results()
-    print("All tests executed!")
+    # Start the test application
+    with test_app.app_context():
+        test_get_data()
