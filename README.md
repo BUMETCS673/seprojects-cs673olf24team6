@@ -96,14 +96,14 @@ For more information please refer to this link: https://docs.python.org/3/librar
    -  `cd backend` or navigate to backend directory
    -  To run the application using Python use `python3 backend.py`
    - To run the application using Docker or Podman run the commands below
-      i. docker build -t flask_backend .
-      ii. docker run -t flask_backend
+     - docker build -t flask_backend .
+     - docker run -p 5000:5000 -t flask_backend
    
 4. To Run the frontend application you need be in the /code/frontend directory.
      - To run the application using Node use `npm start`
      - To run the application using Docker or Podman run the commands below
-       - docker build -t front_end .
-       - docker run -d -t front_end
+       - docker build -t node-frontend .
+       - podman run -p 3000:3000 -it node-frontend
 
 5. At this stage in the project you will need to allow a webbrowser to open and you will be able to view the frontend application 
 
