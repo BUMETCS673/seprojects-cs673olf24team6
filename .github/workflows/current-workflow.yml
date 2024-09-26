@@ -46,6 +46,14 @@ jobs:
         run: docker ps -a
       - name: Stop container again
         run: docker stop flask_backend_container
+      
+      - name: Tag flask_backend container image
+        run: docker tag flask_backend rickzheng19/seprojects-cs673olf24team6:flask_backend
+      - name: Upload flask_backend container image to Docker Hub registry
+        run: docker push rickzheng19/seprojects-cs673olf24team6:flask_backend
+      - name: Check if flask_backend container image was successfully uploaded to Docker Hub
+        run: docker pull rickzheng19/seprojects-cs673olf24team6:flask_backend
+        
       - name: Remove container
         run: docker rm flask_backend_container
         
@@ -115,6 +123,14 @@ jobs:
         run: docker ps -a
       - name: Stop container again
         run: docker stop frontend_container
+
+      - name: Tag front_end container image
+        run: docker tag front_end rickzheng19/seprojects-cs673olf24team6:front_end
+      - name: Upload front_end container image to Docker Hub registry
+        run: docker push rickzheng19/seprojects-cs673olf24team6:front_end
+      - name: Check if front_end container image was successfully uploaded to Docker Hub
+        run: docker pull rickzheng19/seprojects-cs673olf24team6:front_end
+        
       - name: Remove container
         run: docker rm frontend_container
       
