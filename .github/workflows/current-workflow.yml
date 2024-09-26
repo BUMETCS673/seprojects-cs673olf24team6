@@ -33,7 +33,7 @@ jobs:
         working-directory: ./code/backend
         run: docker build -t flask_backend .
       - name: Start a new container
-        run: docker run --name flask_backend_container -d -t flask_backend
+        run: docker run --name flask_backend_container -t -d -p 5000:5000 flask_backend
       - name: List containers
         run: docker ps -a
       - name: Inspect flask_backend_container
@@ -102,7 +102,7 @@ jobs:
         working-directory: ./code/frontend
         run: docker build -t front_end .
       - name: Start a new container
-        run: docker run --name frontend_container -d -t front_end
+        run: docker run --name frontend_container -t -d -p 3000:3000 front_end
       - name: List containers
         run: docker ps -a
       - name: Inspect frontend_container
