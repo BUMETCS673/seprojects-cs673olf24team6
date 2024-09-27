@@ -84,11 +84,11 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
         
       - name: Tag flask_backend container image
-        run: docker tag flask_backend rzheng2024/seprojects-cs673olf24team6:${{ github.sha }}_back_end
+        run: docker tag flask_backend ${{ secrets.DOCKER_USERNAME }}/seprojects-cs673olf24team6:${{ github.sha }}_back_end
       - name: Upload flask_backend container image to Docker Hub registry
-        run: docker push rzheng2024/seprojects-cs673olf24team6:${{ github.sha }}_back_end
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/seprojects-cs673olf24team6:${{ github.sha }}_back_end
       - name: Check if flask_backend container image was successfully uploaded to Docker Hub
-        run: docker pull rzheng2024/seprojects-cs673olf24team6:${{ github.sha }}_back_end
+        run: docker pull ${{ secrets.DOCKER_USERNAME }}/seprojects-cs673olf24team6:${{ github.sha }}_back_end
 
       - run: echo "Publish-Flask-Image-to-Docker-Hub job's status is ${{ job.status }}."
   
@@ -199,10 +199,10 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
         
       - name: Tag front_end container image
-        run: docker tag front_end rzheng2024/seprojects-cs673olf24team6:${{ github.sha }}_front_end
+        run: docker tag front_end ${{ secrets.DOCKER_USERNAME }}/seprojects-cs673olf24team6:${{ github.sha }}_front_end
       - name: Upload front_end container image to Docker Hub registry
-        run: docker push rzheng2024/seprojects-cs673olf24team6:${{ github.sha }}_front_end
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/seprojects-cs673olf24team6:${{ github.sha }}_front_end
       - name: Check if front_end container image was successfully uploaded to Docker Hub
-        run: docker pull rzheng2024/seprojects-cs673olf24team6:${{ github.sha }}_front_end
+        run: docker pull ${{ secrets.DOCKER_USERNAME }}/seprojects-cs673olf24team6:${{ github.sha }}_front_end
 
       - run: echo "Publish-Node-Image-to-Docker-Hub job's status is ${{ job.status }}."
