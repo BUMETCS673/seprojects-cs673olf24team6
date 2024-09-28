@@ -22,7 +22,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - run: echo "The repository ${{ github.repository }} has been cloned to runner."
-      - run: echo "Workflow is now ready to test code on runner."
+      - run: echo "Workflow is now ready to tests code on runner."
       
       - name: Install required dependencies
         run: |
@@ -33,7 +33,7 @@ jobs:
         working-directory: ./code/backend
         run: docker build -t flask_backend .
       - name: Start a new container
-        run: docker run --name flask_backend_container -d -t flask_backend
+        run: docker run -p 5000:5000 --name flask_backend_container -d -t flask_backend
       - name: List containers
         run: docker ps -a
       - name: Inspect flask_backend_container
@@ -60,7 +60,7 @@ jobs:
       - name: Checking out repository code
         uses: actions/checkout@v4
       - run: echo "The repository ${{ github.repository }} has been cloned to runner."
-      - run: echo "Workflow is now ready to test code on runner."
+      - run: echo "Workflow is now ready to tests code on runner."
 
       - name: Install Node.js
         uses: actions/setup-node@v4
@@ -87,7 +87,7 @@ jobs:
       - name: Checking out repository code
         uses: actions/checkout@v4
       - run: echo "The repository ${{ github.repository }} has been cloned to runner."
-      - run: echo "Workflow is now ready to test code on runner."
+      - run: echo "Workflow is now ready to tests code on runner."
 
       - name: Install Node.js
         uses: actions/setup-node@v4
@@ -103,7 +103,7 @@ jobs:
         working-directory: ./code/frontend
         run: docker build -t front_end .
       - name: Start a new container
-        run: docker run --name frontend_container -d -t front_end
+        run: docker run -p 3000:3000 --name frontend_container -d -t front_end
       - name: List containers
         run: docker ps -a
       - name: Inspect frontend_container
