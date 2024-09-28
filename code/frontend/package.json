@@ -1,6 +1,12 @@
 {
   "name": "frontend",
   "version": "1.0.0",
+  "jest": {
+    "testEnvironment": "node",
+    "moduleFileExtensions": ["js", "jsx", "ts", "tsx", "json", "node"],
+    "verbose": true,
+    "testMatch": ["src/tests/**/*test.js"]
+  },
   "dependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -9,7 +15,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "browserslist": {
@@ -23,5 +29,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
+  },
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
