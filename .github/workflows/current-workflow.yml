@@ -56,7 +56,7 @@ jobs:
       - run: echo "Docker-and-Python-Flask-Service job's status is ${{ job.status }}."
 
   Publish-Flask-Image-to-GitHub-Package-Registry:
-    name: Publish Docker Python Flask Image to Docker Hub
+    name: Publish Docker Python Flask Image to GitHub Package Registry
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -178,7 +178,7 @@ jobs:
       - run: echo "Docker-and-Node-Service job's status is ${{ job.status }}."
 
   Publish-Node-Image-to-GitHub-Package-Registry:
-    name: Publish Docker Node Image to Docker Hub
+    name: Publish Docker Node Image to GitHub Package Registry
     runs-on: ubuntu-latest
     permissions:
       packages: write
