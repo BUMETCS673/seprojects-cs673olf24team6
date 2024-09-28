@@ -96,7 +96,7 @@ jobs:
         with:
           context: ./code/backend
           push: true
-          tags: ${{ steps.meta.outputs.tags }}_backend_${{ github.sha }}
+          tags: ghcr.io/${{ github.repository }}/flask_backend_container:latest
           labels: ${{ steps.meta.outputs.labels }}
         
       - name: Generate artifact attestation
