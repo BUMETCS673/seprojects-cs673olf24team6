@@ -15,7 +15,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  BACKEND_IMAGE_NAME: flask_backend_container
+  BACKEND_IMAGE_NAME: flask_backend
   REPO_NAME: "bumetcs673/seprojects-cs673olf24team6"
 
 jobs:
@@ -38,23 +38,31 @@ jobs:
         
       - name: Build the Docker Image
         working-directory: ./code/backend
-        run: docker build -t flask_backend .
+        run: docker build -t ${{ env.BACKEND_IMAGE_NAME }} .
+
       - name: Start a new container
-        run: docker run -p 5000:5000 --name flask_backend_container -d -t flask_backend
+        run: docker run -p 5000:5000 --name ${{ env.BACKEND_IMAGE_NAME }} -d ${{ env.BACKEND_IMAGE_NAME }}
+
       - name: List containers
         run: docker ps -a
-      - name: Inspect flask_backend_container
-        run: docker inspect flask_backend_container
+
+      - name: Inspect ${{ env.BACKEND_IMAGE_NAME }}
+        run: docker inspect ${{ env.BACKEND_IMAGE_NAME }}
+
       - name: Stop container
-        run: docker stop flask_backend_container
+        run: docker stop ${{ env.BACKEND_IMAGE_NAME }}
+
       - name: Restart container
-        run: docker restart flask_backend_container
+        run: docker restart ${{ env.BACKEND_IMAGE_NAME }}
+
       - name: Show container status
         run: docker ps -a
+
       - name: Stop container again
-        run: docker stop flask_backend_container
+        run: docker stop ${{ env.BACKEND_IMAGE_NAME }}
+
       - name: Remove container
-        run: docker rm flask_backend_container
+        run: docker rm ${{ env.BACKEND_IMAGE_NAME }}
         
       - run: echo "Docker-and-Python-Flask-Service job's status is ${{ job.status }}."
 
@@ -91,7 +99,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}
 
       - name: Build and push the Docker Image
         id: push
@@ -99,7 +107,7 @@ jobs:
         with:
           context: ./code/backend
           push: true
-          tags: ghcr.io/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}
         
       - name: Generate artifact attestation
