@@ -15,10 +15,13 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  
+  BACKEND_IMAGE_NAME: flask_backend_container
+  REPO_NAME: "bumetcs673/seprojects-cs673olf24team6/"
+
 jobs:
   Docker-and-Python-Flask-Service:
     runs-on: ubuntu-latest
+
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "Job is running on a ${{ runner.os }} server hosted by GitHub"
@@ -96,7 +99,7 @@ jobs:
         with:
           context: ./code/backend
           push: true
-          tags: ghcr.io/${{ github.repository }}/flask_backend_container:latest
+          tags: ghcr.io/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}
         
       - name: Generate artifact attestation
