@@ -5,7 +5,7 @@
     "testEnvironment": "node",
     "moduleFileExtensions": ["js", "jsx", "ts", "tsx", "json", "node"],
     "verbose": true,
-    "testMatch": ["src/tests/**/*test.js"]
+    "testMatch": ["<rootDir>/src/tests/*/.test.js"]
   },
   "dependencies": {
     "react": "^18.0.0",
