@@ -95,9 +95,9 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./code/backend
-          dockerfile: ./code/backend/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          # tags: ${{ steps.meta.outputs.tags }}_backend
+          tags: ${{ github.sha }}_backend
           labels: ${{ steps.meta.outputs.labels }}
         
       - name: Generate artifact attestation
@@ -225,7 +225,8 @@ jobs:
           context: ./code/frontend
           dockerfile: ./code/frontend/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          # tags: ${{ steps.meta.outputs.tags }}_frontend
+          tags: ${{ github.sha }}_frontend
           labels: ${{ steps.meta.outputs.labels }}
         
       - name: Generate artifact attestation
