@@ -11,7 +11,11 @@ on:
         required: true
         default: 'warning'
       tags:
-        description: 'Test scenario tags'  
+        description: 'Test scenario tags'
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  
 jobs:
   Docker-and-Python-Flask-Service:
     runs-on: ubuntu-latest
@@ -72,23 +76,36 @@ jobs:
         run: |
           cd ./code/backend
           pip install -r requirements.txt
-
-      - name: Build the Docker Image
-        working-directory: ./code/backend
-        run: docker build -t flask_backend .
       
-      - name: Login to Docker Hub
+      - name: Login to GitHub Packages registry
         uses: docker/login-action@v3
         with:
-          username: ${{ DOCKER_USERNAME }}
-          password: ${{ DOCKER_TOKEN }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract tag data for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push the Docker Image
+        id: push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./code/backend
+          dockerfile: ./code/backend/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
         
-      - name: Tag flask_backend container image
-        run: docker tag flask_backend ${{ secrets.DOCKER_USERNAME }}/seprojects-cs673olf24team6:${{ github.sha }}_back_end
-      - name: Upload flask_backend container image to Docker Hub registry
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/seprojects-cs673olf24team6:${{ github.sha }}_back_end
-      - name: Check if flask_backend container image was successfully uploaded to Docker Hub
-        run: docker pull ${{ secrets.DOCKER_USERNAME }}/seprojects-cs673olf24team6:${{ github.sha }}_back_end
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
 
       - run: echo "Publish-Flask-Image-to-Docker-Hub job's status is ${{ job.status }}."
   
@@ -188,21 +205,34 @@ jobs:
       - name: Install npm react-scripts
         run: npm install react-scripts --save
         
-      - name: Build the Docker Image
-        working-directory: ./code/frontend
-        run: docker build -t front_end .
-      
-      - name: Login to Docker Hub
+      - name: Login to GitHub Packages registry
         uses: docker/login-action@v3
         with:
-          username: ${{ DOCKER_USERNAME }}
-          password: ${{ DOCKER_TOKEN }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract tag data for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push the Docker Image
+        id: push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./code/frontend
+          dockerfile: ./code/frontend/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
         
-      - name: Tag front_end container image
-        run: docker tag front_end ${{ secrets.DOCKER_USERNAME }}/seprojects-cs673olf24team6:${{ github.sha }}_front_end
-      - name: Upload front_end container image to Docker Hub registry
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/seprojects-cs673olf24team6:${{ github.sha }}_front_end
-      - name: Check if front_end container image was successfully uploaded to Docker Hub
-        run: docker pull ${{ secrets.DOCKER_USERNAME }}/seprojects-cs673olf24team6:${{ github.sha }}_front_end
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
 
       - run: echo "Publish-Node-Image-to-Docker-Hub job's status is ${{ job.status }}."
