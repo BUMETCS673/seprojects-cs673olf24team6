@@ -55,7 +55,7 @@ jobs:
         
       - run: echo "Docker-and-Python-Flask-Service job's status is ${{ job.status }}."
 
-  Publish-Flask-Image-to-Docker-Hub:
+  Publish-Flask-Image-to-GitHub-Package-Registry:
     name: Publish Docker Python Flask Image to Docker Hub
     runs-on: ubuntu-latest
     permissions:
@@ -106,7 +106,7 @@ jobs:
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
 
-      - run: echo "Publish-Flask-Image-to-Docker-Hub job's status is ${{ job.status }}."
+      - run: echo "Publish-Flask-Image-to-GitHub-Package-Registry job's status is ${{ job.status }}."
   
   Node-Service:
     runs-on: ubuntu-latest
@@ -177,7 +177,7 @@ jobs:
       
       - run: echo "Docker-and-Node-Service job's status is ${{ job.status }}."
 
-  Publish-Node-Image-to-Docker-Hub:
+  Publish-Node-Image-to-GitHub-Package-Registry:
     name: Publish Docker Node Image to Docker Hub
     runs-on: ubuntu-latest
     permissions:
@@ -233,4 +233,4 @@ jobs:
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
 
-      - run: echo "Publish-Node-Image-to-Docker-Hub job's status is ${{ job.status }}."
+      - run: echo "Publish-Node-Image-to-GitHub-Package-Registry job's status is ${{ job.status }}."
