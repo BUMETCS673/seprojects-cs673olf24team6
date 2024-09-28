@@ -96,8 +96,8 @@ jobs:
         with:
           context: ./code/backend
           push: true
-          # tags: ${{ steps.meta.outputs.tags }}_backend
-          tags: ${{ github.sha }}_backend
+          tags: ${{ steps.meta.outputs.tags }}_backend
+          # tags: ${{ github.sha }}_backend
           labels: ${{ steps.meta.outputs.labels }}
         
       - name: Generate artifact attestation
@@ -225,8 +225,8 @@ jobs:
           context: ./code/frontend
           dockerfile: ./code/frontend/Dockerfile
           push: true
-          # tags: ${{ steps.meta.outputs.tags }}_frontend
-          tags: ${{ github.sha }}_frontend
+          tags: ${{ steps.meta.outputs.tags }}_frontend
+          # tags: ${{ github.sha }}_frontend
           labels: ${{ steps.meta.outputs.labels }}
         
       - name: Generate artifact attestation
