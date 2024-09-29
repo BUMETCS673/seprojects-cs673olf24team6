@@ -24,8 +24,18 @@ function MovieQueryFormComponent({ setData, setLoading }) {
         e.preventDefault();  // Prevent default form submission behavior
 
         // Get input values from the dynamically loaded form
-        const input1 = document.getElementById('input1').value;
-        const input2 = document.getElementById('input2').value;
+        const rank = document.getElementById('rank').value;
+        const title = document.getElementById('title').value;
+        const release_start = document.getElementById('release_start').value;
+        const release_end = document.getElementById('release_end').value;
+        const score = document.getElementById('score').value;
+        const genre_select = document.getElementById('genre_select').value;
+        const rating_select = document.getElementById('rating_select').value;
+        const budget = document.getElementById('budget').value;
+        const box_office = document.getElementById('box_office').value;
+        const cast_select = document.getElementById('cast_select').value;
+        const director_select = document.getElementById('director_select').value;
+        const writer_select = document.getElementById('writer_select').value;
 
         setLoading(true);  // Set loading state to true
         try {
