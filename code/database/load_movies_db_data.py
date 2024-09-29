@@ -221,18 +221,17 @@ def load_data_into_tables():
 
     # Inserting data into SQLite Movies Database tables
     try:
-        ##-----df.to_sql('AGE_RATING', conn, if_exists='append', index=False)
         # KEEP and uncomment when done.
-        #age_rating_data['rating_title'].to_sql('AGE_RATING', conn, if_exists='append', index=False)
-        #director_table['director_name'].to_sql('DIRECTOR', conn, if_exists='append', index=False)
-        #writers_table['writer_name'].to_sql('WRITERS', conn, if_exists='append', index=False)
-        #cast_table['cast_name'].to_sql('CAST', conn, if_exists='append', index=False)
-        #genre_table['genre_name'].to_sql('GENRE', conn, if_exists='append', index=False)
-        #movie_table.to_sql('MOVIE', conn, if_exists='append', index=False)
-        #movie_director_table.to_sql('MOVIE_DIRECTOR', conn, if_exists='append', index=False)
-        #movie_writers_table.to_sql('MOVIE_WRITERS', conn, if_exists='append', index=False)
-        #movie_cast_table.to_sql('MOVIE_CAST', conn, if_exists='append', index=False)
-        #movie_genre_table.to_sql('MOVIE_GENRE', conn, if_exists='append', index=False)
+        age_rating_data['rating_title'].to_sql('AGE_RATING', conn, if_exists='append', index=False)
+        director_table['director_name'].to_sql('DIRECTOR', conn, if_exists='append', index=False)
+        writers_table['writer_name'].to_sql('WRITERS', conn, if_exists='append', index=False)
+        cast_table['cast_name'].to_sql('CAST', conn, if_exists='append', index=False)
+        genre_table['genre_name'].to_sql('GENRE', conn, if_exists='append', index=False)
+        movie_table.to_sql('MOVIE', conn, if_exists='append', index=False)
+        movie_director_table.to_sql('MOVIE_DIRECTOR', conn, if_exists='append', index=False)
+        movie_writers_table.to_sql('MOVIE_WRITERS', conn, if_exists='append', index=False)
+        movie_cast_table.to_sql('MOVIE_CAST', conn, if_exists='append', index=False)
+        movie_genre_table.to_sql('MOVIE_GENRE', conn, if_exists='append', index=False)
 
         print("Data successfully loaded into tables.")
 
