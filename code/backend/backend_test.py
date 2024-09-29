@@ -6,7 +6,7 @@ backend_test_app = Flask(__name__)
 CORS(backend_test_app)
 
 
-def test_get_data():
+def test_get_data_endpoint():
 
     test_input = {
         'input1': 'test_input_1',
@@ -26,9 +26,9 @@ def test_get_data():
         print(f"Error: Received status code {response.status_code}")
 
 @backend_test_app.route('/run_backend_test', methods=['GET'])
-def run_test():
-    test_get_data()
-    return jsonify({"message": "Backend Test completed running"}), 200
+def run_backend_test():
+    test_get_data_endpoint()
+    return jsonify({"message": "Backend Test completed!"}), 200
 
 
 if __name__ == '__main__':
