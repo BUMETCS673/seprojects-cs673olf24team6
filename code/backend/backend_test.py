@@ -8,19 +8,19 @@ CORS(backend_test_app)
 
 def test_get_data():
 
-    input_test_data = {
+    test_input = {
         'input1': 'test_input_1',
         'input2': 'test_input_2'
     }
 
-    response = requests.post('http://0.0.0.0:5000/api/getData', json=input_test_data)
+    response = requests.post('http://0.0.0.0:5000/api/getData', json=test_input)
 
     if response.status_code == 200:
         response_data = response.json()
         print("Response from backend API:", response_data)
 
-        expected_message = f"Received input1: {input_test_data['input1']}, input2: {input_test_data['input2']}"
-        assert response_data['message'] == expected_message, "Response message does not match the expected value."
+        expected_message = f"Received input1: {test_input['input1']}, input2: {test_input['input2']}"
+        assert response_data['message'] == expected_message, "Test Failed!"
         print("Test passed!")
     else:
         print(f"Error: Received status code {response.status_code}")
