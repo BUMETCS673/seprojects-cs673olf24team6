@@ -22,7 +22,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - run: echo "The repository ${{ github.repository }} has been cloned to runner."
-      - run: echo "Workflow is now ready to tests code on runner."
+      - run: echo "Workflow is now ready to test code on runner."
       
       - name: Install required dependencies
         run: |
@@ -60,7 +60,7 @@ jobs:
       - name: Checking out repository code
         uses: actions/checkout@v4
       - run: echo "The repository ${{ github.repository }} has been cloned to runner."
-      - run: echo "Workflow is now ready to tests code on runner."
+      - run: echo "Workflow is now ready to test code on runner."
 
       - name: Install Node.js
         uses: actions/setup-node@v4
@@ -87,7 +87,7 @@ jobs:
       - name: Checking out repository code
         uses: actions/checkout@v4
       - run: echo "The repository ${{ github.repository }} has been cloned to runner."
-      - run: echo "Workflow is now ready to tests code on runner."
+      - run: echo "Workflow is now ready to test code on runner."
 
       - name: Install Node.js
         uses: actions/setup-node@v4
