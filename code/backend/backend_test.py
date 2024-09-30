@@ -1,5 +1,4 @@
-# Reference: https://www.geeksforgeeks.org/flask-creating-first-simple
-# -application/
+# Reference: https://www.geeksforgeeks.org/flask-creating-first-simple-application/
 
 import requests
 from flask import Flask, jsonify
