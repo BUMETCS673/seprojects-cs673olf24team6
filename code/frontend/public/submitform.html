@@ -13,12 +13,12 @@
         </div>
         <div>
             <label for="title">Movie Title: </label>
-            <input type="text" id="title" required>
+            <input placeholder="Please enter a Movie Title" type="text" id="title">
         </div>
         <div>
             <label>Release Date: </label>
-            <input type="date" id="release_start" required>
-            <input type="date" id="release_end" required>
+            <input data-testid="start" type="date" role="textbox" id="release_start" required>
+            <input data-testid="end" type="date" role="textbox" id="release_end" required>
         </div>
         <div>
             <label for="score">Score: </label>
@@ -26,9 +26,9 @@
         </div>
         <div>
             <label>Genres: </label>
-            <select name="genres" id="genre_select">
-              <option value="">--Please select a Genre--</option>
-              <option value="test">test data</option>
+            <select name="genres" id="genre_select" onChange={handleChoice} data-testid="select_genres">
+              <option value="title" label="--Please select a Genre--">--Please select a Genre--</option>
+              <option value="test" label="test data" id="test_data">test data</option>
             </select>
         </div>
         <div>
