@@ -6,7 +6,6 @@ const fs = require('fs');
 const path = require('path');
 const html = fs.readFileSync(path.resolve('public/submitform.html'), 'utf8');
 
-
 jest.dontMock('fs');
 
 test("The Rank Input should not take a text", () => {
