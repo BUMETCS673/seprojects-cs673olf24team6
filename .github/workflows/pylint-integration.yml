@@ -1,6 +1,6 @@
 name: Pylint
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -8,11 +8,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python 3.12
-      uses: actions/setup-python@v3
-      with:
-        python-version: 3.12
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
+
+      - name: Checkout the Repository
+        uses: actions/checkout@v4"
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        env:
+          REPORT_ONLY: true
+          SHOW_ERRORS: true
+        run: |
+          python -m pip install --upgrade pip
