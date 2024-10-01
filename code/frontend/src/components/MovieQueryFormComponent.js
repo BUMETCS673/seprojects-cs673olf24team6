@@ -39,7 +39,7 @@ function MovieQueryFormComponent({ setData, setLoading }) {
 
         setLoading(true);  // Set loading state to true
         try {
-            const result = await fetchMovieData(input1, input2);  // Fetch data using inputs
+            const result = await fetchMovieData(rank, title, release_start, release_end, score, genre_select, rating_select, budget, box_office, cast_select, director_select, writer_select);  // Fetch data using inputs
             setData(result.message);  // Set the data received from the backend
         } catch (error) {
             setData('Error retrieving data');
