@@ -23,23 +23,25 @@ function MovieQueryFormComponent({ setData, setLoading }) {
     const handleSubmit = async (e) => {
         e.preventDefault();  // Prevent default form submission behavior
 
-        // Get input values from the dynamically loaded form
-        const rank = document.getElementById('rank').value;
-        const title = document.getElementById('title').value;
-        const release_start = document.getElementById('release_start').value;
-        const release_end = document.getElementById('release_end').value;
-        const score = document.getElementById('score').value;
-        const genre_select = document.getElementById('genre_select').value;
-        const rating_select = document.getElementById('rating_select').value;
-        const budget = document.getElementById('budget').value;
-        const box_office = document.getElementById('box_office').value;
-        const cast_select = document.getElementById('cast_select').value;
-        const director_select = document.getElementById('director_select').value;
-        const writer_select = document.getElementById('writer_select').value;
+        const data_request = {
+            // Get input values from the dynamically loaded form
+            rank : document.getElementById('rank').value;
+            title : document.getElementById('title').value;
+            release_start : document.getElementById('release_start').value;
+            release_end : document.getElementById('release_end').value;
+            score : document.getElementById('score').value;
+            genre_select : document.getElementById('genre_select').value;
+            rating_select : document.getElementById('rating_select').value;
+            budget : document.getElementById('budget').value;
+            box_office : document.getElementById('box_office').value;
+            cast_select : document.getElementById('cast_select').value;
+            director_select : document.getElementById('director_select').value;
+            writer_select : document.getElementById('writer_select').value;
+        }
 
         setLoading(true);  // Set loading state to true
         try {
-            const result = await fetchMovieData(rank, title, release_start, release_end, score, genre_select, rating_select, budget, box_office, cast_select, director_select, writer_select);  // Fetch data using inputs
+            const result = await fetchMovieData(data_request);  // Fetch data using inputs
             setData(result.message);  // Set the data received from the backend
         } catch (error) {
             setData('Error retrieving data');
