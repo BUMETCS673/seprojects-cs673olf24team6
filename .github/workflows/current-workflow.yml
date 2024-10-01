@@ -16,6 +16,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   BACKEND_IMAGE_NAME: flask_backend
+  FRONTEND_IMAGE_NAME: node_frontend
   REPO_NAME: "bumetcs673/seprojects-cs673olf24team6"
 
 jobs:
@@ -168,23 +169,23 @@ jobs:
         
       - name: Build the Docker Image
         working-directory: ./code/frontend
-        run: docker build -t front_end .
+        run: docker build -t ${{ env.FRONTEND_IMAGE_NAME }} .
       - name: Start a new container
-        run: docker run -p 3000:3000 --name frontend_container -d -t front_end
+        run: docker run -p 3000:3000 --name ${{ env.FRONTEND_IMAGE_NAME }} -d ${{ env.FRONTEND_IMAGE_NAME }}
       - name: List containers
         run: docker ps -a
-      - name: Inspect frontend_container
-        run: docker inspect frontend_container
+      - name: Inspect ${{ env.FRONTEND_IMAGE_NAME }}
+        run: docker inspect ${{ env.FRONTEND_IMAGE_NAME }}
       - name: Stop container
-        run: docker stop frontend_container
+        run: docker stop ${{ env.FRONTEND_IMAGE_NAME }}
       - name: Restart container
-        run: docker restart frontend_container
+        run: docker restart ${{ env.FRONTEND_IMAGE_NAME }}
       - name: Show container status
         run: docker ps -a
       - name: Stop container again
-        run: docker stop frontend_container
+        run: docker stop ${{ env.FRONTEND_IMAGE_NAME }}
       - name: Remove container
-        run: docker rm frontend_container
+        run: docker rm ${{ env.FRONTEND_IMAGE_NAME }}
       
       - run: echo "Docker-and-Node-Service job's status is ${{ job.status }}."
 
@@ -226,7 +227,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}
 
       - name: Build and push the Docker Image
         id: push
@@ -234,13 +235,12 @@ jobs:
         with:
           context: ./code/frontend
           push: true
-          tags: ${{ steps.meta.outputs.tags }}_frontend_${{ github.sha }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:latest
         
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v1
         with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+          subject-name: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
 
