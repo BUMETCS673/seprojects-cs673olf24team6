@@ -243,5 +243,6 @@ jobs:
           subject-name: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
+          tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:latest2 
 
       - run: echo "Publish-Node-Image-to-GitHub-Package-Registry job's status is ${{ job.status }}."
