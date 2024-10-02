@@ -34,7 +34,7 @@ jobs:
       - run: echo "Workflow is now ready to test code on runner."
 
       - name: Sanitize branch name
-        run: echo "SANITIZED_BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
+        run: echo "BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
       
       - name: Install required dependencies
         run: |
@@ -90,7 +90,7 @@ jobs:
       - run: echo "Workflow is now ready to test code on runner."
 
       - name: Sanitize branch name
-        run: echo "SANITIZED_BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
+        run: echo "BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
 
       - name: Install required dependencies
         run: |
