@@ -109,7 +109,7 @@ jobs:
         with:
           context: ./code/backend
           push: true
-          tags: ${{ github.ref_name }}
+          tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:backend_${{ github.ref_name }}
 
       - run: echo "Publish-Flask-Image-to-GitHub-Package-Registry job's status is ${{ job.status }}."
   
@@ -228,6 +228,6 @@ jobs:
         with:
           context: ./code/frontend
           push: true
-          tags: ${{ github.ref_name }}
+          tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:frontend_${{ github.ref_name }}
 
       - run: echo "Publish-Node-Image-to-GitHub-Package-Registry job's status is ${{ job.status }}."
