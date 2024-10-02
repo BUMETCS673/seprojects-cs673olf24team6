@@ -89,8 +89,8 @@ jobs:
       - run: echo "The repository ${{ github.repository }} has been cloned to runner."
       - run: echo "Workflow is now ready to test code on runner."
 
-      #- name: Sanitize branch name
-      #  run: echo "BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
+      - name: Sanitize branch name
+        run: echo "BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
 
       - name: Install required dependencies
         run: |
@@ -157,6 +157,9 @@ jobs:
       - run: echo "The repository ${{ github.repository }} has been cloned to runner."
       - run: echo "Workflow is now ready to test code on runner."
 
+      - name: Sanitize branch name
+        run: echo "BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
+
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
@@ -205,6 +208,9 @@ jobs:
         uses: actions/checkout@v4
       - run: echo "The repository ${{ github.repository }} has been cloned to runner."
       - run: echo "Workflow is now ready to test code on runner."
+
+      - name: Sanitize branch name
+        run: echo "BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
 
       - name: Install Node.js
         uses: actions/setup-node@v4
