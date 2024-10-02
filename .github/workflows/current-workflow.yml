@@ -18,6 +18,7 @@ env:
   BACKEND_IMAGE_NAME: flask_backend
   FRONTEND_IMAGE_NAME: node_frontend
   REPO_NAME: "bumetcs673/seprojects-cs673olf24team6"
+  BRANCH_NAME: ${{ github.ref_name }}
 
 jobs:
   Docker-and-Python-Flask-Service:
@@ -39,31 +40,31 @@ jobs:
         
       - name: Build the Docker Image
         working-directory: ./code/backend
-        run: docker build -t ${{ env.BACKEND_IMAGE_NAME }} .
+        run: docker build -t ${{ env.BACKEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }} .
 
       - name: Start a new container
-        run: docker run -p 5000:5000 --name ${{ env.BACKEND_IMAGE_NAME }} -d ${{ env.BACKEND_IMAGE_NAME }}
+        run: docker run -p 5000:5000 --name ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }} -d ${{ env.BACKEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }}
 
       - name: List containers
         run: docker ps -a
 
       - name: Inspect ${{ env.BACKEND_IMAGE_NAME }}
-        run: docker inspect ${{ env.BACKEND_IMAGE_NAME }}
+        run: docker inspect ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }}
 
       - name: Stop container
-        run: docker stop ${{ env.BACKEND_IMAGE_NAME }}
+        run: docker stop ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }}
 
       - name: Restart container
-        run: docker restart ${{ env.BACKEND_IMAGE_NAME }}
+        run: docker restart ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }}
 
       - name: Show container status
         run: docker ps -a
 
       - name: Stop container again
-        run: docker stop ${{ env.BACKEND_IMAGE_NAME }}
+        run: docker stop ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }}
 
       - name: Remove container
-        run: docker rm ${{ env.BACKEND_IMAGE_NAME }}
+        run: docker rm ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }}
         
       - run: echo "Docker-and-Python-Flask-Service job's status is ${{ job.status }}."
 
@@ -101,7 +102,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }}
 
       - name: Build and push the Docker Image
         id: push
@@ -109,7 +110,7 @@ jobs:
         with:
           context: ./code/backend
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }}
 
       - run: echo "Publish-Flask-Image-to-GitHub-Package-Registry job's status is ${{ job.status }}."
   
