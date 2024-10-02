@@ -86,6 +86,9 @@ jobs:
       - run: echo "The repository ${{ github.repository }} has been cloned to runner."
       - run: echo "Workflow is now ready to test code on runner."
 
+      - name: Sanitize branch name
+        run: echo "BRANCH_NAME=${GITHUB_REF##*/}" | sed 's#/##g' >> $GITHUB_ENV
+
       - name: Install required dependencies
         run: |
           cd ./code/backend
