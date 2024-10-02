@@ -89,8 +89,8 @@ jobs:
       - run: echo "The repository ${{ github.repository }} has been cloned to runner."
       - run: echo "Workflow is now ready to test code on runner."
 
-      - name: Sanitize branch name
-        run: echo "BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
+      #- name: Sanitize branch name
+      #  run: echo "BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
 
       - name: Install required dependencies
         run: |
@@ -169,23 +169,23 @@ jobs:
         
       - name: Build the Docker Image
         working-directory: ./code/frontend
-        run: docker build -t ${{ env.FRONTEND_IMAGE_NAME }} .
+        run: docker build -t ${{ env.FRONTEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }} .
       - name: Start a new container
-        run: docker run -p 3000:3000 --name ${{ env.FRONTEND_IMAGE_NAME }} -d ${{ env.FRONTEND_IMAGE_NAME }}
+        run: docker run -p 3000:3000 --name ${{ env.FRONTEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }} -d ${{ env.FRONTEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }}
       - name: List containers
         run: docker ps -a
       - name: Inspect ${{ env.FRONTEND_IMAGE_NAME }}
-        run: docker inspect ${{ env.FRONTEND_IMAGE_NAME }}
+        run: docker inspect ${{ env.FRONTEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }}
       - name: Stop container
-        run: docker stop ${{ env.FRONTEND_IMAGE_NAME }}
+        run: docker stop ${{ env.FRONTEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }}
       - name: Restart container
-        run: docker restart ${{ env.FRONTEND_IMAGE_NAME }}
+        run: docker restart ${{ env.FRONTEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }}
       - name: Show container status
         run: docker ps -a
       - name: Stop container again
-        run: docker stop ${{ env.FRONTEND_IMAGE_NAME }}
+        run: docker stop ${{ env.FRONTEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }}
       - name: Remove container
-        run: docker rm ${{ env.FRONTEND_IMAGE_NAME }}
+        run: docker rm ${{ env.FRONTEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }}
       
       - run: echo "Docker-and-Node-Service job's status is ${{ job.status }}."
 
@@ -227,7 +227,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }}
 
       - name: Build and push the Docker Image
         id: push
@@ -235,6 +235,6 @@ jobs:
         with:
           context: ./code/frontend
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }}
 
       - run: echo "Publish-Node-Image-to-GitHub-Package-Registry job's status is ${{ job.status }}."
