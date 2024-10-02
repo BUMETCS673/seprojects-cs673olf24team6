@@ -91,7 +91,16 @@ jobs:
         run: docker pull rzheng2024/seprojects-cs673olf24team6:flask_backend
 
       - run: echo "Publish-Flask-Image-to-Docker-Hub job's status is ${{ job.status }}."
-  
+
+  Run-Pylint:
+    name: Pylint test
+    runs-on: //ghcrio:Flaskback //inmport the image
+
+    steps:    
+      - name: Run pylint
+        run: pylint ./
+      - name: pass or fail functionality
+      
   Node-Service:
     runs-on: ubuntu-latest
     steps:
