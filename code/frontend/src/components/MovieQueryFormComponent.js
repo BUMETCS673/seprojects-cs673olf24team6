@@ -25,19 +25,19 @@ function MovieQueryFormComponent({ setData, setLoading }) {
 
         const data_request = {
             // Get input values from the dynamically loaded form
-            rank : document.getElementById('rank').value;
-            title : document.getElementById('title').value;
-            release_start : document.getElementById('release_start').value;
-            release_end : document.getElementById('release_end').value;
-            score : document.getElementById('score').value;
-            genre_select : document.getElementById('genre_select').value;
-            rating_select : document.getElementById('rating_select').value;
-            budget : document.getElementById('budget').value;
-            box_office : document.getElementById('box_office').value;
-            cast_select : document.getElementById('cast_select').value;
-            director_select : document.getElementById('director_select').value;
-            writer_select : document.getElementById('writer_select').value;
-        }
+            rank : document.getElementById('rank').value,
+            title : document.getElementById('title').value,
+            release_start : document.getElementById('release_start').value,
+            release_end : document.getElementById('release_end').value,
+            score : document.getElementById('score').value,
+            genre_select : document.getElementById('genre_select').value,
+            rating_select : document.getElementById('rating_select').value,
+            budget : document.getElementById('budget').value,
+            box_office : document.getElementById('box_office').value,
+            cast_select : document.getElementById('cast_select').value,
+            director_select : document.getElementById('director_select').value,
+            writer_select : document.getElementById('writer_select').value,
+        };
 
         setLoading(true);  // Set loading state to true
         try {
