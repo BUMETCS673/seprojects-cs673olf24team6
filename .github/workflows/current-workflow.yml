@@ -1,4 +1,4 @@
-name: Initial Services Workflow
+name: Microservices Workflow
 run-name: ${{ github.actor }} is testing microservices workflow.
 on:
   push:
@@ -27,8 +27,15 @@ jobs:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "Job is running on a ${{ runner.os }} server hosted by GitHub"
       - run: echo "Branch name is ${{ github.ref }} and repository is ${{ github.repository }}."
+      
       - name: Check out repository code
         uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
       - run: echo "The repository ${{ github.repository }} has been cloned to runner."
       - run: echo "Workflow is now ready to test code on runner."
 
@@ -70,9 +77,53 @@ jobs:
         
       - run: echo "Docker-and-Python-Flask-Service job's status is ${{ job.status }}."
 
+  Run-Backend-Unit-Tests:
+    name: Running backend unit tests
+    needs: Docker-and-Python-Flask-Service
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "Job is running on a ${{ runner.os }} server hosted by GitHub"
+      - run: echo "Branch name is ${{ github.ref }} and repository is ${{ github.repository }}."
+      
+      - name: Check out repository code
+        uses: actions/checkout@v4
+        
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - run: echo "The repository ${{ github.repository }} has been cloned to runner."
+      - run: echo "Workflow is now ready to test code on runner."
+
+      - name: Sanitize branch name
+        run: echo "BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
+      
+      - name: Install required dependencies
+        run: |
+          cd ./code/backend
+          pip install -r requirements.txt
+        
+      - name: Build the Docker Image
+        working-directory: ./code/backend
+        run: docker build -t ${{ env.BACKEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }} .
+
+      - name: Start a new container
+        run: docker run -p 5000:5000 --name ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }} -d ${{ env.BACKEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }}
+
+      - name: Execute Flask Backend
+        run: |
+          docker exec -it ${{ env.BACKEND_IMAGE_NAME }} /bin/bash
+          cd tests/
+
+      - name: Run Process Query Request Test
+        run: pytest process_query_request_test.py
+    
+    
   Publish-Flask-Image-to-GitHub-Package-Registry:
     name: Publish Docker Python Flask Image to GitHub Package Registry
-    needs: Docker-and-Python-Flask-Service
+    needs: [ Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests ]
     runs-on: ubuntu-latest
     permissions:
       packages: write
