@@ -173,6 +173,9 @@ jobs:
 
       - name: Show current path
         run: pwd
+
+      - name: List current directory structure
+        run: ls -l
             
       - name: Change to test directory
         run: cd tests/
