@@ -25,6 +25,7 @@ COPY create_movies_db_tables.py /database/movies/create_movies_db_tables.py
 COPY load_movies_db_data.py /database/movies/load_movies_db_data.py
 COPY db_test_data.py /database/movies/db_test_data.py
 COPY test_querry.sql /database/movies/test_querry.sql
+COPY movies_unit_test.py /database/movies_unit_test.py
 
 
 RUN chmod +x /database/movies/start_movies.py
