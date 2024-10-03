@@ -133,6 +133,15 @@ jobs:
       - name: pass or fail functionality
         run: |
               for file in */*.py; do pylint "$file" --fail-under=5.0; done
+      - name: Run pylint on Python files
+        run: |
+              find . -name "*.py" | xargs pylint --output-format=parseable > pylint_results.txt
+          
+      - name: Upload pylint results
+        uses: actions/upload-artifact@v2
+        with:
+          name: pylint-results
+          path: pylint_results.txt
       
   Node-Service:
 =======
