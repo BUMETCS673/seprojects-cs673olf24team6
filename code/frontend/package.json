@@ -13,7 +13,7 @@
     ],
     "verbose": true,
     "testMatch": [
-      "<rootDir>/src/tests/*/.test.js"
+      "<rootDir>/src/tests/*.test.js"
     ],
     "transform": {
       "^.+\\.js$": "babel-jest"
