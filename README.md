@@ -86,7 +86,7 @@ sqlite3 is part of the Python library when Python was downloaded and installed.
 
 For more information please refer to this link: https://docs.python.org/3/library/sqlite3.html
 
-## How to Run
+## How to Run Software
 
 1. Open a command line console and clone the main branch of this repository (SSH approach) in location of choice using 
    the command below:
@@ -114,6 +114,16 @@ For more information please refer to this link: https://docs.python.org/3/librar
 
 5. At this stage in the project you will need to allow a web-browser to open or open web-browser and navigate to 
    localhost:3000 where you will be able to view the frontend application 
+
+## How to Run Tests
+
+### Backend
+1. From backend directory
+2. Podman/Docker build -t flask_backend .
+3. Podman/Docker run -idt --name flask_backend flask_backend
+4. Podman/Docker exec -it flask_backend /bin/bash
+5. `cd tests`
+6. `pytest process_query_request_test.py`
 
 ## Credits
 
