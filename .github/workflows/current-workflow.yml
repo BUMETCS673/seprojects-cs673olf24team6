@@ -116,14 +116,12 @@ jobs:
         run: |
           docker exec -i ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }} /bin/bash
 
-      - name: Change to test directory
+      - name: Run Process Query Request Test
         run: |
           cd code/backend/tests
           pwd
           ls -l
-
-      - name: Run Process Query Request Test
-        run: pytest process_query_request_test.py
+          pytest process_query_request_test.py
     
     
   Publish-Flask-Image-to-GitHub-Package-Registry:
