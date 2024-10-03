@@ -118,10 +118,10 @@ jobs:
 
       - name: Run Process Query Request Test
         run: |
-          cd code/backend/tests
+          cd code/backend
           pwd
           ls -l
-          pytest process_query_request_test.py
+          pytest tests/process_query_request_test.py
     
     
   Publish-Flask-Image-to-GitHub-Package-Registry:
