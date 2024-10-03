@@ -4,19 +4,21 @@
 
 ## Project Description
 
-Team Blockbuster is creating a microservice Data Science application which will provide the ability to query and display movie data based on various user inputs using the Kaggle IMDB Top 250 Movies dataset: <https://www.kaggle.com/datasets/rajugc/imdb-top-250-movies-dataset>
+Team Blockbuster is creating a microservice Data Science application which will provide the ability to query and display 
+movie data based on various user inputs using the Kaggle IMDB Top 250 Movies dataset: 
+<https://www.kaggle.com/datasets/rajugc/imdb-top-250-movies-dataset>
 
 ## Motivation
 
-This application provides information for people who are curious about movie trends such as movies ratings across different countries, 
-different movie durations, specific movie genres and categories, etc. This information can help people working in the film industry or similar 
-industries in making important movie development choices.
+This application provides information for people who are curious about movie trends such as movies ratings across 
+different countries, movie durations, or specific movie genres and categories, etc. This information can help people 
+working in the film industry or similar industries in making important movie development choices.
 
 ## Framework
 
-This microservice based application is built using a **Python Flask** framework where **ReactJS** will be used to create a frontend web-page where the user 
-can input data points and **Python** will be used to manage backend operations that generate the movie data based on the input data received. 
-**SQLite** will be used as the application's database. 
+This microservice based application is built using a **Python Flask** framework where **ReactJS** will be used to create 
+a frontend web-page where the user can input data points and **Python** will be used to manage backend operations that 
+generate the movie data based on the input data received. **SQLite** will be used as the application's database. 
 
 Overview:
 
@@ -47,7 +49,8 @@ The following technologies will be used for our project:
 
 **PyCharm Community**
 
-Please follow download and installation instructions from the link: https://www.jetbrains.com/pycharm/download/ depending on OS.
+Please follow download and installation instructions from the link: 
+https://www.jetbrains.com/pycharm/download/ depending on OS.
 
 **Docker**
 
@@ -71,7 +74,8 @@ pip should be installed with the Python downloaded from https://www.python.org/.
 
 **Python Flask**
 
-Using the Python version installed along with pip, please follow the instructions at the link: https://flask.palletsprojects.com/en/3.0.x/installation/.
+Using the Python version installed along with pip, please follow the instructions at the link: 
+https://flask.palletsprojects.com/en/3.0.x/installation/.
 
 **Pandas**
 Using the Python version that is installed along with, please use pip to install: Pandas pip3 install pandas
@@ -82,30 +86,44 @@ sqlite3 is part of the Python library when Python was downloaded and installed.
 
 For more information please refer to this link: https://docs.python.org/3/library/sqlite3.html
 
-## How to Run
+## How to Run Software
 
-1. Open a command line console and clone the main branch of this repository (SSH approach) in location of choice using the command below:
+1. Open a command line console and clone the main branch of this repository (SSH approach) in location of choice using 
+   the command below:
 
     `git clone git@github.com:BUMETCS673/seprojects-cs673olf24team6.git`
 
-    Note: SSH approach was used for the command above. Please follow the appropriate GitHub guidelines to setup SSH keys before cloning this repository.
+    Note: SSH approach was used for the command above. Please follow the appropriate GitHub guidelines to set up SSH 
+    keys before cloning this repository.
 
-2. Using either filemanager or a terminal window navigate to the code directory.
+2. Using either file manager or a terminal window navigate to the code directory.
 
-3. To run this application the services must be started in the correct order or an error may occur. The first service to start is Python Flask
-   -  `cd backend` or navigate to backend directory
-   -  To run the application using Python use `python3 backend.py`
+3. To run this application the services must be started in the correct order or an error may occur. The first service to 
+   start is Python Flask
+   - `cd backend` or navigate to backend directory
+   - To run the application using Python use `python3 backend.py`
    - To run the application using Docker or Podman run the commands below
-      i. docker build -t flask_backend .
-      ii. docker run -t flask_backend
+     - docker build -t flask_backend .
+     - docker run -p 5000:5000 -t flask_backend
    
 4. To Run the frontend application you need be in the /code/frontend directory.
      - To run the application using Node use `npm start`
      - To run the application using Docker or Podman run the commands below
-       - docker build -t front_end .
-       - docker run -d -t front_end
+       - docker build -t node-frontend .
+       - docker run -p 3000:3000 -t node-frontend
 
-5. At this stage in the project you will need to allow a webbrowser to open and you will be able to view the frontend application 
+5. At this stage in the project you will need to allow a web-browser to open or open web-browser and navigate to 
+   localhost:3000 where you will be able to view the frontend application 
+
+## How to Run Tests
+
+### Backend
+1. From backend directory
+2. Podman/Docker build -t flask_backend .
+3. Podman/Docker run -idt --name flask_backend flask_backend
+4. Podman/Docker exec -it flask_backend /bin/bash
+5. `cd tests`
+6. `pytest process_query_request_test.py`
 
 ## Credits
 
@@ -126,7 +144,8 @@ For more information please refer to this link: https://docs.python.org/3/librar
 * SQLite: https://docs.python.org/3/library/sqlite3.html
 
 **Dataset Information**
-* Kaggle IMDB Top 250 Movies dataset: <https://www.kaggle.com/datasets/rajugc/imdb-top-250-movies-dataset>, By Chidambara Raju G (2022)
+* Kaggle IMDB Top 250 Movies dataset: <https://www.kaggle.com/datasets/rajugc/imdb-top-250-movies-dataset>, 
+* By Chidambara Raju G (2022)
 
 ## Meet the Team
 
