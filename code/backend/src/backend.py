@@ -28,6 +28,8 @@ def process_data_request():
 
     app.logger.info(f"Received: {json.dumps(data)})")
 
+    data_diction = db_query(data)
+
     response_message = (f"Rank: {data.get('rank')}, \n"
                             f"Title: {data.get('title')}, \n"
                             f"Release start: {data.get('release_start')}, \n"
@@ -42,6 +44,13 @@ def process_data_request():
                             f"Writer: {data.get('writer_select')}")
 
     return jsonify({'Python Received': response_message}), 200
+
+def db_query(data):
+    conn(db)
+    "Select * {data.get('rank')}"
+
+
+
 
 if __name__ == '__main__':
     # Run this application on local host on port 5000

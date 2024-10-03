@@ -1,33 +1,18 @@
-#FROM alpine:latest
+FROM python:3.11-slim
 
-#RUN apk update && apk add sqlite && apk add python3 py3-pip
-FROM python:3.9-slim
+# Allows use to access database from shell
+RUN apt-get update && apt-get install -y sqlite3
 
-# Installing SQLite3 and other necessary system libraries
-RUN apt-get update && apt-get install -y \
-    sqlite3 \
-    libsqlite3-dev \
-    build-essential \
-    gcc \
-    libxml2-dev \
-    libxslt1-dev \
-    libffi-dev \
-    libssl-dev \
-    && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
 
-RUN pip3 install pandas
+COPY . /app
 
-WORKDIR /database/movies
-COPY IMDB_Top_250_Movies.csv /database/movies/IMDB_Top_250_Movies.csv
-COPY start_movies.py /database/movies/start_movies.py
-COPY create_movies_db.py /database/movies/create_movies_db.py
-COPY create_movies_db_tables.py /database/movies/create_movies_db_tables.py
-COPY load_movies_db_data.py /database/movies/load_movies_db_data.py
-COPY db_test_data.py /database/movies/db_test_data.py
-COPY test_querry.sql /database/movies/test_querry.sql
-COPY movies_unit_test.py /database/movies_unit_test.py
+# Copy requirements file first to leverage Docker cache if requirements haven't changed
+COPY requirements.txt .
 
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN chmod +x /database/movies/start_movies.py
+# Set PYTHONPATH environment variable
+ENV PYTHONPATH=/app
 
-CMD ["sh", "-c", "python3 /database/movies/start_movies.py && sqlite3 movies.db"]
+CMD ["sh", "-c", "python src/start_movies.py && chmod 755 src/* && tail -f /dev/null"]

@@ -1,12 +1,12 @@
 import unittest
 import sqlite3
-import os
+#import os
 
 class MoviesTestCase(unittest.TestCase):
     def test_queryTable(self):
-        db_path = os.path.join(os.path.dirname(__file__), 'movies', 'movies.db')
+        #db_path = os.path.join(os.path.dirname(__file__), 'src/movies', '')
         #con = sqlite3.connect('movies.db')
-        con = sqlite3.connect(db_path)
+        con = sqlite3.connect('src/movies.db')
         curs = con.cursor()
         curs.execute("SELECT * FROM MOVIE LIMIT 5;")
         record = curs.fetchall()
@@ -23,7 +23,6 @@ class MoviesTestCase(unittest.TestCase):
         self.assertEqual(record, expected_results)
         curs.close()
         con.close()
-
 
 
 if __name__ == '__main__':
