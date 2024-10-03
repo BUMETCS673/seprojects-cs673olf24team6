@@ -72,6 +72,7 @@ jobs:
 
   Publish-Flask-Image-to-GitHub-Package-Registry:
     name: Publish Docker Python Flask Image to GitHub Package Registry
+    needs: Docker-and-Python-Flask-Service
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -167,6 +168,7 @@ jobs:
 
   Publish-Node-Image-to-GitHub-Package-Registry:
     name: Publish Docker Node Image to GitHub Package Registry
+    needs: Docker-and-Node-Service
     runs-on: ubuntu-latest
     permissions:
       packages: write
