@@ -141,16 +141,16 @@ jobs:
       - run: echo "Job is running on a ${{ runner.os }} server hosted by GitHub"
       - run: echo "Branch name is ${{ github.ref }} and repository is ${{ github.repository }}."
       
-      - name: Check out repository code
-        uses: actions/checkout@v4
+      # - name: Check out repository code
+      #   uses: actions/checkout@v4
         
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       
-      - run: echo "The repository ${{ github.repository }} has been cloned to runner."
-      - run: echo "Workflow is now ready to test code on runner."
+      # - run: echo "The repository ${{ github.repository }} has been cloned to runner."
+      # - run: echo "Workflow is now ready to test code on runner."
 
       - name: Sanitize branch name
         run: echo "BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
