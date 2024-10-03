@@ -23,13 +23,25 @@ function MovieQueryFormComponent({ setData, setLoading }) {
     const handleSubmit = async (e) => {
         e.preventDefault();  // Prevent default form submission behavior
 
-        // Get input values from the dynamically loaded form
-        const input1 = document.getElementById('input1').value;
-        const input2 = document.getElementById('input2').value;
+        const data_request = {
+            // Get input values from the dynamically loaded form
+            rank : document.getElementById('rank').value,
+            title : document.getElementById('title').value,
+            release_start : document.getElementById('release_start').value,
+            release_end : document.getElementById('release_end').value,
+            score : document.getElementById('score').value,
+            genre_select : document.getElementById('genre_select').value,
+            rating_select : document.getElementById('rating_select').value,
+            budget : document.getElementById('budget').value,
+            box_office : document.getElementById('box_office').value,
+            cast_select : document.getElementById('cast_select').value,
+            director_select : document.getElementById('director_select').value,
+            writer_select : document.getElementById('writer_select').value,
+        };
 
         setLoading(true);  // Set loading state to true
         try {
-            const result = await fetchMovieData(input1, input2);  // Fetch data using inputs
+            const result = await fetchMovieData(data_request);  // Fetch data using inputs
             setData(result.message);  // Set the data received from the backend
         } catch (error) {
             setData('Error retrieving data');
