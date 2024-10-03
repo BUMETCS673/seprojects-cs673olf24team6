@@ -3,7 +3,7 @@
 #RUN apk update && apk add sqlite && apk add python3 py3-pip
 FROM python:3.9-slim
 
-# Install SQLite3 and other necessary system libraries
+# Installing SQLite3 and other necessary system libraries
 RUN apt-get update && apt-get install -y \
     sqlite3 \
     libsqlite3-dev \
