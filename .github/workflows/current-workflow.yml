@@ -115,10 +115,11 @@ jobs:
       - name: Execute Flask Backend
         run: |
           docker exec -i ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }} /bin/bash
-          ls -l
+
+      - name: Change to test directory
+        run: |
           cd code/
-          pwd
-          cd code/tests/
+          ls -l
 
       - name: Run Process Query Request Test
         run: pytest process_query_request_test.py
