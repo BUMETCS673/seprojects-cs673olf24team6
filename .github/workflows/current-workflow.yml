@@ -52,9 +52,9 @@ jobs:
         run: docker build -t ${{ env.BACKEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }} .
 
       - name: Start a new container
-<<<<<<< HEAD
+
         run: docker run --name flask_backend_container -t -d -p 5000:5000 flask_backend
-=======
+
         run: docker run -p 5000:5000 --name ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }} -d ${{ env.BACKEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }}
 
 >>>>>>> feature/integrate-unit-tests-into-workflow
