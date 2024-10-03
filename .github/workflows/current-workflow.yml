@@ -119,6 +119,8 @@ jobs:
       - name: Change to test directory
         run: |
           cd code/backend/tests
+          pwd
+          ls -l
 
       - name: Run Process Query Request Test
         run: pytest process_query_request_test.py
