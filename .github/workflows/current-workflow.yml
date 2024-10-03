@@ -155,24 +155,27 @@ jobs:
       - name: Sanitize branch name
         run: echo "BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
       
-      - name: Install required dependencies
-        run: |
-          cd ./code/backend
-          pip install -r requirements.txt
+      # - name: Install required dependencies
+      #   run: |
+      #     cd ./code/backend
+      #     pip install -r requirements.txt
         
       # - name: Build the Docker Image
       #   working-directory: ./code/backend
       #   run: docker build -t ${{ env.BACKEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }} .
 
-      - name: Start a new container
-        working-directory: ./code/backend
-        run: docker run -p 5000:5000 --name ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }} -d ${{ env.BACKEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }}
+      # - name: Start a new container
+      #   working-directory: ./code/backend
+      #   run: docker run -p 5000:5000 --name ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }} -d ${{ env.BACKEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }}
 
-      - name: Execute Flask Backend
-        run: docker exec -i ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }} /bin/bash
+      # - name: Execute Flask Backend
+      #   run: docker exec -i ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }} /bin/bash
 
+      - name: Show current path
+        run: pwd
+            
       - name: Change to test directory
-        run: cd code/backend/tests
+        run: cd tests/
 
       - name: Run Process Query Request Test
         run: pytest process_query_request_test.py
