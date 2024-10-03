@@ -8,12 +8,64 @@
 <body>
     <form id="submitForm">
         <div>
-            <label for="input1">Input 1: </label>
-            <input type="text" id="input1" required>
+            <label for="rank">Rank: </label>
+            <input type="number" id="rank" min="1" max="250" required>
         </div>
         <div>
-            <label for="input2">Input 2: </label>
-            <input type="text" id="input2" required>
+            <label for="title">Movie Title: </label>
+            <input placeholder="Please enter a Movie Title" type="text" id="title">
+        </div>
+        <div>
+            <label>Release Date: </label>
+            <input type="date" role="textbox" id="release_start" required>
+            <input type="date" role="textbox" id="release_end" required>
+        </div>
+        <div>
+            <label for="score">Score: </label>
+            <input type="number" id="score" min="0" max="10" step=".1" required>
+        </div>
+        <div>
+            <label>Genres: </label>
+            <select name="genres" id="genre_select" onChange={handleChoice} data-testid="select_genres">
+              <option value="title" label="--Please select a Genre--">--Please select a Genre--</option>
+              <option value="test" label="test data" id="test_data">test data</option>
+            </select>
+        </div>
+        <div>
+            <label>Age Rating: </label>
+            <select name="ratings" id="rating_select">
+              <option value="">--Please select an Age Rating--</option>
+              <option value="test">test data</option>
+            </select>
+        </div>
+        <div>
+            <label for="budget">Budget: </label>
+            <input type="number" id="budget" min="1" max="200000000" required>
+        </div>
+        <div>
+            <label for="box_office">Box Office: </label>
+            <input type="number" id="box_office" min="1" max="1000000000" required>
+        </div>
+        <div>
+            <label>Cast: </label>
+            <select name="casts" id="cast_select">
+              <option value="">--Please select a Cast Member--</option>
+              <option value="test">test data</option>
+            </select>
+        </div>
+        <div>
+            <label>Directors: </label>
+            <select name="directors" id="director_select">
+              <option value="">--Please select a Director--</option>
+              <option value="test">test data</option>
+            </select>
+        </div>
+        <div>
+            <label>Writers: </label>
+            <select name="writers" id="writer_select">
+              <option value="">--Please select a Writer--</option>
+              <option value="test">test data</option>
+            </select>
         </div>
         <button type="submit">Generate</button>
     </form>
