@@ -109,13 +109,14 @@ jobs:
         working-directory: ./code/backend
         run: docker build -t ${{ env.BACKEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }} .
 
+        co
+
       - name: Start a new container
         run: docker run -p 5000:5000 --name ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }} -d ${{ env.BACKEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }}
 
       - name: Execute Flask Backend
         run: |
           docker exec -i ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }} /bin/bash
-          pwd
           ls -l
           cd code/
           pwd
