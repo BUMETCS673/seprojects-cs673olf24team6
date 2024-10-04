@@ -1,6 +1,6 @@
 import pandas as pd
 
-raw_movie_data = pd.read_csv('./src/IMDB_Top_250_Movies.csv')
+raw_movie_data = pd.read_csv('IMDB_Top_250_Movies.csv')
 
 #print(raw_movie_data)
 
@@ -212,12 +212,7 @@ conn = sqlite3.connect('movies.db')
 cursor = conn.cursor()
 
 def load_data_into_tables():
-    #sql_statements = [
-        #""".import AgeRating.csv AGE_RATING --csv
-        #;"""]
 
-    # create a database connection
-    ## df = pd.read_csv('AgeRating.csv')
 
     # Inserting data into SQLite Movies Database tables
     try:
