@@ -151,13 +151,9 @@ jobs:
       - run: echo "Job is running on a ${{ runner.os }} server hosted by GitHub"
       - run: echo "Branch name is ${{ github.ref }} and repository is ${{ github.repository }}."
 
-      - name: Change to test directory
+      - name: Run Unit Tests
         working-directory: /app/tests
-        run: |
-          echo "These should be the same now"
-          ls /app/tests/
-          ls .
-          pytest process_query_request_test.py
+        run: pytest process_query_request_test.py
 
   Publish-Flask-Image-to-GitHub-Package-Registry:
     name: Publish Docker Python Flask Image to GitHub Package Registry
