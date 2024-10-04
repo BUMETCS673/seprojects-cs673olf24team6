@@ -31,7 +31,7 @@ jobs:
 
   Docker-and-Python-Flask-Service:
     runs-on: ubuntu-latest
-    needs: setup
+    needs: get-branch-name
     env:
       BRANCH_NAME: ${{ needs.setup.outputs.sanitized_branch_name }}
     steps:
