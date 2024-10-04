@@ -180,14 +180,16 @@ jobs:
       # - name: Execute Flask Backend
       #   run: docker exec -i ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }} /bin/bash
 
-      - name: Show current path
-        run: pwd
+      # name: Show current path
+      #  run: pwd
 
-      - name: List current directory structure
-        run: ls -l
+      # name: List current directory structure
+       # run: ls -l
             
       - name: Change to test directory
-        run: ls /app/tests/
+        run: |
+          ls /app/tests/
+          cd /app/tests
 
       - name: Run Process Query Request Test
         run: pytest process_query_request_test.py
