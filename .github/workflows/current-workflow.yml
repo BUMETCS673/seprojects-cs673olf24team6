@@ -60,10 +60,13 @@ jobs:
         run: |
           cd ./code/backend
           docker build -t ${{ env.BACKEND_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }} .
-          
 
       - name: Start a new container
         run: docker run -p 5000:5000 --name ${{ env.BACKEND_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }} -d ${{ env.BACKEND_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+
+      - name: Check files in container
+        run: |
+            docker exec {{ env.BACKEND_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }} ls /app
 
       - name: List containers
         run: docker ps -a
