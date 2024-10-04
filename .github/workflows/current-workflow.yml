@@ -29,7 +29,8 @@ jobs:
         id: sanitize
         run: |
           sanitized=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')
-          echo "BRANCH_NAME=$sanitized" >> $GITHUB_ENV
+          echo "sanitized=$sanitized" >> $GITHUB_ENV
+          echo "sanitized=$sanitized" >> $GITHUB_OUTPUT  # Save it as job output
 
   Docker-and-Python-Flask-Service:
     runs-on: ubuntu-latest
@@ -62,28 +63,28 @@ jobs:
         
       - name: Build the Docker Image
         working-directory: ./code/backend
-        run: docker build -t ${{ env.BACKEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }} .
+        run: docker build -t ${{ env.BACKEND_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }} .
 
       - name: Start a new container
-        run: docker run -p 5000:5000 --name ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }} -d ${{ env.BACKEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }}
+        run: docker run -p 5000:5000 --name ${{ env.BACKEND_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }} -d ${{ env.BACKEND_IMAGE_NAME }}:${{ env.BRANCH_NAME }}
 
       - name: List containers
         run: docker ps -a
 
       - name: Inspect ${{ env.BACKEND_IMAGE_NAME }}
-        run: docker inspect ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }}
+        run: docker inspect ${{ env.BACKEND_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }}
 
       - name: Stop container
-        run: docker stop ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }}
+        run: docker stop ${{ env.BACKEND_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }}
 
       - name: Restart container
-        run: docker restart ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }}
+        run: docker restart ${{ env.BACKEND_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }}
 
       - name: Show container status
         run: docker ps -a
 
       - name: Stop container again
-        run: docker stop ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }}
+        run: docker stop ${{ env.BACKEND_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }}
 
       - name: Remove container
         run: docker rm ${{ env.BACKEND_IMAGE_NAME }}-${{ env.BRANCH_NAME }}
