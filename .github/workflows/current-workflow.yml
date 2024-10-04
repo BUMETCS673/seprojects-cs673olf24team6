@@ -187,14 +187,16 @@ jobs:
        # run: ls -l
             
       - name: Change to test directory
+        working-directory: /app/tests
         run: |
+          echo "These should be the same now"
           ls /app/tests/
-          cd /app/tests
+          ls .
+          pytest process_query_request_test.py
 
-      - name: Run Process Query Request Test
-        run: pytest process_query_request_test.py
-    
-    
+      # name: Run Process Query Request Test
+      #  run: pytest process_query_request_test.py
+
   Publish-Flask-Image-to-GitHub-Package-Registry:
     name: Publish Docker Python Flask Image to GitHub Package Registry
     needs: [get-branch-name, Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests ]
