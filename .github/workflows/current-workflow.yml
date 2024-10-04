@@ -144,7 +144,7 @@ jobs:
     runs-on: ubuntu-latest
     container: 
       #image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:feature-integrate-unit-tests-into-workflow
-      image: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+      image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
       credentials:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
