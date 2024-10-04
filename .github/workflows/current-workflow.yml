@@ -130,6 +130,7 @@ jobs:
           context: ./code/backend
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+        working-directory: .
 
       - run: echo "Push-Flask-Image-to-GitHub-Package-Registry job's status is ${{ job.status }}."
 
@@ -182,7 +183,7 @@ jobs:
         run: ls -l
             
       - name: Change to test directory
-        run: cd tests/
+        run: cd t/app/tests/
 
       - name: Run Process Query Request Test
         run: pytest process_query_request_test.py
