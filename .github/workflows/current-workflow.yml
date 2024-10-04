@@ -20,9 +20,20 @@ env:
   REPO_NAME: "bumetcs673/seprojects-cs673olf24team6"
 
 jobs:
+  get-branch-name:
+    runs-on: ubuntu-latest
+    outputs:
+      sanitized_branch_name: ${{ steps.sanitize.outputs.sanitized }}
+    steps:
+      - name: Sanitize branch name
+        id: sanitize
+        run: echo "::set-output name=sanitized::$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')"
+
   Docker-and-Python-Flask-Service:
     runs-on: ubuntu-latest
-
+    needs: setup
+    env:
+      BRANCH_NAME: ${{ needs.setup.outputs.sanitized_branch_name }}
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "Job is running on a ${{ runner.os }} server hosted by GitHub"
@@ -39,8 +50,8 @@ jobs:
       - run: echo "The repository ${{ github.repository }} has been cloned to runner."
       - run: echo "Workflow is now ready to test code on runner."
 
-      - name: Sanitize branch name
-        run: echo "BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
+      # name: Sanitize branch name
+      # run: echo "BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
       
       - name: Install required dependencies
         run: |
@@ -96,8 +107,8 @@ jobs:
       - run: echo "The repository ${{ github.repository }} has been cloned to runner."
       - run: echo "Workflow is now ready to test code on runner."
 
-      - name: Sanitize branch name
-        run: echo "BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
+      # name: Sanitize branch name
+      #  run: echo "BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
 
       - name: Install required dependencies
         run: |
