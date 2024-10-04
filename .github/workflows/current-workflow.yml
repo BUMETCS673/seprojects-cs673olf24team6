@@ -88,7 +88,7 @@ jobs:
 
   Push-Flask-Image-to-GitHub-Package-Registry:
     name: Push Docker Python Flask Image to GitHub Package Registry
-    needs: [ Docker-and-Python-Flask-Service ]
+    needs: [ get-branch-name,Docker-and-Python-Flask-Service ]
     runs-on: ubuntu-latest
     permissions:
       packages: write
