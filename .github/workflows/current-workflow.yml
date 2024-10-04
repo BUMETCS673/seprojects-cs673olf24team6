@@ -135,10 +135,11 @@ jobs:
 
   Run-Backend-Unit-Tests:
     name: Running backend unit tests
-    needs: [ Docker-and-Python-Flask-Service, Push-Flask-Image-to-GitHub-Package-Registry ]
+    needs: [get-branch-name, Docker-and-Python-Flask-Service, Push-Flask-Image-to-GitHub-Package-Registry ]
     runs-on: ubuntu-latest
     container: 
-      image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:feature-integrate-unit-tests-into-workflow
+      #image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:feature-integrate-unit-tests-into-workflow
+      image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
       credentials:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
@@ -189,7 +190,7 @@ jobs:
     
   Publish-Flask-Image-to-GitHub-Package-Registry:
     name: Publish Docker Python Flask Image to GitHub Package Registry
-    needs: [ Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests ]
+    needs: [get-branch-name, Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests ]
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -280,7 +281,7 @@ jobs:
 
   Publish-Node-Image-to-GitHub-Package-Registry:
     name: Publish Docker Node Image to GitHub Package Registry
-    needs: Docker-and-Node-Service
+    needs: [get-branch-name, Docker-and-Node-Service]
     runs-on: ubuntu-latest
     permissions:
       packages: write
