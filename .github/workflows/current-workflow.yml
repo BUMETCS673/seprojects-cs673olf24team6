@@ -229,9 +229,6 @@ jobs:
         run: docker build -t ${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }} .
       - name: Start a new container
         run: docker run -p 3000:3000 --name ${{ env.FRONTEND_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }} -d ${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
-      - name: Check files in container
-        run: |
-            docker exec ${{ env.FRONTEND_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }} ls /app
       - name: List containers
         run: docker ps -a
       - name: Inspect ${{ env.FRONTEND_IMAGE_NAME }}
