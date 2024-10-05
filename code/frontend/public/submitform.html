@@ -1,73 +1,183 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>External Form</title>
+    <title>Search Page</title>
 </head>
+
+<style>
+    .container {
+    display: inline-block;
+    cursor: pointer;
+    background: blue;
+    position: absolute;
+
+}
+
+    .bar1, .bar2, .bar3 {
+    width: 28px;
+    height: 3px;
+    background-color: #000000;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+    .change .bar1 {
+    transform: translate(0, 9px) rotate(-42deg);
+}
+
+    .change .bar2 {
+    opacity: 0;
+}
+
+    .change .bar3 {
+    transform: translate(0, -9px) rotate(42deg);
+}
+
+    .dropdownfield{
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+
+}
+
+    .input{
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+
+}
+
+    h1{
+    text-align:center;
+    background-color:blue;
+    height: 100px;
+
+}
+
+    a{
+    font-size:20px;
+    vertical-align:10px;
+}
+
+    .leftcol {
+    width:300px;
+    height:1000px;
+    float:left;
+
+}
+
+    .buttons {
+    width: 75px;
+    margin: 0 auto;
+    display: inline;
+    -ms-transform: translateY(-50%);
+    transform: translateX(20%);
+}
+
+    .action_btn {
+    width: 75px;
+    margin: 0 auto;
+    display: inline;
+}
+
+</style>
+
+
 <body>
+<header>
+    <div class="container" onclick="myFunction(this)">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
+    <h1>Search Page</h1>
+</header>
+<script>
+function myFunction(x) {
+  x.classList.toggle("change");
+}
+</script>
+    <p><center>Please select/input an option for all criteria on the left coloumn.</center></p>
+
+<div class="leftcol" style="background-color:#ddd;">
+     <p><center>Search Column</center></p>
     <form id="submitForm">
-        <div>
+        <div class="input">
             <label for="rank">Rank: </label>
             <input type="number" id="rank" min="1" max="250" required>
         </div>
-        <div>
+        <div class="input">
             <label for="title">Movie Title: </label>
             <input placeholder="Please enter a Movie Title" type="text" id="title">
         </div>
-        <div>
+        <div class="input">
             <label>Release Date: </label>
             <input type="date" role="textbox" id="release_start" required>
             <input type="date" role="textbox" id="release_end" required>
         </div>
-        <div>
+        <div class="input">
             <label for="score">Score: </label>
             <input type="number" id="score" min="0" max="10" step=".1" required>
         </div>
-        <div>
-            <label>Genres: </label>
+        <div class="dropdownfield">
+            <label for="Genre">Genres: </label>
             <select name="genres" id="genre_select" onChange={handleChoice} data-testid="select_genres">
               <option value="title" label="--Please select a Genre--">--Please select a Genre--</option>
               <option value="test" label="test data" id="test_data">test data</option>
             </select>
         </div>
-        <div>
+        <div class="dropdownfield">
             <label>Age Rating: </label>
             <select name="ratings" id="rating_select">
               <option value="">--Please select an Age Rating--</option>
               <option value="test">test data</option>
             </select>
         </div>
-        <div>
+        <div class="dropdownfield">
             <label for="budget">Budget: </label>
             <input type="number" id="budget" min="1" max="200000000" required>
         </div>
-        <div>
+        <div class="dropdownfield">
             <label for="box_office">Box Office: </label>
             <input type="number" id="box_office" min="1" max="1000000000" required>
         </div>
-        <div>
+        <div class="dropdownfield">
             <label>Cast: </label>
             <select name="casts" id="cast_select">
               <option value="">--Please select a Cast Member--</option>
               <option value="test">test data</option>
             </select>
         </div>
-        <div>
-            <label>Directors: </label>
+        <div class="dropdownfield">
+            <label for="Dicrector">Directors: </label>
             <select name="directors" id="director_select">
               <option value="">--Please select a Director--</option>
               <option value="test">test data</option>
             </select>
         </div>
-        <div>
-            <label>Writers: </label>
+        <div class="dropdownfield">
+            <label for="Writer">Writers: </label>
             <select name="writers" id="writer_select">
               <option value="">--Please select a Writer--</option>
               <option value="test">test data</option>
             </select>
         </div>
-        <button type="submit">Generate</button>
+        <div class="buttons">
+
+            <div class="action_btn">
+
+            <button name="submit" class="action_btn submit" type="submit" value="Submit" onclick="myFunction()">Submit</button>
+            <button name="clear" class="action_btn clear" type="submit" value="Clear" onclick="myFunction2()">Clear</button>
+
+            <p id="submit"></p>
+
+            </div>
+
+        </div>
     </form>
+
+</div>
+
 </body>
 </html>
