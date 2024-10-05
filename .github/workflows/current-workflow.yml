@@ -307,18 +307,10 @@ jobs:
       credentials:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      # - name: Show container directory structure
-      #   run: |
-      #     pwd
-      #     cd ..
-      #     pwd
-      #     ls -l
-        
+    steps:        
       - name: Run Unit Tests
-        run: |
-          working-directory: /src/src/tests
-          npm test submitform.test.js
+        working-directory: /src/src/tests
+        run: npm test submitform.test.js
 
   Publish-Node-Image-to-GitHub-Package-Registry:
     name: Publish Docker Node Image to GitHub Package Registry
