@@ -302,6 +302,11 @@ jobs:
     name: Running frontend unit tests
     needs: [get-branch-name, Publish-Flask-Image-to-GitHub-Package-Registry, Push-Node-Image-to-GitHub-Package-Registry]
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/node_frontend:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+      credentials:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -314,38 +319,13 @@ jobs:
       - name: Install npm
         working-directory: ./code/frontend
         run: npm ci
+        
       - name: Install npm react-scripts
         run: npm install react-scripts --save
-
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      
-      - name: Install required dependencies
-        run: |
-          cd ./code/backend
-          pip install -r requirements.txt
-        
-      - name: Build the Flask Backend Image
-        run: |
-          cd ./code/backend
-          docker build -t ${{ env.BACKEND_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }} .
-
-      - name: Start a Flask backend container
-        run: docker run -p 5000:5000 --name ${{ env.BACKEND_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }} -d ${{ env.BACKEND_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
-
-      - name: Build the Node Frontend Image
-        run: |
-          cd ./code/frontend
-          docker build -t ${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }} .
-        
-      - name: Start a Node frontend container
-        run: docker run -p 3000:3000 --name ${{ env.FRONTEND_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }} -d ${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
         
       - name: Run Unit Tests
         run: |
-          cd ./code/frontend/src/tests
+          cd ./src/tests/
           npm test submitform.test.js
 
   Publish-Node-Image-to-GitHub-Package-Registry:
