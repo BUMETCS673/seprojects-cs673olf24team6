@@ -322,6 +322,11 @@ jobs:
         
       - name: Install npm react-scripts
         run: npm install react-scripts --save
+
+      - name: Show container directory structure
+        run: |
+          pwd
+          ls -l
         
       - name: Run Unit Tests
         run: |
