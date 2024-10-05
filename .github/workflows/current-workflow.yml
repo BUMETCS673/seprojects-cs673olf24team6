@@ -308,16 +308,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Show container directory structure
-        run: |
-          pwd
-          cd ..
-          pwd
-          ls -l
+      # - name: Show container directory structure
+      #   run: |
+      #     pwd
+      #     cd ..
+      #     pwd
+      #     ls -l
         
       - name: Run Unit Tests
         run: |
-          working-directory: /app/tests
+          working-directory: /src/src/tests
           npm test submitform.test.js
 
   Publish-Node-Image-to-GitHub-Package-Registry:
