@@ -326,7 +326,7 @@ jobs:
 
       - name: Build the Node Frontend Image
         run: |
-          cd ../frontend
+          cd ./code/frontend
           docker build -t ${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }} .
         
       - name: Start a Node frontend container
@@ -334,7 +334,7 @@ jobs:
         
       - name: Run Unit Tests
         run: |
-          cd ./src/tests
+          cd ./code/frontend/src/tests
           npm test submitform.test.js
 
   Publish-Node-Image-to-GitHub-Package-Registry:
