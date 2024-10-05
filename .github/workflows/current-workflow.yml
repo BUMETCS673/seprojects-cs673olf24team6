@@ -121,19 +121,19 @@ jobs:
 
   Run-Pylint:
     name: Pylint test
-    runs-on: //ghcrio:Flaskback //
+    runs-on: docker pull ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:feature-updated-pylint-integration
 
     steps:
-      - name: Run pylint
-        run: pylint ./
       - name: Sanitize branch name
         run: echo "BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
+      - name: Run pylint
+        run: pylint ./
       - name: pass or fail functionality
-        run: pylint-fail-under --fail_under=5.0 test_pylint_code.py
+        run: |
+          find . -name "*.py" | xargs pylint --fail-under=5
       - name: Run pylint on Python files
         run: |
           find . -name "*.py" | xargs pylint --output-format=parseable > pylint_results.txt
-
       - name: Upload pylint results
         uses: actions/upload-artifact@v2
         with:
