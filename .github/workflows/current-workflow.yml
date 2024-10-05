@@ -308,29 +308,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      # - name: Check out repository code
-      #   uses: actions/checkout@v4
-
-      # - name: Install Node.js
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: '22.8.0'
-
-      # - name: Install npm
-      #   working-directory: ./code/frontend
-      #   run: npm ci
-        
-      # - name: Install npm react-scripts
-      #   run: npm install react-scripts --save
-
       - name: Show container directory structure
         run: |
+          pwd
+          cd ..
           pwd
           ls -l
         
       - name: Run Unit Tests
         run: |
-          cd ./src/tests/
+          working-directory: /app/tests
           npm test submitform.test.js
 
   Publish-Node-Image-to-GitHub-Package-Registry:
