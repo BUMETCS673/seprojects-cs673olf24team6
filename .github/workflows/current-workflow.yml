@@ -119,6 +119,28 @@ jobs:
 
       - run: echo "Publish-Flask-Image-to-GitHub-Package-Registry job's status is ${{ job.status }}."
 
+  Run-Pylint:
+    name: Pylint test
+    runs-on: //ghcrio:Flaskback //
+
+    steps:
+      - name: Run pylint
+        run: pylint ./
+      - name: Sanitize branch name
+        run: echo "BRANCH_NAME=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_ENV
+      - name: pass or fail functionality
+        run: pylint-fail-under --fail_under=5.0 test_pylint_code.py
+      - name: Run pylint on Python files
+        run: |
+          find . -name "*.py" | xargs pylint --output-format=parseable > pylint_results.txt
+
+      - name: Upload pylint results
+        uses: actions/upload-artifact@v2
+        with:
+          name: pylint-results
+          path: pylint_results.txt
+
+
   Docker-and-Node-Service:
     runs-on: ubuntu-latest
     steps:
