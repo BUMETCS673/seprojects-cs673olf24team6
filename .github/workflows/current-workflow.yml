@@ -300,7 +300,7 @@ jobs:
 
   Run-Frontend-Unit-Tests:
     name: Running frontend unit tests
-    needs: [get-branch-name, Publish-Flask-Image-to-GitHub-Package-Registry, Push-Node-Image-to-GitHub-Package-Registry]
+    needs: [get-branch-name, Push-Node-Image-to-GitHub-Package-Registry]
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/node_frontend:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
