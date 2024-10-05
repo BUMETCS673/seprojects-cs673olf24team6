@@ -306,8 +306,6 @@ jobs:
     needs: [get-branch-name, Publish-Flask-Image-to-GitHub-Package-Registry, Push-Node-Image-to-GitHub-Package-Registry]
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Flask Backend Service
-
       - name: Check out repository code
         uses: actions/checkout@v4
 
