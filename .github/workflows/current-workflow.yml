@@ -246,9 +246,75 @@ jobs:
       
       - run: echo "Docker-and-Node-Service job's status is ${{ job.status }}."
 
+  Push-Node-Image-to-GitHub-Package-Registry:
+    name: Push Docker Node Image to GitHub Package Registry
+    needs: [get-branch-name, Docker-and-Node-Service]
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "Job is running on a ${{ runner.os }} server hosted by GitHub"
+      - run: echo "Branch name is ${{ github.ref }} and repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "The repository ${{ github.repository }} has been cloned to runner."
+      - run: echo "Workflow is now ready to test code on runner."
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.8.0'
+      - name: Install npm
+        working-directory: ./code/frontend
+        run: npm ci
+      - name: Install npm react-scripts
+        run: npm install react-scripts --save
+        
+      - name: Login to GitHub Packages registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract tag data for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+
+      - name: Build and push the Docker Image
+        id: push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./code/frontend
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+
+      - run: echo "Push-Node-Image-to-GitHub-Package-Registry job's status is ${{ job.status }}."
+
+
+  Run-Frontend-Unit-Tests:
+    name: Running frontend unit tests
+    needs: [get-branch-name, Push-Node-Image-to-GitHub-Package-Registry]
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/node_frontend:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+      credentials:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+    steps:        
+      - name: Run Unit Tests
+        working-directory: /src/src/tests
+        run: npm test submitform.test.js
+
   Publish-Node-Image-to-GitHub-Package-Registry:
     name: Publish Docker Node Image to GitHub Package Registry
-    needs: [get-branch-name, Docker-and-Node-Service]
+    needs: [get-branch-name, Run-Frontend-Unit-Tests]
     runs-on: ubuntu-latest
     permissions:
       packages: write
