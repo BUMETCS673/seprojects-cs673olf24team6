@@ -261,7 +261,7 @@ test("The Reset Click should clear all inputs", async () => {
 
     const resetButton = document.getElementById("clear");
     fireEvent.click(resetButton);
-    
+
     expect(inputRank.value).toBe('');
     expect(inputScore.value).toBe('');
     expect(inputTitle.value).toBe('');
