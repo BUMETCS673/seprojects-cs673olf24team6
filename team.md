@@ -32,7 +32,3 @@ ___
 ### Elizabeth Tyree
 Hello, my name is Elizabeth Tyree and I am currently pursuing a Masters in Software Development at BU, and have a Masters in Physics from Worcester Polytechnic Institute. I have worked on different types of engineering projects from Mechanical Engineering to Data Science\Data Engineering projects. I am familiar with Python and SQL, and taken courses in Java. My goal is to pivot into Cybersecurity and to learn secure coning and threat analysis and detection. I'm excited to get to know my team mates and to learn as much as possible from this course.
 ___
-
-### Rekik Mengstu
-
-Hi, my name is Rekik Mengstu. I live in Dallas, Texas. I have my Bachelors in Mathematics from Portland State University. I am currently pursuing a Masters in Software Development at Boston University. I don't have any work experience in software. I have taken courses in Java, Python, Sql and C++. I am exited to learn about Software Engineering from the couse, as well as from my team mates with different work experience, while contributing my part in the project. 

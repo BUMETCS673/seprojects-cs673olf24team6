@@ -1,6 +1,6 @@
 import pandas as pd
 
-raw_movie_data = pd.read_csv('IMDB_Top_250_Movies.csv')
+raw_movie_data = pd.read_csv('/app/src/IMDB_Top_250_Movies.csv')
 
 #print(raw_movie_data)
 

@@ -117,6 +117,14 @@ For more information please refer to this link: https://docs.python.org/3/librar
 
 ## How to Run Tests
 
+### Frontend
+1. From frontend directory
+2. Podman/Docker build -t node_frontend .
+3. Podman/Docker run -idt --name node_frontend node_frontend
+4. Podman/Docker exec -it node_frontend /bin/bash
+5. ` npm test`
+
+
 ### Backend
 1. From backend directory
 2. Podman/Docker build -t flask_backend .
@@ -124,6 +132,14 @@ For more information please refer to this link: https://docs.python.org/3/librar
 4. Podman/Docker exec -it flask_backend /bin/bash
 5. `cd tests`
 6. `pytest process_query_request_test.py`
+
+### Database
+1. From database directory
+2. Podman/Docker build -t database .
+3. Podman/Docker run -idt --name database database
+4. Podman/Docker exec -it database /bin/bash
+5. `cd tests`
+6. `pytest movies_unit_test.py`
 
 ## Credits
 
@@ -151,7 +167,7 @@ For more information please refer to this link: https://docs.python.org/3/librar
 
 **Team Leader:** Joshua Shilts
 
-**Requirements Leader:** Rekik Mengstu
+**Requirements Leader:** Elizabeth Tyree
 
 **Design and Implementation Leader:** Elizabeth Tyree
 
