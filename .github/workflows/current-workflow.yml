@@ -286,12 +286,15 @@ jobs:
       - run: ls /app/src
       # run: chmod 755 $GITHUB_WORKSPACE/app/src/movies.db
 
+      - name: Generate Data
+        working-directory: /app/src
+        run: python create_movies_db.py
 
-
-      - name: Run Unit Tests
-        working-directory: /app/tests
+      - name: Run test
+        working-directory: /app/test
         run: pytest movies_unit_test.py
 
+        
   Publish-Flask-Image-to-GitHub-Package-Registry:
     name: Publish Docker Python Flask Image to GitHub Package Registry
     needs: [get-branch-name, Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests ]
