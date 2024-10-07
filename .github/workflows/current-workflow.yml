@@ -234,16 +234,16 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+          images: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}_temp
 
       - name: Run container to verify
         run: |
           echo "Running container for verification"
-          docker run -d --name test-container ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+          docker run -d --name sqlite-database ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}_temp
           docker ps
-          # Stop and remove the container after running tests
-          docker stop test-container
-          docker rm test-container
+          docker commit sqlite-database ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+          docker stop sqlite-database
+          docker rm sqlite-database
 
       - name: Build and push the Docker Image
         id: push
