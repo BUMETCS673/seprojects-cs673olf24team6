@@ -3,7 +3,7 @@ import pytest
 import os
 
 def test_query_table():
-    db_path = os.path.join(os.path.dirname(__file__), '../src/movies.db')
+    db_path = os.path.join(os.path.dirname(__file__), '/app/src/movies.db')
     con = sqlite3.connect(db_path)
     curs = con.cursor()
     curs.execute("SELECT * FROM MOVIE LIMIT 5;")
