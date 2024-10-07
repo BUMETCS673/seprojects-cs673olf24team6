@@ -265,6 +265,25 @@ jobs:
         working-directory: /app/tests
         run: pytest process_query_request_test.py
 
+
+  Run-Database-Unit-Tests:
+    name: Running backend unit tests
+    needs: [ get-branch-name, Docker-and-Database-Service, Push-Database-Image-to-GitHub-Package-Registry ]
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/sqlite_database:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "Job is running on a ${{ runner.os }} server hosted by GitHub"
+      - run: echo "Branch name is ${{ github.ref }} and repository is ${{ github.repository }}."
+
+      - name: Run Unit Tests
+        working-directory: /app/tests
+        run: pytest movies_unit_test.py
+
   Publish-Flask-Image-to-GitHub-Package-Registry:
     name: Publish Docker Python Flask Image to GitHub Package Registry
     needs: [get-branch-name, Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests ]
