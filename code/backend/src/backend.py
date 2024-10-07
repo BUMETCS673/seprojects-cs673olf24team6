@@ -46,10 +46,8 @@ def process_data_request():
     return jsonify({'Python Received': response_message}), 200
 
 def db_query(data):
-    conn(db)
-    "Select * {data.get('rank')}"
-
-
+    #conn(db)
+    return "Select * {data.get('rank')}"
 
 
 if __name__ == '__main__':
