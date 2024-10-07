@@ -15,4 +15,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Set PYTHONPATH environment variable
 #ENV PYTHONPATH=/app
 
-CMD ["sh", "-c", "python /app/src/start_movies.py && tail -f /dev/null"]
+RUN python /app/src/start_movies.py
+
+CMD [ "tail", "-f", "/dev/null"]
