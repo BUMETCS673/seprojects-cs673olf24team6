@@ -1,0 +1,29 @@
+version: '3'
+services:
+  frontend:
+    image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/node_frontend:feature/movies-db
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  backend:
+
+    image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:feature/movies-db
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=sqlite:///app/src/movies.db  # Path inside the Flask container to connect to SQLite
+    depends_on:
+      - sqlite
+
+  sqlite:
+
+    image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/sqlite_database:feature/movies-db  # Use your custom SQLite image with pre-loaded data
+    volumes:
+      - app_data:/var/lib/sqlite3  # Share the location where the pre-loaded database resides
+    command: ["sqlite3", "/app/src/movies.db"]  # No need to generate, just reference the pre-loaded database
+
+# Global Var
+volumes:
+  app_data:
