@@ -198,6 +198,55 @@ jobs:
 
       - run: echo "Push-Flask-Image-to-GitHub-Package-Registry job's status is ${{ job.status }}."
 
+
+  Push-Database-Image-to-GitHub-Package-Registry:
+    name: Push Docker Python Flask Image to GitHub Package Registry
+    needs: [ get-branch-name, Docker-and-Database-Service ]
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "Job is running on a ${{ runner.os }} server hosted by GitHub"
+      - run: echo "Branch name is ${{ github.ref }} and repository is ${{ github.repository }}."
+
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "The repository ${{ github.repository }} has been cloned to runner."
+      - run: echo "Workflow is now ready to test code on runner."
+
+      - name: Install required dependencies
+        run: |
+          cd ./code/database
+          pip install -r requirements.txt
+
+      - name: Login to GitHub Packages registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract tag data for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+
+      - name: Build and push the Docker Image
+        id: push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./code/database
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+
+      - run: echo "Push-Database-Image-to-GitHub-Package-Registry job's status is ${{ job.status }}."
+
+
   Run-Backend-Unit-Tests:
     name: Running backend unit tests
     needs: [get-branch-name, Docker-and-Python-Flask-Service, Push-Flask-Image-to-GitHub-Package-Registry ]
