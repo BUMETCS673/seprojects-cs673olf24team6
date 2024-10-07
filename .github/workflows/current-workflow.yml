@@ -215,8 +215,6 @@ jobs:
 
       - name: Check out repository code
         uses: actions/checkout@v4
-      - run: echo "The repository ${{ github.repository }} has been cloned to runner."
-      - run: echo "Workflow is now ready to test code on runner."
 
       - name: Install required dependencies
         run: |
@@ -230,12 +228,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract tag data for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}_temp
-
+      - name: Build the Docker Image (Initial Build)
+        run: |
+          echo "Building the Docker image"
+          docker build -t ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}_temp ./code/database
+          
       - name: Run container to verify and commit with generated files
         run: |
           echo "Running container for verification"
@@ -259,7 +256,7 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
 
       - run: echo "Push-Database-Image-to-GitHub-Package-Registry job's status is ${{ job.status }}."
-  
+
 
 
   Run-Backend-Unit-Tests:
