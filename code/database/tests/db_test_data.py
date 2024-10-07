@@ -5,7 +5,7 @@
 import sqlite3
 
 # Connecting to sqlite
-conn = sqlite3.connect('../src/movies.db')
+conn = sqlite3.connect('/app/src/movies.db')
 
 # Creating a cursor object using the cursor() method
 cursor = conn.cursor()
