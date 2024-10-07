@@ -200,7 +200,7 @@ jobs:
 
 
   Push-Database-Image-to-GitHub-Package-Registry:
-    name: Push Docker Python Flask Image to GitHub Package Registry
+    name: Push Docker Sqlite Database Image to GitHub Package Registry
     needs: [ get-branch-name, Docker-and-Database-Service ]
     runs-on: ubuntu-latest
     permissions:
@@ -261,9 +261,6 @@ jobs:
       - run: echo "Job is running on a ${{ runner.os }} server hosted by GitHub"
       - run: echo "Branch name is ${{ github.ref }} and repository is ${{ github.repository }}."
 
-      - run : echo "temp change permission"
-      - run: chmod 755 /app/src/movies.db
-
       - name: Run Unit Tests
         working-directory: /app/tests
         run: pytest process_query_request_test.py
@@ -282,6 +279,9 @@ jobs:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "Job is running on a ${{ runner.os }} server hosted by GitHub"
       - run: echo "Branch name is ${{ github.ref }} and repository is ${{ github.repository }}."
+
+      - run: echo "temp change permission"
+      - run: chmod 755 /app/src/movies.db
 
       - name: Run Unit Tests
         working-directory: /app/tests
