@@ -455,7 +455,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
     steps:        
       - name: Run Unit Tests
-        working-directory: /src/src/tests
+        working-directory: /src/tests
         run: npm test submitform.test.js
 
   Publish-Node-Image-to-GitHub-Package-Registry:

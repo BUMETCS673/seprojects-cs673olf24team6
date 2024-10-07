@@ -2,7 +2,7 @@ FROM node:18
 
 WORKDIR /src
 
-COPY . /src
+COPY . .
 
 COPY package*.json ./
 
