@@ -310,7 +310,7 @@ jobs:
 
   Publish-Database-Image-to-GitHub-Package-Registry:
     name: Publish Docker Database Image to GitHub Package Registry
-    needs: [Get-Branch-Name, Docker-Database-Service, Run-Database-Unit-Tests ]
+    needs: [Get-Branch-Name, Docker-and-Database-Service, Run-Database-Unit-Tests ]
     runs-on: ubuntu-latest
     permissions:
       packages: write
