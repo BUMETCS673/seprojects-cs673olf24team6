@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
   BACKEND_IMAGE_NAME: flask_backend
   FRONTEND_IMAGE_NAME: node_frontend
+  DATABASE_IMAGE_NAME: sqlite_database
   REPO_NAME: "bumetcs673/seprojects-cs673olf24team6"
 
 jobs:
@@ -89,6 +90,66 @@ jobs:
         run: docker rm ${{ env.BACKEND_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }}
         
       - run: echo "Docker-and-Python-Flask-Service job's status is ${{ job.status }}."
+
+
+  Docker-and-Database-Service:
+    runs-on: ubuntu-latest
+    needs: get-branch-name
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "Job is running on a ${{ runner.os }} server hosted by GitHub"
+      - run: echo "Branch name is ${{ github.ref }} and repository is ${{ github.repository }}."
+
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: echo "The repository ${{ github.repository }} has been cloned to runner."
+      - run: echo "Workflow is now ready to test code on runner."
+
+      - name: Install required dependencies
+        run: |
+          cd ./code/database
+          pip install -r requirements.txt
+
+      - name: Build the Docker Image
+        run: |
+          cd ./code/database
+          docker build -t ${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }} .
+
+      - name: Start a new container
+        run: docker run -p 5000:5000 --name ${{ env.DATABASE_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }} -d ${{ env.BACKEND_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+
+      - name: Check files in container
+        run: |
+          docker exec ${{ env.DATABASE_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }} ls /app
+
+      - name: List containers
+        run: docker ps -a
+
+      - name: Inspect ${{ env.DATABASE_IMAGE_NAME }}
+        run: docker inspect ${{ env.DATABASE_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+
+      - name: Stop container
+        run: docker stop ${{ env.DATABASE_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+
+      - name: Restart container
+        run: docker restart ${{ env.DATABASE_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+
+      - name: Show container status
+        run: docker ps -a
+
+      - name: Stop container again
+        run: docker stop ${{ env.DATABASE_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+
+      - name: Remove container
+        run: docker rm ${{ env.DATABASE_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+
+      - run: echo "Docker-and-Sqlite-database-Service job's status is ${{ job.status }}."
 
   Push-Flask-Image-to-GitHub-Package-Registry:
     name: Push Docker Python Flask Image to GitHub Package Registry
