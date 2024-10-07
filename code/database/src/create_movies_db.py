@@ -15,6 +15,5 @@ def create_sqlite_database(filename):
         if conn:
             conn.close()
 
-
 if __name__ == '__main__':
-    create_sqlite_database("movies.db")
+    create_sqlite_database("/app/src/movies.db")

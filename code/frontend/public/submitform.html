@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -77,6 +77,9 @@
 
 </style>
 
+    <link rel="stylesheet" href="../src/assets/styles.css" type="text/css">
+    <title>Search Page</title>
+</head>
 
 <body>
 <header>
@@ -108,7 +111,7 @@ function myFunction(x) {
                 </select>
         </div>
         <div class="dropdownfield">
-            <label for="Dicrector"><b>Director: </b></label>
+            <label for="Director"><b>Director: </b></label>
             <input id="Director" required>
         </div>
         <div class="dropdownfield">
@@ -135,6 +138,78 @@ function myFunction(x) {
             <button name="clear" class="action_btn clear" type="submit" value="Clear" onclick="myFunction2()">Clear</button>
 
             <p id="submit"></p>
+
+            </div>
+
+        </div>
+
+        <div class="input">
+            <label for="rank">Rank: </label>
+            <input placeholder="Enter a Rank" type="number" id="rank" min="1" max="250">
+        </div>
+        <div class="input">
+            <label for="title">Movie Title: </label>
+            <input placeholder="Enter a Movie Title" type="text" id="title">
+        </div>
+        <div class="input">
+            <label>Release Date: </label>
+            <input type="date" role="textbox" id="release_start">
+            <input type="date" role="textbox" id="release_end" required>
+        </div>
+        <div class="input">
+            <label for="score">Score: </label>
+            <input placeholder="Enter a Score"  type="number" id="score" min="0" max="10" step=".1" required>
+        </div>
+        <div class="dropdownfield">
+            <label for="Genre">Genres: </label>
+            <select name="genres" id="genre_select">
+              <option value="" disabled selected>--Select a Genre--</option>
+              <option value="test" id="test_data">test data</option>
+            </select>
+        </div>
+        <div class="dropdownfield">
+            <label>Age Rating: </label>
+            <select name="ratings" id="rating_select">
+              <option value="" disabled selected>--Select an Age Rating--</option>
+              <option value="test">test data</option>
+            </select>
+        </div>
+        <div class="input">
+            <label for="budget">Budget: </label>
+            <input placeholder="Enter a Budget"  type="number" id="budget" min="1" max="200000000" required>
+        </div>
+        <div class="input">
+            <label for="box_office">Box Office: </label>
+            <input placeholder="Enter a Box Office" type="number" id="box_office" min="1" max="1000000000" required>
+        </div>
+        <div class="dropdownfield">
+            <label>Cast: </label>
+            <select name="casts" id="cast_select">
+              <option value="" disabled selected>--Select a Cast Member--</option>
+              <option value="test">test data</option>
+            </select>
+        </div>
+        <div class="dropdownfield">
+            <label for="Director"> Directors: </label>
+            <select name="directors" id="director_select">
+              <option value="" disabled selected>--Select a Director--</option>
+              <option value="test">test data</option>
+            </select>
+        </div>
+        <div class="dropdownfield">
+            <label for="Writer"> Writers: </label>
+            <select name="writers" id="writer_select">
+              <option value="" disabled selected>--Select a Writer--</option>
+              <option value="test">test data</option>
+            </select>
+        </div>
+        <br>
+        <div class="buttons">
+
+            <div class="action_btn">
+
+                <button name="submit" class="action_btn submit" type="submit" value="Submit" onclick="myFunction()">Submit</button>
+                <input type="reset" id="clear">
 
             </div>
 

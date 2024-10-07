@@ -10,7 +10,6 @@ function App() {
 
         // James or Alex Todo make this a template
         <div>
-            <h1>Data Query Page</h1>
             {/* Render the form and pass setData and setLoading as props */}
             <FormComponent setData={setData} setLoading={setLoading} />
             {/* Render the data display component */}
