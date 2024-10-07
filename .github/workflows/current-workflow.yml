@@ -232,20 +232,20 @@ jobs:
         run: |
           echo "Building the Docker image"
           docker build -t ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}_temp ./code/database
-          
-      - name: Run container to verify and commit with generated files
-        run: |
-          echo "Running container for verification"
-          docker run -d --name sqlite-database ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}_temp
-          docker ps
+
+      # name: Run container to verify and commit with generated files
+      # run: |
+      #    echo "Running container for verification"
+      #    docker run -d --name sqlite-database ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}_temp
+      #    docker ps
 
           # Commit the container after the file is generated to preserve changes
-          echo "Committing the running container to include generated files"
-          docker commit sqlite-database ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+      #    echo "Committing the running container to include generated files"
+      #    docker commit sqlite-database ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
 
           # Stop and remove the container
-          docker stop sqlite-database
-          docker rm sqlite-database
+      #    docker stop sqlite-database
+      #    docker rm sqlite-database
 
       - name: Push the committed image with generated files
         id: push
