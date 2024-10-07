@@ -261,13 +261,16 @@ jobs:
       - run: echo "Job is running on a ${{ runner.os }} server hosted by GitHub"
       - run: echo "Branch name is ${{ github.ref }} and repository is ${{ github.repository }}."
 
+      - run : echo "temp change permission"
+      - run: chmod 755 /app/src/movies.db
+
       - name: Run Unit Tests
         working-directory: /app/tests
         run: pytest process_query_request_test.py
 
 
   Run-Database-Unit-Tests:
-    name: Running backend unit tests
+    name: Running database unit tests
     needs: [ get-branch-name, Docker-and-Database-Service, Push-Database-Image-to-GitHub-Package-Registry ]
     runs-on: ubuntu-latest
     container:
