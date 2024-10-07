@@ -4,6 +4,7 @@ services:
     image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/node_frontend:feature-AddingDockerComppose
     ports:
       - "3000:3000"
+    pull_policy: always
     depends_on:
       - backend
 
@@ -14,6 +15,7 @@ services:
       - "5000:5000"
     environment:
       - DATABASE_URL=sqlite:///app/src/movies.db  # Path inside the Flask container to connect to SQLite
+    pull_policy: always
     depends_on:
       - sqlite
 
@@ -22,6 +24,7 @@ services:
     image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/sqlite_database:feature-AddingDockerComppose  # Use your custom SQLite image with pre-loaded data
     volumes:
       - app_data:/var/lib/sqlite3  # Share the location where the pre-loaded database resides
+    pull_policy: always
     command: ["sqlite3", "/app/src/movies.db"]  # No need to generate, just reference the pre-loaded database
 
 # Global Var
