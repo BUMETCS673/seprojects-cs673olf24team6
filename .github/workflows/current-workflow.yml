@@ -236,6 +236,15 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
 
+      - name: Run container to verify
+        run: |
+          echo "Running container for verification"
+          docker run -d --name test-container ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+          docker ps
+          # Stop and remove the container after running tests
+          docker stop test-container
+          docker rm test-container
+
       - name: Build and push the Docker Image
         id: push
         uses: docker/build-push-action@v5
