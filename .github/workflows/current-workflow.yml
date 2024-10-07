@@ -268,7 +268,7 @@ jobs:
 
   Publish-Node-Image-to-GitHub-Package-Registry:
     name: Publish Docker Node Image to GitHub Package Registry
-    needs: [get-branch-name, Run-pylint, Docker-and-Node-Service, Run-Pylint]
+    needs: [get-branch-name, Docker-and-Python-Flask-Service, Push-Flask-Image-to-GitHub-Package-Registry, Run-Backend-Unit-Tests, Docker-and-Node-Service, Run-Pylint]
     runs-on: ubuntu-latest
     permissions:
       packages: write
