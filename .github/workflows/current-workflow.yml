@@ -291,10 +291,10 @@ jobs:
         run: python create_movies_db.py
 
       - name: Run test
-        working-directory: /app/test
+        working-directory: /app/tests
         run: pytest movies_unit_test.py
 
-        
+
   Publish-Flask-Image-to-GitHub-Package-Registry:
     name: Publish Docker Python Flask Image to GitHub Package Registry
     needs: [get-branch-name, Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests ]
