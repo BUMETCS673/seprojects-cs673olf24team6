@@ -240,7 +240,7 @@ test("The Reset Click should clear all inputs", async () => {
 
     const valueNum = 1;
     const valueTitle = "Movie";
-    const valueMoney = 100;
+    const valueMoney = 251;
     const valueRelease = '2024-09-29';
 
     fireEvent.change(inputRank, {target: { value: valueNum }});
@@ -254,8 +254,8 @@ test("The Reset Click should clear all inputs", async () => {
     expect(inputRank.value).toBe("1");
     expect(inputScore.value).toBe("1");
     expect(inputTitle.value).toBe("Movie");
-    expect(inputBoxOffice.value).toBe("100");
-    expect(inputBudget.value).toBe("100");
+    expect(inputBoxOffice.value).toBe("251");
+    expect(inputBudget.value).toBe("251");
     expect(inputReleaseEnd.value).toBe("2024-09-29");
     expect(inputReleaseStart.value).toBe("2024-09-29");
 

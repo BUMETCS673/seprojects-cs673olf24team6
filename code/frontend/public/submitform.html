@@ -1,82 +1,7 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Page</title>
-</head>
-
-<style>
-    .container {
-    display: inline-block;
-    cursor: pointer;
-    background: blue;
-    position: absolute;
-
-}
-
-    .bar1, .bar2, .bar3 {
-    width: 28px;
-    height: 3px;
-    background-color: #000000;
-    margin: 6px 0;
-    transition: 0.4s;
-}
-
-    .change .bar1 {
-    transform: translate(0, 9px) rotate(-42deg);
-}
-
-    .change .bar2 {
-    opacity: 0;
-}
-
-    .change .bar3 {
-    transform: translate(0, -9px) rotate(42deg);
-}
-
-    .dropdownfield{
-    position: relative;
-    display: inline-block;
-    margin-bottom: 20px;
-
-}
-
-    h1{
-    text-align:center;
-    background-color:blue;
-    height: 100px;
-
-}
-
-    a{
-    font-size:20px;
-    vertical-align:10px;
-}
-
-    .leftcol {
-    width:300px;
-    height:1000px;
-    float:left;
-
-}
-
-    .buttons {
-    width: 75px;
-    margin: 0 auto;
-    display: inline;
-    -ms-transform: translateY(-50%);
-    transform: translateX(20%);
-}
-
-    .action_btn {
-    width: 75px;
-    margin: 0 auto;
-    display: inline;
-}
-
-</style>
-
     <link rel="stylesheet" href="../src/assets/styles.css" type="text/css">
     <title>Search Page</title>
 </head>
@@ -88,7 +13,7 @@
         <div class="bar2"></div>
         <div class="bar3"></div>
     </div>
-    <h1>Search Page</h1>
+    <h1 class="submit-header">Search Page</h1>
 </header>
 <script>
 function myFunction(x) {
@@ -100,49 +25,6 @@ function myFunction(x) {
 <div class="leftcol" style="background-color:#ddd;">
      <p><center>Search Column</center></p>
     <form id="submitForm">
-        <div class="dropdownfield">
-            <label for="Genre"><b>Genre: </b></label>
-                <select name="Genre" id="Genre">
-                <option>Select an option</option>
-                <option value="Alex">Alex</option>
-                <option value="Liz">Liz</option>
-                <option value="Josh">Josh</option>
-                <option value="Ricky">Ricky</option>
-                </select>
-        </div>
-        <div class="dropdownfield">
-            <label for="Director"><b>Director: </b></label>
-            <input id="Director" required>
-        </div>
-        <div class="dropdownfield">
-            <label for="Cast"><b>Cast: </b></label>
-            <input id="Cast" required>
-        </div>
-        <div class="dropdownfield">
-            <label for="Certificate"><b>Certificate: </b></label>
-            <input id="Certificate" required>
-        </div>
-        <div class="dropdownfield">
-            <label for="Year"><b>Year: </b></label>
-            <input id="Year" required>
-        </div>
-        <div class="dropdownfield">
-            <label for="Run_time"><b>Run-Time: </b></label>
-            <input id="Run_time" required>
-        </div>
-        <div class="buttons">
-
-            <div class="action_btn">
-
-            <button name="submit" class="action_btn submit" type="submit" value="Submit" onclick="myFunction()">Submit</button>
-            <button name="clear" class="action_btn clear" type="submit" value="Clear" onclick="myFunction2()">Clear</button>
-
-            <p id="submit"></p>
-
-            </div>
-
-        </div>
-
         <div class="input">
             <label for="rank">Rank: </label>
             <input placeholder="Enter a Rank" type="number" id="rank" min="1" max="250">
@@ -190,14 +72,14 @@ function myFunction(x) {
             </select>
         </div>
         <div class="dropdownfield">
-            <label for="Director"> Directors: </label>
+            <label for="Director">Directors: </label>
             <select name="directors" id="director_select">
               <option value="" disabled selected>--Select a Director--</option>
               <option value="test">test data</option>
             </select>
         </div>
         <div class="dropdownfield">
-            <label for="Writer"> Writers: </label>
+            <label for="Writer">Writers: </label>
             <select name="writers" id="writer_select">
               <option value="" disabled selected>--Select a Writer--</option>
               <option value="test">test data</option>

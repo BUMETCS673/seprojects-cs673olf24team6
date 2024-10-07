@@ -40,7 +40,7 @@
 
 }
 
-    h1{
+    .submit-header{
     text-align:center;
     background-color:blue;
     height: 100px;
@@ -71,4 +71,35 @@
     width: 75px;
     margin: 0 auto;
     display: inline;
+}
+    .button-link {
+    border: 2px solid black;
+    background-color: white;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 25px;
+    margin: 4px 2px 400px;
+    cursor: pointer;
+    border-radius: 12px;
+    font-family:verdana;
+    width: 15%;
+    height: 10%;
+}
+    .body-style{
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Blockbuster_logo.svg/800px-Blockbuster_logo.svg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+    .header{
+    text-align:center;
+    font-family:verdana;
+    width:500px;
+    margin: 400px 700px 70px;
+    font-size: 50px;
+}
+    a {
+    font-size: 40px;
 }
