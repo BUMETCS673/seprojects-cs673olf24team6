@@ -295,10 +295,6 @@ jobs:
       - run: ls /app/src
       # run: chmod 755 $GITHUB_WORKSPACE/app/src/movies.db
 
-      - name: Generate Data
-        working-directory: /app/src
-        run: python create_movies_db.py
-
       - name: Run test
         working-directory: /app/tests
         run: pytest movies_unit_test.py
