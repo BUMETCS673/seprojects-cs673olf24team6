@@ -59,14 +59,12 @@ jobs:
         run: |
           cd ./code/backend
           docker build -t ${{ env.BACKEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
-
       - name: Start a new container
         run: docker run -p 5000:5000 --name ${{ env.BACKEND_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} -d ${{ env.BACKEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
       - name: Check files in container
         run: |
             docker exec ${{ env.BACKEND_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} ls /app
-
       - name: List containers
         run: docker ps -a
 
@@ -114,20 +112,16 @@ jobs:
         run: |
           cd ./code/database
           pip install -r requirements.txt
-
-
       - name: Build the Docker Image
         run: |
           cd ./code/database
           docker build -t ${{ env.DATABASE_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
-
       - name: Start a new container
         run: docker run --name ${{ env.DATABASE_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} -d ${{ env.DATABASE_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
       - name: Check files in container
         run: |
           docker exec ${{ env.DATABASE_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} ls /app
-
       - name: List containers
         run: docker ps -a
 
@@ -215,7 +209,6 @@ jobs:
         run: |
           cd ./code/database
           pip install -r requirements.txt
-
       - name: Login to GitHub Packages registry
         uses: docker/login-action@v3
         with:
@@ -263,7 +256,7 @@ jobs:
 
   Publish-Flask-Image-to-GitHub-Package-Registry:
     name: Publish Docker Python Flask Image to GitHub Package Registry
-    needs: [Get-Branch-Name, Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests ]
+    needs: [Get-Branch-Name, Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests, Run-Pylint ]
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -311,7 +304,6 @@ jobs:
   Publish-Database-Image-to-GitHub-Package-Registry:
     name: Publish Docker Database Image to GitHub Package Registry
     needs: [Get-Branch-Name, Docker-and-Database-Service, Run-Database-Unit-Tests ]
-
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -391,6 +383,7 @@ jobs:
         run: docker stop ${{ env.FRONTEND_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
       - name: Remove container
         run: docker rm ${{ env.FRONTEND_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+
       - run: echo "Docker-and-Node-Service job's status is ${{ job.status }}."
 
   Push-Node-Image-to-GitHub-Package-Registry:
@@ -441,8 +434,26 @@ jobs:
           context: ./code/frontend
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+
       - run: echo "Push-Node-Image-to-GitHub-Package-Registry job's status is ${{ job.status }}."
 
+  Run-Pylint:
+    name: Pylint test
+    runs-on: ubuntu-latest
+    needs: [Get-Branch-Name, Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests]
+
+    container:
+      image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+    - name: Run pylint
+      run: pylint ./
+    - name: pass or fail functionality
+      run: |
+        find . -name "*.py" | xargs pylint --fail-under=5
 
   Run-Frontend-Unit-Tests:
     name: Running frontend unit tests
@@ -457,25 +468,6 @@ jobs:
       - name: Run Unit Tests
         working-directory: /src/src/tests
         run: npm test submitform.test.js
-
-  Run-Pylint:
-    name: Pylint test
-    runs-on: ubuntu-latest
-    needs: [Get-Branch-Name, Docker-and-Database-Service, Run-Database-Unit-Tests]
-
-    container:
-      image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-
-    steps:
-      - name: Run pylint
-        run: pylint ./
-      - name: pass or fail functionality
-        run: |
-          find . -name "*.py" | xargs pylint --fail-under=5
-
 
 
   Publish-Node-Image-to-GitHub-Package-Registry:
