@@ -1,3 +1,4 @@
 Flask~=3.0.3
 flask-cors~=5.0.0
 pytest~=7.4.0
+pylint~=3.3.1

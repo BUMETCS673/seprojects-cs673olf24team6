@@ -31,7 +31,6 @@ jobs:
         run: |
           sanitized=$(echo '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9._-]/-/g')
           echo "sanitized=$sanitized" >> $GITHUB_OUTPUT  # Save it as job output
-
   Docker-and-Python-Flask-Service:
     runs-on: ubuntu-latest
     needs: Get-Branch-Name
@@ -39,7 +38,7 @@ jobs:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "Job is running on a ${{ runner.os }} server hosted by GitHub"
       - run: echo "Branch name is ${{ github.ref }} and repository is ${{ github.repository }}."
-      
+
       - name: Check out repository code
         uses: actions/checkout@v4
 
@@ -47,27 +46,25 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      
+
       - run: echo "The repository ${{ github.repository }} has been cloned to runner."
       - run: echo "Workflow is now ready to test code on runner."
-      
+
       - name: Install required dependencies
         run: |
           cd ./code/backend
           pip install -r requirements.txt
-        
+
       - name: Build the Docker Image
         run: |
           cd ./code/backend
           docker build -t ${{ env.BACKEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
-
       - name: Start a new container
         run: docker run -p 5000:5000 --name ${{ env.BACKEND_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} -d ${{ env.BACKEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
       - name: Check files in container
         run: |
             docker exec ${{ env.BACKEND_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} ls /app
-
       - name: List containers
         run: docker ps -a
 
@@ -88,7 +85,7 @@ jobs:
 
       - name: Remove container
         run: docker rm ${{ env.BACKEND_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
-        
+
       - run: echo "Docker-and-Python-Flask-Service job's status is ${{ job.status }}."
 
 
@@ -115,19 +112,16 @@ jobs:
         run: |
           cd ./code/database
           pip install -r requirements.txt
-
       - name: Build the Docker Image
         run: |
           cd ./code/database
           docker build -t ${{ env.DATABASE_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
-
       - name: Start a new container
         run: docker run --name ${{ env.DATABASE_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} -d ${{ env.DATABASE_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
       - name: Check files in container
         run: |
           docker exec ${{ env.DATABASE_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} ls /app
-
       - name: List containers
         run: docker ps -a
 
@@ -174,7 +168,7 @@ jobs:
         run: |
           cd ./code/backend
           pip install -r requirements.txt
-      
+
       - name: Login to GitHub Packages registry
         uses: docker/login-action@v3
         with:
@@ -215,7 +209,6 @@ jobs:
         run: |
           cd ./code/database
           pip install -r requirements.txt
-
       - name: Login to GitHub Packages registry
         uses: docker/login-action@v3
         with:
@@ -263,7 +256,7 @@ jobs:
 
   Publish-Flask-Image-to-GitHub-Package-Registry:
     name: Publish Docker Python Flask Image to GitHub Package Registry
-    needs: [Get-Branch-Name, Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests ]
+    needs: [Get-Branch-Name, Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests, Run-Pylint ]
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -284,7 +277,7 @@ jobs:
         run: |
           cd ./code/backend
           pip install -r requirements.txt
-      
+
       - name: Login to GitHub Packages registry
         uses: docker/login-action@v3
         with:
@@ -325,7 +318,7 @@ jobs:
         run: |
           cd ./code/database
           pip install -r requirements.txt
-      
+
       - name: Login to GitHub Packages registry
         uses: docker/login-action@v3
         with:
@@ -370,7 +363,7 @@ jobs:
         run: npm ci
       - name: Install npm react-scripts
         run: npm install react-scripts --save
-        
+
       - name: Build the Docker Image
         working-directory: ./code/frontend
         run: docker build -t ${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
@@ -390,7 +383,7 @@ jobs:
         run: docker stop ${{ env.FRONTEND_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
       - name: Remove container
         run: docker rm ${{ env.FRONTEND_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
-      
+
       - run: echo "Docker-and-Node-Service job's status is ${{ job.status }}."
 
   Push-Node-Image-to-GitHub-Package-Registry:
@@ -420,7 +413,7 @@ jobs:
         run: npm ci
       - name: Install npm react-scripts
         run: npm install react-scripts --save
-        
+
       - name: Login to GitHub Packages registry
         uses: docker/login-action@v3
         with:
@@ -444,6 +437,21 @@ jobs:
 
       - run: echo "Push-Node-Image-to-GitHub-Package-Registry job's status is ${{ job.status }}."
 
+  Run-Pylint:
+    name: Pylint test
+    runs-on: ubuntu-latest
+    needs: [Get-Branch-Name, Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests]
+
+    container:
+      image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+    - name: Run pylint/pass or fail
+      run: pylint ./ --fail-under=5
+
   Run-Frontend-Unit-Tests:
     name: Running frontend unit tests
     needs: [Get-Branch-Name, Push-Node-Image-to-GitHub-Package-Registry]
@@ -453,10 +461,11 @@ jobs:
       credentials:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-    steps:        
+    steps:
       - name: Run Unit Tests
         working-directory: /src/src/tests
         run: npm test submitform.test.js
+
 
   Publish-Node-Image-to-GitHub-Package-Registry:
     name: Publish Docker Node Image to GitHub Package Registry
@@ -485,7 +494,7 @@ jobs:
         run: npm ci
       - name: Install npm react-scripts
         run: npm install react-scripts --save
-        
+
       - name: Login to GitHub Packages registry
         uses: docker/login-action@v3
         with:
