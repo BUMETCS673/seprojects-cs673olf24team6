@@ -281,7 +281,12 @@ jobs:
       - run: echo "Branch name is ${{ github.ref }} and repository is ${{ github.repository }}."
 
       - run: echo "temp change permission"
-      - run: chmod 755 /app/src/movies.db
+      - run: ls /app
+      - run: pwd
+      - run: ls /app/src
+      - # run: chmod 755 $GITHUB_WORKSPACE/app/src/movies.db
+
+
 
       - name: Run Unit Tests
         working-directory: /app/tests
