@@ -122,7 +122,7 @@ jobs:
           docker build -t ${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }} .
 
       - name: Start a new container
-        run: docker run -p 5000:5000 --name ${{ env.DATABASE_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }} -d ${{ env.BACKEND_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+        run: docker run --name ${{ env.DATABASE_IMAGE_NAME }}-${{ needs.get-branch-name.outputs.sanitized_branch_name }} -d ${{ env.DATABASE_IMAGE_NAME }}:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
 
       - name: Check files in container
         run: |
