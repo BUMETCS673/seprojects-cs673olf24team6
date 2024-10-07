@@ -71,7 +71,7 @@ def create_tables():
 
     # create a database connection
     try:
-        with sqlite3.connect('movies.db') as conn:
+        with sqlite3.connect('/app/src/movies.db') as conn:
             cursor = conn.cursor()
             for statement in sql_statements:
                 cursor.execute(statement)
