@@ -26,7 +26,7 @@ def test_process_data_request(test_client):
             'writer_select': 'Monty Python?'
         }
 
-        response = test_client.post('/processQueryRequest',
+        response = test_client.post('/api/processQueryRequest',
                                data=json.dumps(incoming_request),
                                content_type='application/json')
 
