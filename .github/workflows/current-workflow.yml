@@ -444,7 +444,7 @@ jobs:
     needs: [Get-Branch-Name, Push-Node-Image-to-GitHub-Package-Registry]
     runs-on: ubuntu-latest
     container:
-      image: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+      image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/node_frontend:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
       credentials:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
@@ -476,4 +476,4 @@ jobs:
         with:
           context: ./code/frontend
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+          tags: ghcr.io/${{ github.repository }}/frontend:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
