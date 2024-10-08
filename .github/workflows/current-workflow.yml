@@ -455,8 +455,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
     steps:        
       - name: Run Unit Tests
-        working-directory: /src/tests
-        run: npm test submitform.test.js
+        working-directory: /app
+        run: npm test
 
   Publish-Node-Image-to-GitHub-Package-Registry:
     name: Publish Docker Node Image to GitHub Package Registry
