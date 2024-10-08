@@ -366,14 +366,6 @@ jobs:
         working-directory: ./code/frontend
         run: npm ci && npm install react-scripts --save
 
-      - name: Cache Docker layers
-        uses: actions/cache@v3
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-docker-${{ hashFiles('Dockerfile', 'code/frontend/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-docker-
-
       - name: Build the Docker Image
         working-directory: ./code/frontend
         run: docker build --cache-from=type=local,src=/tmp/.buildx-cache --cache-to=type=local,dest=/tmp/.buildx-cache -t ${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
