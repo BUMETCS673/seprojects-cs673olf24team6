@@ -368,8 +368,7 @@ jobs:
 
       - name: Build the Docker Image
         working-directory: ./code/frontend
-        run: docker build --cache-from=type=local,src=/tmp/.buildx-cache --cache-to=type=local,dest=/tmp/.buildx-cache -t ${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
-
+        run: docker build -t ${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
 
       - name: Start a new container
         run: docker run -p 3000:3000 --name ${{ env.FRONTEND_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} -d ${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
