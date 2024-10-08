@@ -8,7 +8,6 @@ function App() {
 
     return (
 
-        // James or Alex Todo make this a template
         <div>
             {/* Render the form and pass setData and setLoading as props */}
             <FormComponent setData={setData} setLoading={setLoading} />
