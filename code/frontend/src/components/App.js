@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import FormComponent from './MovieQueryFormComponent';
 import MovieDataDisplay from './MovieDataDisplay';
+import '../assets/styles.css';
 
 function App() {
     const [data, setData] = useState('');
