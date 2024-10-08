@@ -349,7 +349,6 @@ jobs:
 
       - name: Checking out repository code
         uses: actions/checkout@v4
-      - run: echo "The repository ${{ github.repository }} has been cloned to runner."
 
       - name: Install Node.js
         uses: actions/setup-node@v4
@@ -357,7 +356,7 @@ jobs:
           node-version: '22.8.0'
       - name: Install npm
         working-directory: ./code/frontend
-        run: npm ci && npm install react-scripts --save
+        run: npm ci #&& npm install react-scripts --save
 
       - name: Build the Docker Image
         working-directory: ./code/frontend
@@ -476,4 +475,4 @@ jobs:
         with:
           context: ./code/frontend
           push: true
-          tags: ghcr.io/${{ github.repository }}/frontend:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+          tags: ghcr.io/${{ env.REPO_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
