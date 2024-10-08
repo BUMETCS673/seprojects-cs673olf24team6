@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import fetchMovieData from '../services/fetchMovieData';  // Import your data-fetching utility function
-import './assets/styles.css';
+import '../assets/styles.css';
 
 //This may need to be better refactor into more appropriate function calls so they may be unit tested
 function MovieQueryFormComponent({ setData, setLoading }) {
