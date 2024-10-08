@@ -7,19 +7,15 @@
 
 <body>
 <header>
-    <div class="container" onclick="myFunction(this)">
+    <div class="container">
         <div class="bar1"></div>
         <div class="bar2"></div>
         <div class="bar3"></div>
     </div>
     <h1 class="submit-header">Search Page</h1>
 </header>
-<script>
-function myFunction(x) {
-  x.classList.toggle("change");
-}
-</script>
-    <p><center>Please select/input an option for all criteria on the left column.</center></p>
+
+<p><center>Please select/input an option for all criteria on the left column.</center></p>
 
 <div class="leftcol" style="background-color:#ddd;">
      <p><center>Search Column</center></p>
@@ -87,7 +83,7 @@ function myFunction(x) {
         <br>
         <div class="buttons">
             <div class="action_btn">
-                <button name="submit" class="action_btn submit" type="submit" value="Submit" onclick="myFunction()">Submit</button>
+                <button name="submit" class="action_btn submit" type="submit" value="Submit" onclick="myFunction(this)">Submit</button>
                 <input type="reset" id="clear">
             </div>
         </div>
