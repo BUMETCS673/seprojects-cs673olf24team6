@@ -18,7 +18,7 @@ def get_data():
     return jsonify({'message': response_message})
 
 
-@app.route('/processQueryRequest', methods=['POST'])
+@app.route('/api/processQueryRequest', methods=['POST'])
 def process_data_request():
     data = request.json
 
@@ -28,7 +28,7 @@ def process_data_request():
 
     app.logger.info(f"Received: {json.dumps(data)})")
 
-    data_diction = db_query(data)
+    # data_diction = db_query(data)
 
     response_message = (f"Rank: {data.get('rank')}, \n"
                             f"Title: {data.get('title')}, \n"

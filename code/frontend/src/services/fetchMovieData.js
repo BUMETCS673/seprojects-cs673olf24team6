@@ -1,10 +1,10 @@
-const fetchMovieData = async (input1, input2) => {
-    const response = await fetch('http://localhost:5000/api/getData', {
+const fetchMovieData = async (queryData) => {
+    const response = await fetch('http://localhost:5000//api/processQueryRequest', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ input1, input2 }),
+        body: JSON.stringify({ queryData }),
     });
 
     if (!response.ok) {
