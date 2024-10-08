@@ -28,6 +28,7 @@ def process_data_request():
 
     app.logger.info(f"Received: {json.dumps(data)})")
 
+    print(f"Received: {json.dumps(data)})")
     # data_diction = db_query(data)
 
     response_message = (f"Rank: {data.get('rank')}, \n"
