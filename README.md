@@ -35,6 +35,9 @@ The following technologies will be used for our project:
 - Python (**v3.12**)
 - pip (**v24.2**)
     * Python Flask
+      * Flask-Cors
+    * PyTest
+      * Pytest-mock
     * PyLint
     * Pandas
 - Docker (**v27.2.0**)
@@ -98,22 +101,8 @@ For more information please refer to this link: https://docs.python.org/3/librar
 
 2. Using either file manager or a terminal window navigate to the code directory.
 
-3. To run this application the services must be started in the correct order or an error may occur. The first service to 
-   start is Python Flask
-   - `cd backend` or navigate to backend directory
-   - To run the application using Python use `python3 backend.py`
-   - To run the application using Docker or Podman run the commands below
-     - docker build -t flask_backend .
-     - docker run -p 5000:5000 -t flask_backend
-   
-4. To Run the frontend application you need be in the /code/frontend directory.
-     - To run the application using Node use `npm start`
-     - To run the application using Docker or Podman run the commands below
-       - docker build -t node-frontend .
-       - docker run -p 3000:3000 -t node-frontend
-
-5. At this stage in the project you will need to allow a web-browser to open or open web-browser and navigate to 
-   localhost:3000 where you will be able to view the frontend application 
+3. To run this application the services must be started using docker-compose
+    'docker-compose-up'
 
 ## How to Run Tests
 
@@ -130,8 +119,7 @@ For more information please refer to this link: https://docs.python.org/3/librar
 2. Podman/Docker build -t flask_backend .
 3. Podman/Docker run -idt --name flask_backend flask_backend
 4. Podman/Docker exec -it flask_backend /bin/bash
-5. `cd tests`
-6. `pytest process_query_request_test.py`
+6. `pytest tests/*.py`
 
 ### Database
 1. From database directory

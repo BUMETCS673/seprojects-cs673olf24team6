@@ -1,16 +1,18 @@
 from flask_cors import CORS
 from flask import Flask, request, jsonify
 import json
+import os
 import sqlite3
 
 app = Flask(__name__)
 CORS(app)
 
 
-# This needs to be refactored to work with container
 def get_db_connection():
-    conn = sqlite3.connect('../../database/src/movies.db')  # Replace with your DB path
-    conn.row_factory = sqlite3.Row  # Allows rows to be returned as dictionaries
+    # Use the DATABASE_URL from docker-compose file here
+    db_path = os.getenv('DATABASE_URL', 'sqlite:///app/src/movies.db').replace('sqlite:///', '')
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
     return conn
 
 # Needs comments.

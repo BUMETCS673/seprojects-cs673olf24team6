@@ -12,16 +12,15 @@ def test_client():
 
 def test_process_data_request(test_client, mocker):
 
+    # Using mock to mock the process query function
     mock_process_query = mocker.patch('src.backend.process_query')
-    mock_process_query.return_value = {"Python Received": "Test response"}
 
+    # mock request to be sent
     incoming_request = {
         'release_after': '1990',
         'genre_select': '1',
         'rating_select': '1'
     }
-
-    mock_process_query = mocker.patch('src.backend.process_query')
 
     # Set the return value of the mock to simulate a database response
     mock_process_query.return_value = {
@@ -42,15 +41,15 @@ def test_process_data_request(test_client, mocker):
         ]
     }
 
-    # Act: Send the POST request to the Flask app
+    #  Send the POST request to the mocked Flask app
     response = test_client.post('/api/processQueryRequest',
                                 data=json.dumps(incoming_request),
                                 content_type='application/json')
 
-    # Assert: Check if the response status code is 200
+    # Verify that response code is 200 or ok
     assert response.status_code == 200
 
-    # Assert: Check if the response contains the mocked data
+    # Verify response contains the mocked data in correct structure with the correct lenth
     response_data = json.loads(response.data)
     assert 'data' in response_data
     assert len(response_data['data']) == 1
@@ -58,11 +57,11 @@ def test_process_data_request(test_client, mocker):
     assert response_data['data'][0]['score'] == 9.3
     assert response_data['data'][0]['genre'] == "Drama"
 
-
+# Scope of this test is to ensure the function can gracefully handle incorrectly formed requests.
 def test_process_data_request_invalid_json(test_client):
-    # Act: Send an invalid request (empty data)
+    # Send an invalid request (empty data)
     response = test_client.post('/api/processQueryRequest', data='', content_type='application/json')
 
-    # Assert: Ensure the status code is 400 for invalid or missing JSON
+    #  Verify status code is 400 for invalid and that the json message is what is expected
     assert response.status_code == 400
     assert response.get_json() == {"error": "Invalid or missing JSON data"}

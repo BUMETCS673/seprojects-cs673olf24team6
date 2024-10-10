@@ -14,7 +14,7 @@ function MovieDataDisplay({ loading, data }) {
 
   // Handle data display: format JSON data as string if it's an object or array
   // This is called a turney
-  // Where is the data equals object type it will return the json, else it will return the data.
+  // Where if the data equals object type it will return the json stingified data, else it will return  data.
   const renderData = typeof data === 'object' ? JSON.stringify(data, null, 2) : data;
 
   {/* Preform data display for returned data */}

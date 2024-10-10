@@ -15,6 +15,8 @@ services:
       - "5000:5000"
     environment:
       - DATABASE_URL=sqlite:///app/src/movies.db  # Path inside the Flask container to connect to SQLite
+    volumes:
+      - app_data:/app/src
     pull_policy: always
     depends_on:
       - sqlite
@@ -25,7 +27,7 @@ services:
     volumes:
       - app_data:/var/lib/sqlite3  # Share the location where the pre-loaded database resides
     pull_policy: always
-    command: ["sqlite3", "/app/src/movies.db"]  # No need to generate, just reference the pre-loaded database
+    command: ["sqlite3", "/app/src/movies.db"]
 
 # Global Var
 volumes:
