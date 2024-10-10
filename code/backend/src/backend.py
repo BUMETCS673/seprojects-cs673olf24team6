@@ -10,14 +10,14 @@ CORS(app)
 
 def get_db_connection():
     db_path = os.getenv('DATABASE_URL', '/shared_data/movies.db')
-    print(f"Connecting to database at: {db_path}")
+    app.logger.info(f"Connecting to database at: {db_path}")
 
     try:
         conn = sqlite3.connect(db_path)
         conn.row_factory = sqlite3.Row
         return conn
     except sqlite3.Error as e:
-        print(f"Error connecting to database: {e}")
+        app.logger.info(f"Error connecting to database: {e}")
         raise
 
 # Needs comments.
