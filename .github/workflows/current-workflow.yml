@@ -120,40 +120,40 @@ jobs:
       - name: Build the Docker Image
         run: |
           cd ./code/database
-          docker build -t ${{ env.REGISTRY }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
+          docker build -t $${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
 
       - name: Push Production Docker Image
-        run: docker push ${{ env.REGISTRY }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+        run: docker push ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
       - name: Build the Docker Test Image
         run: |
-              docker build -t ${{ env.REGISTRY }}/${{ env.DATABASE_IMAGE_NAME }}_test:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
+              docker build -t ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}_test:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
       - name: Start Test container
-        run: docker run --name ${{ env.REGISTRY }}/${{ env.DATABASE_IMAGE_NAME }}_test-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} -d ${{ env.REGISTRY }}/${{ env.DATABASE_IMAGE_NAME }}_test:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+        run: docker run --name ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}_test-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} -d ${{ env.REGISTRY }}/${{ env.DATABASE_IMAGE_NAME }}_test:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
       - name: Check files in container
         run: |
-          docker exec ${{ env.REGISTRY }}/${{ env.DATABASE_IMAGE_NAME }}_test-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} ls /app
+          docker exec ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}_test-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} ls /app
       - name: List containers
         run: docker ps -a
 
       - name: Stop container
-        run: docker stop ${{ env.REGISTRY }}/${{ env.DATABASE_IMAGE_NAME }}_test-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+        run: docker stop ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}_test-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
       - name: Restart container
-        run: docker restart ${{ env.REGISTRY }}/${{ env.DATABASE_IMAGE_NAME }}_test-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+        run: docker restart ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}_test-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
       - name: Show container status
         run: docker ps -a
 
       - name: Stop container again
-        run: docker stop ${{ env.REGISTRY }}/${{ env.DATABASE_IMAGE_NAME }}_test-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+        run: docker stop ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}_test-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
       - name: Remove container
-        run: docker rm ${{ env.REGISTRY }}/${{ env.DATABASE_IMAGE_NAME }}_test-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+        run: docker rm ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}_test-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
       - name: Push Test Docker Image
-        run: docker push ${{ env.REGISTRY }}/${{ env.DATABASE_IMAGE_NAME }}_test:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+        run: docker push ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}_test:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
       - run: echo "Docker-and-Sqlite-database-Service job's status is ${{ job.status }}."
 
