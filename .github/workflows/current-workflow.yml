@@ -256,7 +256,7 @@ jobs:
 
   Publish-Flask-Image-to-GitHub-Package-Registry:
     name: Publish Docker Python Flask Image to GitHub Package Registry
-    needs: [Get-Branch-Name, Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests, Run-Pylint-Backend ]
+    needs: [Get-Branch-Name, Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests, Run-Pylint-Backend, Sonarqube ]
     runs-on: ubuntu-latest
     permissions:
       packages: write
