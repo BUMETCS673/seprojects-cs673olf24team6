@@ -12,9 +12,6 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Set PYTHONPATH environment variable
-#ENV PYTHONPATH=/app
-
 RUN python /app/src/start_movies.py
 
-CMD [ "tail", "-f", "/dev/null"]
+CMD [ "sqlite3", "/app/src/movies.db"]
