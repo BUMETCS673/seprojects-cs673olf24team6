@@ -55,12 +55,16 @@ jobs:
           cd ./code/backend
           pip install -r requirements.txt
 
-      - name: Build the Docker Image
+      - name: Build the Docker Production Image
         run: |
-          cd ./code/backend
-          docker build -t ${{ env.BACKEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
+          cd ./code/database
+          docker build -t ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
+
+      - name: Push Production Docker Image
+        run: docker push ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+        
       - name: Start a new container
-        run: docker run -p 5000:5000 --name ${{ env.BACKEND_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} -d ${{ env.BACKEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+        run: docker run -p 5000:5000 --name ${{ env.BACKEND_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} -d ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
       - name: Check files in container
         run: |
@@ -160,56 +164,56 @@ jobs:
       - run: echo "Docker-and-Sqlite-database-Service job's status is ${{ job.status }}."
 
 
-  Push-Flask-Image-to-GitHub-Package-Registry:
-    name: Push Docker Python Flask Image to GitHub Package Registry
-    needs: [ Get-Branch-Name, Docker-and-Python-Flask-Service ]
-    runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
-      attestations: write
-      id-token: write
-    steps:
-      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "Job is running on a ${{ runner.os }} server hosted by GitHub"
-      - run: echo "Branch name is ${{ github.ref }} and repository is ${{ github.repository }}."
+  # Push-Flask-Image-to-GitHub-Package-Registry:
+  #   name: Push Docker Python Flask Image to GitHub Package Registry
+  #   needs: [ Get-Branch-Name, Docker-and-Python-Flask-Service ]
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     packages: write
+  #     contents: read
+  #     attestations: write
+  #     id-token: write
+  #   steps:
+  #     - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+  #     - run: echo "Job is running on a ${{ runner.os }} server hosted by GitHub"
+  #     - run: echo "Branch name is ${{ github.ref }} and repository is ${{ github.repository }}."
 
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "The repository ${{ github.repository }} has been cloned to runner."
-      - run: echo "Workflow is now ready to test code on runner."
+  #     - name: Check out repository code
+  #       uses: actions/checkout@v4
+  #     - run: echo "The repository ${{ github.repository }} has been cloned to runner."
+  #     - run: echo "Workflow is now ready to test code on runner."
 
-      - name: Install required dependencies
-        run: |
-          cd ./code/backend
-          pip install -r requirements.txt
+  #     - name: Install required dependencies
+  #       run: |
+  #         cd ./code/backend
+  #         pip install -r requirements.txt
 
-      - name: Login to GitHub Packages registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Login to GitHub Packages registry
+  #       uses: docker/login-action@v3
+  #       with:
+  #         registry: ${{ env.REGISTRY }}
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract tag data for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+  #     - name: Extract tag data for Docker
+  #       id: meta
+  #       uses: docker/metadata-action@v5
+  #       with:
+  #         images: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
-      - name: Build and push the Docker Image
-        id: push
-        uses: docker/build-push-action@v5
-        with:
-          context: ./code/backend
-          push: true
-          tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+  #     - name: Build and push the Docker Image
+  #       id: push
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         context: ./code/backend
+  #         push: true
+  #         tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
-      - run: echo "Push-Flask-Image-to-GitHub-Package-Registry job's status is ${{ job.status }}."
+  #     - run: echo "Push-Flask-Image-to-GitHub-Package-Registry job's status is ${{ job.status }}."
 
   Run-Backend-Unit-Tests:
     name: Running backend unit tests
-    needs: [Get-Branch-Name, Docker-and-Python-Flask-Service, Push-Flask-Image-to-GitHub-Package-Registry ]
+    needs: Docker-and-Python-Flask-Service
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
@@ -223,7 +227,7 @@ jobs:
 
   Run-Database-Unit-Tests:
     name: Running database unit tests
-    needs: [ Get-Branch-Name, Docker-and-Database-Service ]
+    needs: Docker-and-Database-Service
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/sqlite_database_test:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
@@ -237,7 +241,7 @@ jobs:
 
   Publish-Flask-Image-to-GitHub-Package-Registry:
     name: Publish Docker Python Flask Image to GitHub Package Registry
-    needs: [Get-Branch-Name, Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests, Run-Pylint ]
+    needs: [Run-Backend-Unit-Tests, Run-Backend-Pylint ]
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -284,7 +288,7 @@ jobs:
 
   Publish-Database-Image-to-GitHub-Package-Registry:
     name: Publish Docker Database Image to GitHub Package Registry
-    needs: [Get-Branch-Name, Docker-and-Database-Service, Run-Database-Unit-Tests ]
+    needs: Run-Database-Unit-Tests
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -404,10 +408,10 @@ jobs:
 
       - run: echo "Push-Node-Image-to-GitHub-Package-Registry job's status is ${{ job.status }}."
 
-  Run-Pylint:
+  Run-Backend-Pylint:
     name: Pylint test
     runs-on: ubuntu-latest
-    needs: [Get-Branch-Name, Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests]
+    needs: Run-Backend-Unit-Tests
 
     container:
       image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
