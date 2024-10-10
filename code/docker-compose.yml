@@ -14,18 +14,18 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - DATABASE_URL=sqlite:///app/src/movies.db  # Path inside the Flask container to connect to SQLite
+      - DATABASE_URL=sqlite:///app/movies.db  # Path inside the Flask container to connect to SQLite
 
     pull_policy: always
     depends_on:
       - sqlite
     volumes:
-      - app_data:/app/src
+      - app_data:/app
   sqlite:
 
     image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/sqlite_database:feature-AddingDockerComppose  # Use your custom SQLite image with pre-loaded data
     volumes:
-      - app_data:/app/src/movies.db  # Share the location where the pre-loaded database resides
+      - app_data:/app/src/ # Share the location where the pre-loaded database resides
     pull_policy: always
 
 # Global Var
