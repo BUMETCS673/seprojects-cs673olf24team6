@@ -232,7 +232,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Run test
-        working-directory: /app/tests
+        working-directory: /database/tests
         run: pytest movies_unit_test.py
 
   Publish-Flask-Image-to-GitHub-Package-Registry:
