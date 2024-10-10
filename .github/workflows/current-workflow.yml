@@ -484,7 +484,7 @@ jobs:
   Sonarqube:
     name: sonarqube workflow
     runs-on: ubuntu-latest
-    needs: [Get-Branch-Name, Run-Pylint-Database]
+    needs: [Get-Branch-Name, Run-Pylint-Backend]
 
     container:
       image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
