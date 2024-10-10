@@ -483,6 +483,9 @@ jobs:
 
   Sonarqube-Backend:
     name: sonarqube-backend
+    push:
+      branches:
+        - dev
     runs-on: ubuntu-latest
     needs: [Get-Branch-Name, Run-Pylint-Backend]
 
