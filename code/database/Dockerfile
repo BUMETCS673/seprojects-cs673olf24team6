@@ -12,4 +12,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN python /database/src/start_movies.py
 
 # Default command for running in production
-CMD ["sqlite3", "/app/src/movies.db"]
+CMD ["sqlite3", "/database/src/movies.db"]
