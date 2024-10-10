@@ -481,6 +481,28 @@ jobs:
         working-directory: /src/src/tests
         run: npm test submitform.test.js
 
+  Sonarqube:
+    name: sonarqube workflow
+    runs-on: ubuntu-latest
+    needs: [Get-Branch-Name, Run-Backend-Unit-Tests]
+
+    container:
+      image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+
+          fetch-depth: 0
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@<action version>
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+
 
   Publish-Node-Image-to-GitHub-Package-Registry:
     name: Publish Docker Node Image to GitHub Package Registry
