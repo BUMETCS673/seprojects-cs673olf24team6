@@ -10,7 +10,7 @@ CORS(app)
 
 def get_db_connection():
     # Use the DATABASE_URL from docker-compose file here
-    db_path = os.getenv('DATABASE_URL', 'sqlite:///app/src/movies.db').replace('sqlite:///', '')
+    db_path = os.getenv('DATABASE_URL', 'sqlite:///app/database/movies.db').replace('sqlite:///', '')
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
