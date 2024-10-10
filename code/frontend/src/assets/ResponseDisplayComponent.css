@@ -1,0 +1,23 @@
+/* ResponseDisplayComponent.css */
+.response-container {
+  margin-top: 20px;
+}
+
+.response-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.response-table th, .response-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.response-table th {
+  background-color: #f2f2f2;
+}
+
+.response-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}

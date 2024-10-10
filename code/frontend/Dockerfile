@@ -1,8 +1,8 @@
-FROM node:18
+FROM node:22
 
-WORKDIR /src
+WORKDIR /app
 
-COPY . /src
+COPY . .
 
 COPY package*.json ./
 

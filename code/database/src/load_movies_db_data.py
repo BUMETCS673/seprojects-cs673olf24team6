@@ -1,6 +1,6 @@
 import pandas as pd
 
-raw_movie_data = pd.read_csv('/app/src/IMDB_Top_250_Movies.csv')
+raw_movie_data = pd.read_csv('/database/src/IMDB_Top_250_Movies.csv')
 
 #print(raw_movie_data)
 
@@ -206,7 +206,7 @@ movie_table['boxoffice'] = data['box_office'].copy()
 import sqlite3
 
 # Connecting to sqlite
-conn = sqlite3.connect('/app/src/movies.db')
+conn = sqlite3.connect('/database/src/movies.db')
 
 # Creating a cursor object using the cursor() method
 cursor = conn.cursor()

@@ -52,12 +52,6 @@
     vertical-align:10px;
 }
 
-    .leftcol {
-    width:300px;
-    height:1000px;
-    float:left;
-
-}
 
     .buttons {
     width: 75px;
@@ -87,11 +81,6 @@
     font-family:verdana;
     width: 15%;
     height: 10%;
-}
-    .body-style{
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Blockbuster_logo.svg/800px-Blockbuster_logo.svg.png');
-    background-repeat: no-repeat;
-    background-size: cover;
 }
     .header{
     text-align:center;

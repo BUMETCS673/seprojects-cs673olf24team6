@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
-import FormComponent from './MovieQueryFormComponent';
-import MovieDataDisplay from './MovieDataDisplay';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import WelcomePage from './WelcomePage';  // Import WelcomePage component
+import SubmitFormPage from './SubmitFormPage';  // Import SubmitFormPage component
 
 function App() {
-    const [data, setData] = useState('');
-    const [loading, setLoading] = useState(false);
+  return (
+    <Router>
+      <div className="App">
+        <Routes> {/* Routes are how React handles page navigation */}
+          {/* Welcome Page Route */}
+          <Route path="/" element={<WelcomePage />} />
 
-    return (
-
-        // James or Alex Todo make this a template
-        <div>
-            {/* Render the form and pass setData and setLoading as props */}
-            <FormComponent setData={setData} setLoading={setLoading} />
-            {/* Render the data display component */}
-            <MovieDataDisplay loading={loading} data={data} />
-        </div>
-    );
+          {/* Submit Form Page Route */}
+          <Route path="/submitform" element={<SubmitFormPage />} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
 export default App;
