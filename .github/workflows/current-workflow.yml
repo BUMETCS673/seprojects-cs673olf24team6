@@ -117,7 +117,7 @@ jobs:
           cd ./code/database
           pip install -r requirements.txt
 
-      - name: Build the Docker Image
+      - name: Build the Docker Production Image
         run: |
           cd ./code/database
           docker build -t ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
@@ -131,7 +131,7 @@ jobs:
             docker build -f Dockerfile.test -t ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}_test:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
 
       - name: Start Test container
-        run: docker run --name ${{ env.DATABASE_IMAGE_NAME }}_test-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} -d ${{ env.REGISTRY }}/${{ env.REPO_NAME }}${{ env.DATABASE_IMAGE_NAME }}_test:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+        run: docker run --name ${{ env.DATABASE_IMAGE_NAME }}_test-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} -d ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}_test:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
       - name: Check files in container
         run: |
