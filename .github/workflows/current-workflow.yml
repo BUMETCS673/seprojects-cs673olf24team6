@@ -209,19 +209,19 @@ jobs:
         working-directory: /app/tests
         run: pytest process_query_request_test.py
 
-Run-Database-Unit-Tests:
-  name: Running database unit tests
-  needs: [ Get-Branch-Name, Docker-and-Database-Service ]
-  runs-on: ubuntu-latest
-  container:
-    image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/sqlite_database_test:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
-    credentials:
-      username: ${{ github.actor }}
-      password: ${{ secrets.GITHUB_TOKEN }}
-  steps:
-    - name: Run test
-      working-directory: /app/tests
-      run: pytest movies_unit_test.py
+  Run-Database-Unit-Tests:
+    name: Running database unit tests
+    needs: [ Get-Branch-Name, Docker-and-Database-Service ]
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/sqlite_database_test:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Run test
+        working-directory: /app/tests
+        run: pytest movies_unit_test.py
 
   Publish-Flask-Image-to-GitHub-Package-Registry:
     name: Publish Docker Python Flask Image to GitHub Package Registry
