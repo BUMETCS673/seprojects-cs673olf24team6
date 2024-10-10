@@ -135,7 +135,7 @@ jobs:
 
       - name: Check files in container
         run: |
-          docker exec ${{ env.DATABASE_IMAGE_NAME }}_test-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} ls /app
+          docker exec ${{ env.DATABASE_IMAGE_NAME }}_test-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} ls /database
       - name: List containers
         run: docker ps -a
 
