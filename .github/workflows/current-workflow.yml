@@ -458,7 +458,7 @@ jobs:
     needs: [Get-Branch-Name, Run-Database-Unit-Tests]
 
     container:
-      image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
+      image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/sqlite_database:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
