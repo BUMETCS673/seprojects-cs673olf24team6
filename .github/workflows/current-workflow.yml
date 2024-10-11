@@ -256,7 +256,7 @@ jobs:
 
   Publish-Flask-Image-to-GitHub-Package-Registry:
     name: Publish Docker Python Flask Image to GitHub Package Registry
-    needs: [Get-Branch-Name, Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests, Run-Pylint-Backend, Sonarqube-Backend ]
+    needs: [Get-Branch-Name, Docker-and-Python-Flask-Service, Run-Backend-Unit-Tests, Run-Pylint-Backend ]
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -303,7 +303,7 @@ jobs:
 
   Publish-Database-Image-to-GitHub-Package-Registry:
     name: Publish Docker Database Image to GitHub Package Registry
-    needs: [Get-Branch-Name, Docker-and-Database-Service, Run-Database-Unit-Tests, Run-Pylint-Database, Sonarqube-Database ]
+    needs: [Get-Branch-Name, Docker-and-Database-Service, Run-Database-Unit-Tests, Run-Pylint-Database ]
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -488,7 +488,6 @@ jobs:
       - name: Run Unit Tests
         working-directory: /src/src/tests
         run: npm test submitform.test.js
-
 
 
   Publish-Node-Image-to-GitHub-Package-Registry:
