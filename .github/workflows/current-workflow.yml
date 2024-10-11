@@ -295,8 +295,17 @@ jobs:
   Docker-and-Node-Service:
     runs-on: ubuntu-latest
     needs: Get-Branch-Name
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
     steps:
-
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Checking out repository code
         uses: actions/checkout@v4
 
