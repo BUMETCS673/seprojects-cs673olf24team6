@@ -226,7 +226,7 @@ jobs:
     needs: [ Get-Branch-Name, Docker-and-Database-Service ]
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/sqlite_database_test:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+      image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/sqlite_database:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
