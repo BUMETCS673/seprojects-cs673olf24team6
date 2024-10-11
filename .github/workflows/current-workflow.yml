@@ -501,6 +501,8 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_PROJECT_KEY: jshilts657_test
+          SONAR_ORGANIZATION: jshilts657
 
 
   Sonarqube-Database:
@@ -523,9 +525,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-        with:
-          args: "-X"
-
 
 
   Publish-Node-Image-to-GitHub-Package-Registry:
