@@ -329,7 +329,7 @@ jobs:
 
       - name: Check files in container
         run: |
-          docker exec ${{ env.FRONTEND_IMAGE_NAME }}_test-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} ls /app
+          docker exec ${{ env.FRONTEND_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} ls /app
 
       - name: Verify Container Running
         run: docker ps -a
