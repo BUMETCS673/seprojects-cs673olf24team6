@@ -68,7 +68,7 @@ jobs:
 
       - name: Build the Docker Production Image
         run: |
-          cd ./code/database
+          cd ./code/backend
           docker build -t ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
 
       - name: Push Production Docker Image
