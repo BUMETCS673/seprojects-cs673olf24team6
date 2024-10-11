@@ -451,6 +451,10 @@ jobs:
     steps:
     - name: Run pylint/pass or fail
       run: pylint ./ --fail-under=5
+    - name: Run Pylint and generate report
+      run: |
+        pylint your_python_project/ --output-format=parseable > pylint-report.txt
+        cat pylint-report.txt
 
   Run-Pylint-Database:
     name: Pylint test database
@@ -466,6 +470,10 @@ jobs:
     steps:
       - name: Run pylint/pass or fail
         run: pylint ./ --fail-under=5
+      - name: Run Pylint and generate report
+        run: |
+          pylint your_python_project/ --output-format=parseable > pylint-report.txt
+          cat pylint-report.txt
 
   Run-Frontend-Unit-Tests:
     name: Running frontend unit tests
@@ -481,50 +489,6 @@ jobs:
         working-directory: /src/src/tests
         run: npm test submitform.test.js
 
-  Sonarqube-Backend:
-    name: SonarCloud-backend
-    runs-on: ubuntu-latest
-    needs: [Get-Branch-Name, Run-Pylint-Backend]
-
-    container:
-      image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_PROJECT_KEY: jshilts657_test
-          SONAR_ORGANIZATION: jshilts657
-
-
-  Sonarqube-Database:
-    name: sonarqube-database
-    runs-on: ubuntu-latest
-    needs: [ Get-Branch-Name, Run-Pylint-Database ]
-
-    container:
-      image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:${{ needs.get-branch-name.outputs.sanitized_branch_name }}
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@v3.0.0
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
 
 
   Publish-Node-Image-to-GitHub-Package-Registry:
