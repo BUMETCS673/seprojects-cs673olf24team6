@@ -224,7 +224,7 @@ jobs:
 
   Run-Backend-Unit-Tests:
     name: Running backend unit tests
-    needs: Docker-and-Python-Flask-Service
+    needs: [ Get-Branch-Name, Docker-and-Python-Flask-Service ]
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
@@ -238,7 +238,7 @@ jobs:
 
   Run-Database-Unit-Tests:
     name: Running database unit tests
-    needs: Docker-and-Database-Service
+    needs: [ Get-Branch-Name, Docker-and-Database-Service ]
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/sqlite_database_test:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
@@ -299,7 +299,7 @@ jobs:
 
   Publish-Database-Image-to-GitHub-Package-Registry:
     name: Publish Docker Database Image to GitHub Package Registry
-    needs: Run-Database-Unit-Tests
+    needs: [ Get-Branch-Name, Run-Database-Unit-Tests ]
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -374,7 +374,7 @@ jobs:
 
   Push-Node-Image-to-GitHub-Package-Registry:
     name: Push Docker Node Image to GitHub Package Registry
-    needs: [Get-Branch-Name, Docker-and-Node-Service]
+    needs: [ Get-Branch-Name, Docker-and-Node-Service ]
     runs-on: ubuntu-latest
     permissions:
       packages: write
