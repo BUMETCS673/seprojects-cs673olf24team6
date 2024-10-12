@@ -409,12 +409,21 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-    - name: Run pylint/pass or fail
-      run: pylint ./ --fail-under=5
-    - name: Run Pylint and generate report
-      run: |
-        pylint seprojects-cs673olf24team6/ --output-format=parseable > pylint-report.txt
-        cat pylint-report.txt
+      - name: Run pylint/pass or fail
+        run: pylint ./ --fail-under=5
+      - name: Run Pylint and generate report
+        run: |
+          pylint code/ --output-format=parseable > pylint-report.txt
+        continue-on-error: true
+      - name: Upload Pylint report as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pylint-report
+          path: pylint-report.txt
+
+      - name: Display Pylint Report
+        if: failure()  # Only display if Pylint fails
+        run: cat pylint-report.txt
 
   Run-Pylint-Database:
     name: Pylint test database
@@ -432,7 +441,7 @@ jobs:
         run: pylint ./ --fail-under=5
       - name: Run Pylint and generate report
         run: |
-          pylint seprojects-cs673olf24team6/ --output-format=parseable > pylint-report.txt
+          pylint code/ --output-format=parseable > pylint-report.txt
         continue-on-error: true
       - name: Upload Pylint report as artifact
         uses: actions/upload-artifact@v4
