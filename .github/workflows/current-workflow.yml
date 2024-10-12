@@ -453,7 +453,7 @@ jobs:
       run: pylint ./ --fail-under=5
     - name: Run Pylint and generate report
       run: |
-        pylint seprojects-cs673olf24team6/code/backend/src/ --output-format=parseable > pylint-report.txt
+        pylint seprojects-cs673olf24team6/ --output-format=parseable > pylint-report.txt
         cat pylint-report.txt
 
   Run-Pylint-Database:
@@ -472,8 +472,9 @@ jobs:
         run: pylint ./ --fail-under=5
       - name: Run Pylint and generate report
         run: |
-          pylint src/ --output-format=parseable > pylint-report.txt
+          pylint seprojects-cs673olf24team6/ --output-format=parseable > pylint-report.txt
           cat pylint-report.txt
+
 
   Run-Frontend-Unit-Tests:
     name: Running frontend unit tests
