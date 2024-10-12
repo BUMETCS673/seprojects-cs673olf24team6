@@ -1,20 +1,16 @@
 FROM python:3.11-slim
 
-# Allows use to access database from shell
 RUN apt-get update && apt-get install -y sqlite3
 
-WORKDIR /app
+WORKDIR /database
 
-COPY . /app
+COPY . /database
 
-# Copy requirements file first to leverage Docker cache if requirements haven't changed
 COPY requirements.txt .
-
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Set PYTHONPATH environment variable
-#ENV PYTHONPATH=/app
+RUN python /database/src/start_movies.py
 
-RUN python /app/src/start_movies.py
+# Default command for running in production
+CMD /bin/sh -c "sqlite3 /database/src/movies.db && tail -f /dev/null"
 
-CMD [ "tail", "-f", "/dev/null"]

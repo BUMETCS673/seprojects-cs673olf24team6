@@ -1,0 +1,33 @@
+version: '3'
+services:
+  frontend:
+    image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/node_frontend:feature-AddingDockerComppose
+    ports:
+      - "3000:3000"
+    pull_policy: always
+    depends_on:
+      - backend
+
+  backend:
+
+    image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:feature-AddingDockerComppose
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=sqlite:///shared_data/movies.db  # Path inside the Flask container to connect to SQLite
+
+    pull_policy: always
+    depends_on:
+      - sqlite
+    volumes:
+      - app_data:/shared_data
+  sqlite:
+
+    image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/sqlite_database:feature-AddingDockerComppose
+    volumes:
+      - app_data:/database/src
+    pull_policy: always
+
+# Global Var
+volumes:
+  app_data:
