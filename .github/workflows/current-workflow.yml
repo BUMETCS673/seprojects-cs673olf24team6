@@ -421,7 +421,7 @@ jobs:
           name: pylint-report
           path: pylint-report.txt
 
-      - name: Display Pylint Report
+      - name: Display Pylint Report Backend
         if: failure()  # Only display if Pylint fails
         run: cat pylint-report.txt
 
@@ -449,7 +449,7 @@ jobs:
           name: pylint-report
           path: pylint-report.txt
 
-      - name: Display Pylint Report
+      - name: Display Pylint Report Database
         if: failure()  # Only display if Pylint fails
         run: cat pylint-report.txt
 
