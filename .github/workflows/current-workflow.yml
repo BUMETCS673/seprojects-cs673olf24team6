@@ -435,7 +435,7 @@ jobs:
           pylint seprojects-cs673olf24team6/ --output-format=parseable > pylint-report.txt
         continue-on-error: true
       - name: Upload Pylint report as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: pylint-report
           path: pylint-report.txt
