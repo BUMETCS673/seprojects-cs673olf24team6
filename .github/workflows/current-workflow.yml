@@ -418,7 +418,7 @@ jobs:
       - name: Upload Pylint report as artifact backend
         uses: actions/upload-artifact@v4
         with:
-          name: pylint-report
+          name: pylint-report backend
           path: pylint-report.txt
 
       - name: Display Pylint Report Backend
@@ -446,7 +446,7 @@ jobs:
       - name: Upload Pylint report as artifact database
         uses: actions/upload-artifact@v4
         with:
-          name: pylint-report
+          name: pylint-report database
           path: pylint-report.txt
 
       - name: Display Pylint Report Database
