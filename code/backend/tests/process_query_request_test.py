@@ -1,3 +1,5 @@
+"""This file process_query_request_test.py, performs the testing for
+the backend communication to test if it is receiving and sending query requests correctly."""
 from src import backend
 import pytest
 import json
@@ -5,11 +7,15 @@ import json
 
 @pytest.fixture
 def test_client():
+    """Using pytest this function calls the Flask test client.
+    The pytest.fixture provides the testing setuo and structure."""
     with backend.app.test_client() as client:
         yield client
 
 
 def test_process_data_request(test_client):
+    """The test_process_data_request function tests if the data in the incoming request
+     matches the expected message."""
 
         incoming_request = {
             'rank': 1,

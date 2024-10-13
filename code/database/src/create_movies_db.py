@@ -1,3 +1,4 @@
+# This file creates the SQLite database movies.db
 # Code taken from: SQLite Python: Creating a New Database
 # Reference: https://www.sqlitetutorial.net/sqlite-python/creating-database/
 

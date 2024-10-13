@@ -1,3 +1,4 @@
+"""This file backend.py """
 from flask_cors import CORS
 from flask import Flask, request, jsonify
 import json
@@ -20,6 +21,7 @@ def get_data():
 
 @app.route('/processQueryRequest', methods=['POST'])
 def process_data_request():
+    """Based on the user's query from the frontend UI, the process_data_request function retrieves the data from the movies.db database."""
     data = request.json
 
     # Add error handling for invalid or missing JSON
@@ -46,6 +48,7 @@ def process_data_request():
     return jsonify({'Python Received': response_message}), 200
 
 def db_query(data):
+    """The db_query function queries the database returns the results based on movie rank."""
     #conn(db)
     return "Select * {data.get('rank')}"
 

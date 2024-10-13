@@ -1,3 +1,6 @@
+"""The load_movies_db_data.py file, extracts the data from the IMDB_Top_250_Movies.csv
+file, transforms the data as needed, and then loads it into the movies.db tables.
+"""
 import pandas as pd
 
 raw_movie_data = pd.read_csv('/app/src/IMDB_Top_250_Movies.csv')

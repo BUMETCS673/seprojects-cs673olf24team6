@@ -5,6 +5,8 @@
 import sqlite3
 
 def create_tables():
+    """The create_tables function creates all required tables for the movies.db SQLite database
+"""
     sql_statements = [
         """CREATE TABLE IF NOT EXISTS DIRECTOR (
                 director_id INTEGER PRIMARY KEY AUTOINCREMENT, 
