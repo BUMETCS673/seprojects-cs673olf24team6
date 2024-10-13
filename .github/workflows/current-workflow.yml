@@ -422,7 +422,7 @@ jobs:
           path: pylint-report.txt
 
       - name: Display Pylint Report Backend
-        if: failure()  # Only display if Pylint fails
+        if: failure()
         run: cat pylint-report.txt
 
   Run-Pylint-Database:
@@ -441,7 +441,7 @@ jobs:
         run: pylint ./ --fail-under=5
       - name: Run Pylint and generate report
         run: |
-          pylint code/ --output-format=parseable > pylint-report.txt
+          pylint code/database/ --output-format=parseable > pylint-report.txt
         continue-on-error: true
       - name: Upload Pylint report as artifact database
         uses: actions/upload-artifact@v4
@@ -450,7 +450,7 @@ jobs:
           path: pylint-report.txt
 
       - name: Display Pylint Report Database
-        if: failure()  # Only display if Pylint fails
+        if: failure()
         run: cat pylint-report.txt
 
 
