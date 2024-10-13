@@ -421,9 +421,6 @@ jobs:
           name: pylint-report backend
           path: pylint-report.txt
 
-      - name: Display Pylint Report Backend
-        if: failure()
-        run: cat pylint-report.txt
 
   Run-Pylint-Database:
     name: Pylint test database
@@ -448,10 +445,6 @@ jobs:
         with:
           name: pylint-report database
           path: pylint-report.txt
-
-      - name: Display Pylint Report Database
-        if: failure()
-        run: cat pylint-report.txt
 
 
   Run-Frontend-Unit-Tests:
