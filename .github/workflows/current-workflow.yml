@@ -441,7 +441,7 @@ jobs:
         run: pylint ./ --fail-under=5
       - name: Run Pylint and generate report
         run: |
-          pylint code/database/ --output-format=parseable > pylint-report.txt
+          pylint ghcr.io/bumetcs673/seprojects-cs673olf24team6/sqlite_database:${{ needs.get-branch-name.outputs.sanitized_branch_name }}/ --output-format=parseable > pylint-report.txt
         continue-on-error: true
       - name: Upload Pylint report as artifact database
         uses: actions/upload-artifact@v4
