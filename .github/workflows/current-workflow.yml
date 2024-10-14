@@ -31,6 +31,7 @@ jobs:
         run: |
           cd ./code/
           zip -r topmoviesapi.zip docker-compose.yml
+          mv topmoviesapi.zip ../
   
       - name: Deploy to AWS Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v22
