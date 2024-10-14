@@ -21,6 +21,28 @@ env:
   REPO_NAME: "bumetcs673/seprojects-cs673olf24team6"
 
 jobs:
+  AWS-Deployement:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Generate deployment package
+        run: |
+          cd ./code/
+          zip -r topmoviesapi.zip docker-compose.yml
+  
+      - name: Deploy to AWS Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v22
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: TopMoviesAPI
+          environment_name: TopMoviesAPI-Environment
+          version_label: ${{ steps.date.outputs.date }}
+          region: us-east-1
+          deployment_package: topmoviesapi_deploy.zip
+
   Get-Branch-Name:
     runs-on: ubuntu-latest
     outputs:
