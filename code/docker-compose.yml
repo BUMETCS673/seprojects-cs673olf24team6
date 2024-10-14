@@ -15,7 +15,7 @@ services:
     # image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:dev
     image: 490004622784.dkr.ecr.us-east-1.amazonaws.com/seprojects-cs673olf24team6-flask_backend:feature-integrating-aws-deployment-into-pipeline
     ports:
-      - "6000:6000"
+      - "5000:5000"
     environment:
       - DATABASE_URL=/shared_data/movies.db  # Path inside the Flask container to connect to SQLite
     pull_policy: always
