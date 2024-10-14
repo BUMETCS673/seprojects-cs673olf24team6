@@ -14,6 +14,6 @@ ENV PYTHONPATH=/app
 
 RUN pip install -r requirements.txt
 
-EXPOSE 5000
+EXPOSE 6000
 
 CMD ["python", "src/backend.py"]
