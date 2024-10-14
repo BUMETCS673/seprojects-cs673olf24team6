@@ -39,7 +39,7 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: TopMoviesAPI
           environment_name: TopMoviesAPI-Environment
-          version_label: ${{ steps.date.outputs.date }}
+          version_label: 1
           region: us-east-1
           deployment_package: topmoviesapi_deploy.zip
 
