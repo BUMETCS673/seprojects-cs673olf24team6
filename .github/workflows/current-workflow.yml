@@ -190,7 +190,7 @@ jobs:
           IMAGE_TAG: ${{ steps.get-commit-hash.outputs.commit-hash }}-${{ steps.get-timestamp.outputs.timestamp }}
         run: |
           cd ./code/backend
-          docker build -t $ECR_REGISTRY/$BACKEND_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}.
+          docker build -t $ECR_REGISTRY/$BACKEND_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
           docker push $ECR_REGISTRY/$BACKEND_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
       - name: Start a new container
