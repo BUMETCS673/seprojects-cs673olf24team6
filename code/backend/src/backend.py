@@ -99,4 +99,4 @@ def process_data_request():
 
 if __name__ == '__main__':
     # Run this application on local host on port 6000
-    app.run(host='0.0.0.0', port=6000, debug=True)
+    app.run(host='0.0.0.0', port=6000, debug=False)
