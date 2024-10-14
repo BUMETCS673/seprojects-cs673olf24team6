@@ -96,6 +96,7 @@ jobs:
 
   AWS-Deployement:
     runs-on: ubuntu-latest
+    needs: [Docker-and-Python-Flask-Service, Docker-and-Database-Service, Docker-and-Node-Service]
     steps:
       # - name: Login to GitHub Container Registry
       #   uses: docker/login-action@v3
@@ -120,7 +121,7 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: top-movies-api
           environment_name: Top-movies-api-env 
-          version_label: 4
+          version_label: 5
           region: us-east-1
           deployment_package: topmoviesapi.zip
 
