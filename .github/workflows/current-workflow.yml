@@ -39,50 +39,49 @@ jobs:
       with:
         compose-file: "./code/docker-compose.yml"
 
-  Push-Images-to-AWS-Elastic-Container-Registry:
-    needs: Get-Branch-Name
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
+  # Push-Images-to-AWS-Elastic-Container-Registry:
+  #   needs: Get-Branch-Name
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check out repository code
+  #       uses: actions/checkout@v4
         
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-east-1
       
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
+  #     - name: Login to Amazon ECR
+  #       id: login-ecr
+  #       uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+  #     - name: Set up Python 3.12
+  #       uses: actions/setup-python@v5
+  #       with:
+  #         python-version: "3.12"
 
-      - name: Install required dependencies
-        run: |
-          cd ./code/backend
-          pip install -r requirements.txt
+  #     - name: Install required dependencies
+  #       run: |
+  #         cd ./code/backend
+  #         pip install -r requirements.txt
         
-      - name: Build, tag, and push the image to Amazon ECR
-        id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          BACKEND_REPOSITORY: ${{ secrets.AWS_FLASK_BACKEND_REPO }}
-          FRONTEND_REPOSITORY: ${{ secrets.AWS_NODE_FRONTEND_REPO }}
-          DATABASE_REPOSITORY: ${{ secrets.AWS_SQLITE_DATABASE_REPO }}
-          IMAGE_TAG: ${{ steps.get-commit-hash.outputs.commit-hash }}-${{ steps.get-timestamp.outputs.timestamp }}
-        run: |
-          cd ./code/backend
-          docker build -t $ECR_REGISTRY/$BACKEND_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
-          docker push $ECR_REGISTRY/$BACKEND_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
-          # docker build -t $ECR_REGISTRY/$FRONTEND_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
-          # docker push $ECR_REGISTRY/$FRONTEND_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
-          # docker build -t $ECR_REGISTRY/$DATABASE_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
-          # docker push $ECR_REGISTRY/$DATABASE_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+  #     - name: Build, tag, and push the image to Amazon ECR
+  #       id: build-image
+  #       env:
+  #         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+  #         BACKEND_REPOSITORY: ${{ secrets.AWS_FLASK_BACKEND_REPO }}
+  #         FRONTEND_REPOSITORY: ${{ secrets.AWS_NODE_FRONTEND_REPO }}
+  #         DATABASE_REPOSITORY: ${{ secrets.AWS_SQLITE_DATABASE_REPO }}
+  #       run: |
+  #         cd ./code/backend
+  #         docker build -t $ECR_REGISTRY/$BACKEND_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
+  #         docker push $ECR_REGISTRY/$BACKEND_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+  #         docker build -t $ECR_REGISTRY/$FRONTEND_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
+  #         docker push $ECR_REGISTRY/$FRONTEND_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+  #         docker build -t $ECR_REGISTRY/$DATABASE_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
+  #         docker push $ECR_REGISTRY/$DATABASE_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
   # AWS-Deployement:
   #   runs-on: ubuntu-latest
@@ -140,6 +139,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
       - name: Check out repository code
         uses: actions/checkout@v4
 
@@ -158,9 +168,19 @@ jobs:
           cd ./code/backend
           docker build -t ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
 
-      - name: Push Production Docker Image
+      - name: Push Production Docker Image to GitHub Packages
         run: docker push ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
-        
+
+      - name: Build, tag, and push the image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          BACKEND_REPOSITORY: ${{ secrets.AWS_FLASK_BACKEND_REPO }}
+        run: |
+          cd ./code/backend
+          docker build -t $ECR_REGISTRY/$BACKEND_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
+          docker push $ECR_REGISTRY/$BACKEND_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+
       - name: Start a new container
         run: docker run --name ${{ env.BACKEND_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} -d ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.BACKEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
@@ -275,6 +295,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
       - name: Check out repository code
         uses: actions/checkout@v4
 
@@ -295,6 +326,16 @@ jobs:
 
       - name: Push Production Docker Image
         run: docker push ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.DATABASE_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+
+      - name: Build, tag, and push the image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          DATABASE_REPOSITORY: ${{ secrets.AWS_SQLITE_DATABASE_REPO }}
+        run: |
+          cd ./code/database
+          docker build -t $ECR_REGISTRY/$DATABASE_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
+          docker push $ECR_REGISTRY/$DATABASE_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
       - name: Build the Docker Test Image
         run: |
@@ -414,6 +455,18 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+          
       - name: Checking out repository code
         uses: actions/checkout@v4
 
@@ -431,6 +484,16 @@ jobs:
 
       - name: Push Production Docker Image
         run: docker push ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
+
+      - name: Build, tag, and push the image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          FRONTEND_REPOSITORY: ${{ secrets.AWS_NODE_FRONTEND_REPO }}
+        run: |
+          cd ./code/frontend
+          docker build -t $ECR_REGISTRY/$FRONTEND_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} .
+          docker push $ECR_REGISTRY/$FRONTEND_REPOSITORY:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
 
       - name: Start a new container
         run: docker run --name ${{ env.FRONTEND_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }} -d ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}
