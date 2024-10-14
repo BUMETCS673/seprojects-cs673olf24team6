@@ -41,7 +41,7 @@ jobs:
           environment_name: TopMoviesAPI-Environment
           version_label: 1
           region: us-east-1
-          deployment_package: topmoviesapi_deploy.zip
+          deployment_package: topmoviesapi.zip
 
   Get-Branch-Name:
     runs-on: ubuntu-latest
