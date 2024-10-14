@@ -1,6 +1,7 @@
 import React, { useState, useEffect  } from 'react';
 import MovieQueryFormComponent from './MovieQueryFormComponent';
 import ResponseDisplayComponent from './ResponseDisplayComponent';
+import BarChart from './BarChart';
 
 function SubmitFormPage() {
     // Allows us to store the response as n object to use
@@ -25,6 +26,9 @@ function SubmitFormPage() {
         <MovieQueryFormComponent setData={setResponseMessage} setLoading={setLoading} />
 
         {loading && <p>Loading...</p>}
+
+        // display the chart here below
+        {!loading && responseMessage && <BarChart message={responseMessage} />}
 
         {!loading && responseMessage && <ResponseDisplayComponent message={responseMessage} />}
 
