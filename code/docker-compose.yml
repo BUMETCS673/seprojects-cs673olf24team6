@@ -3,7 +3,7 @@ services:
   # Node
   frontend:
     # image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/node_frontend:dev
-    image: 490004622784.dkr.ecr.us-east-1.amazonaws.com/seprojects-cs673olf24team6-node_frontend
+    image: 490004622784.dkr.ecr.us-east-1.amazonaws.com/seprojects-cs673olf24team6-node_frontend:feature-integrating-aws-deployment-into-pipeline
     ports:
       - "3000:3000"
     pull_policy: always
@@ -13,7 +13,7 @@ services:
   # Flask backend
   backend:
     # image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:dev
-    image: 490004622784.dkr.ecr.us-east-1.amazonaws.com/seprojects-cs673olf24team6-flask_backend
+    image: 490004622784.dkr.ecr.us-east-1.amazonaws.com/seprojects-cs673olf24team6-flask_backend:feature-integrating-aws-deployment-into-pipeline
     ports:
       - "5000:5000"
     environment:
@@ -27,7 +27,7 @@ services:
   # Database
   sqlite:
     # image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/sqlite_database:dev
-    image: 490004622784.dkr.ecr.us-east-1.amazonaws.com/seprojects-cs673olf24team6-sqlite_database
+    image: 490004622784.dkr.ecr.us-east-1.amazonaws.com/seprojects-cs673olf24team6-sqlite_database:feature-integrating-aws-deployment-into-pipeline
     volumes:
       - app_data:/database/src
     pull_policy: always
