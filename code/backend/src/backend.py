@@ -1,3 +1,10 @@
+""" This file sets up a Flask application to handle movie data queries requests
+    from the UI.
+    It includes:
+        - Establishing a connection to a SQLite database
+        - Processing queries for movies based on genre, rating, and release date
+        - A single API endpoint to receive frontend requests
+"""
 import os
 import sqlite3
 import json
@@ -10,6 +17,11 @@ CORS(app)
 
 
 def get_db_connection():
+    """Establishes a connection to the SQLite database using the path
+       provided by the DATABASE_URL environment variable
+       (defaults to '/shared_data/movies.db').
+    """
+
     db_path = os.getenv('DATABASE_URL', '/shared_data/movies.db')
     # pylint: disable=no-member
     app.logger.info(f"Connecting to database at: {db_path}")
@@ -25,57 +37,86 @@ def get_db_connection():
 
 # Needs comments.
 def process_query(date, genre, rating):
+    """Receives inputs from backend, formats a SQL statement, runs the
+    query, and assigns the data to a dictionary.
 
+    Parameters:
+        date (str): The release date threshold (movies released after date)
+        genre (str): The genre ID to filter movies by.
+        rating (str): The rating ID to filter movies by.
 
-    conn = get_db_connection()
-    # Jsonify converts values to string we need to reconvert to int to optimize querying.
-    genre_int = int(genre)
-    rating_int = int(rating)
-
-    # SQL query prep using ? as wildcards to pass values
-    query = """
-    SELECT movie.*, genre.genre_name, AGE_RATING.rating_title
-    FROM movie
-    JOIN MOVIE_GENRE ON movie.movie_id = MOVIE_GENRE.movie_id
-    JOIN GENRE ON MOVIE_GENRE.genre_id = GENRE.genre_id
-    JOIN AGE_RATING ON movie.rating_id = AGE_RATING.rating_id
-    WHERE CAST(movie.release_date AS INTEGER) >= ?
-    AND GENRE.genre_id = ?
-    AND AGE_RATING.rating_id = ?;
+    Returns:
+        dict: A dictionary containing a list of movies that match the query
     """
 
-    # Execute query, this may need a try catch block
-    cursor = conn.execute(query, (date, genre_int, rating_int))
-    rows = cursor.fetchall()
+    try:
+        # Try to establish a database connection
+        conn = get_db_connection()
+        genre_int = int(genre)
+        rating_int = int(rating)
 
-    # Initalize response
-    response_data = { "data": [] }
+        query = """
+        SELECT movie.*, genre.genre_name, AGE_RATING.rating_title
+        FROM movie
+        JOIN MOVIE_GENRE ON movie.movie_id = MOVIE_GENRE.movie_id
+        JOIN GENRE ON MOVIE_GENRE.genre_id = GENRE.genre_id
+        JOIN AGE_RATING ON movie.rating_id = AGE_RATING.rating_id
+        WHERE CAST(movie.release_date AS INTEGER) >= ?
+        AND GENRE.genre_id = ?
+        AND AGE_RATING.rating_id = ?;
+        """
 
+        # Try executing the SQL query and fetching data
+        cursor = conn.execute(query, (date, genre_int, rating_int))
+        rows = cursor.fetchall()
 
-    # Loop through each row and append values that fall within filters
-    for row in rows:
-        movie_data = {
-            "movie_id": row["movie_id"],
-            "title": row["movie_title"],
-            "release_date": row["release_date"],
-            "rank": row["rank"],
-            "runtime": row["runtime"],
-            "score": row["score"],
-            "tagline": row["tagline"],
-            "budget": row["budget"],
-            "boxoffice": row["boxoffice"],
-            "genre": row["genre_name"],
-            "rating": row["rating_title"]
-        }
-        response_data["data"].append(movie_data)
+        # Initialize response dictionary
+        response_data = {"data": []}
 
-    cursor.close()
-    conn.close()
-    return response_data
+        # Loop through each row and append values that match the filters to response_data
+        for row in rows:
+            movie_data = {
+                "movie_id": row["movie_id"],
+                "title": row["movie_title"],
+                "release_date": row["release_date"],
+                "rank": row["rank"],
+                "runtime": row["runtime"],
+                "score": row["score"],
+                "tagline": row["tagline"],
+                "budget": row["budget"],
+                "boxoffice": row["boxoffice"],
+                "genre": row["genre_name"],
+                "rating": row["rating_title"]
+            }
+            response_data["data"].append(movie_data)
+
+        return response_data
+
+    except sqlite3.Error as e:
+        # Handle both database connection and query execution errors
+        app.logger.error(f"Database error: {e}")
+        return {"error": f"Database error: {str(e)}"}
+
+    finally:
+        # Ensure the cursor and connection are always closed, even if an error occurs
+        if 'cursor' in locals():
+            cursor.close()
+        if 'conn' in locals():
+            conn.close()
+
 
 #Flask route that is used to wait for requests from frontend
 @app.route('/api/processQueryRequest', methods=['POST'])
 def process_data_request():
+    """Based on the user's query from the frontend UI, the process_data_request
+     function retrieves the data from the movies.db database."""
+
+    """Processes the incoming POST request from the frontend and queries the database.
+
+    This function receives a JSON payload containing the user's query filters 
+    (release date, genre, and rating) and retrieves the matching movie data from the database.
+    """
+
     request_data = request.get_json(silent=True)
 
     # Check to verify json request is valid

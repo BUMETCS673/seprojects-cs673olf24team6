@@ -32,16 +32,6 @@ for i in target:
     for row in data:
         print(row)
 
-
-# DROPPING All tables after testing.
-#print('\nTesting is complete, dropping all tested tables.')
-
-#for j in drop_target:
-#    # Display columns
-#    print('\n'''+j+' table DROPPED.')
-#    data = cursor.execute('''DROP TABLE IF EXISTS ''' +j+''';''')
-
-# Commit your changes in the database
 conn.commit()
 
 # Closing the connection
