@@ -418,10 +418,6 @@ jobs:
     steps:
       - name: Run pylint/pass or fail
         run: pylint ./ --fail-under=5
-      - name: Run Pylint and generate report
-        run: |
-          pylint *.py/
-        continue-on-error: true
 
   Run-Frontend-Unit-Tests:
     name: Running frontend unit tests
