@@ -1,3 +1,4 @@
+from pytest_mock import mocker
 from src import backend
 import pytest
 import json
@@ -9,47 +10,58 @@ def test_client():
         yield client
 
 
-def test_process_data_request(test_client):
+def test_process_data_request(test_client, mocker):
 
-        incoming_request = {
-            'rank': 1,
-            'title': 'Monty Python',
-            'release_start': '1955-07-16',
-            'release_end': '1999-09-10',
-            'score': 10.0,
-            'genre_select': 'Legend',
-            'rating_select': 'R?',
-            'budget': 20,
-            'box_office': 829895144000,
-            'cast_select': 'All dead',
-            'director_select': 'Monty Python?',
-            'writer_select': 'Monty Python?'
-        }
+    # Using mock to mock the process query function
+    mock_process_query = mocker.patch('src.backend.process_query')
 
-        response = test_client.post('/processQueryRequest',
-                               data=json.dumps(incoming_request),
-                               content_type='application/json')
+    # mock request to be sent
+    incoming_request = {
+        'release_after': '1990',
+        'genre_select': '1',
+        'rating_select': '1'
+    }
 
-        # Verify that respose is ok type
-        assert response.status_code == 200
+    # Set the return value of the mock to simulate a database response
+    mock_process_query.return_value = {
+        "data": [
+            {
+                "movie_id": 1,
+                "title": "The Shawshank Redemption",
+                "release_date": 1994,
+                "rank": 1,
+                "runtime": 142,
+                "score": 9.3,
+                "tagline": "Fear can hold you prisoner. Hope can set you free.",
+                "budget": 25000000,
+                "boxoffice": 28884504,
+                "genre": "Drama",
+                "rating": "R"
+            }
+        ]
+    }
 
-        # Check if the response contains expected data
-        expected_message = (f"Rank: 1, \n"
-                            f"Title: Monty Python, \n"
-                            f"Release start: 1955-07-16, \n"
-                            f"Release end: 1999-09-10, \n"
-                            f"Score: 10.0, \n"
-                            f"Genre: Legend, \n"
-                            f"Rating: R?, \n"
-                            f"Budget: 20, \n"
-                            f"Box Office: 829895144000, \n"
-                            f"Cast: All dead, \n"
-                            f"Director: Monty Python?, \n"
-                            f"Writer: Monty Python?")
+    #  Send the POST request to the mocked Flask app
+    response = test_client.post('/api/processQueryRequest',
+                                data=json.dumps(incoming_request),
+                                content_type='application/json')
 
-        response_data = json.loads(response.data)
+    # Verify that response code is 200 or ok
+    assert response.status_code == 200
 
-        # Test to ensure the response it correctly formatted
-        assert 'Python Received' in response_data
-        # Verify test has the expected data
-        assert response_data['Python Received'] == expected_message
+    # Verify response contains the mocked data in correct structure with the correct lenth
+    response_data = json.loads(response.data)
+    assert 'data' in response_data
+    assert len(response_data['data']) == 1
+    assert response_data['data'][0]['title'] == "The Shawshank Redemption"
+    assert response_data['data'][0]['score'] == 9.3
+    assert response_data['data'][0]['genre'] == "Drama"
+
+# Scope of this test is to ensure the function can gracefully handle incorrectly formed requests.
+def test_process_data_request_invalid_json(test_client):
+    # Send an invalid request (empty data)
+    response = test_client.post('/api/processQueryRequest', data='', content_type='application/json')
+
+    #  Verify status code is 400 for invalid and that the json message is what is expected
+    assert response.status_code == 400
+    assert response.get_json() == {"error": "Invalid or missing JSON data"}
