@@ -440,7 +440,6 @@ jobs:
       - name: Run Pylint and generate report
         run: |
           pylint ./ --output-format=parseable > pylint-report.txt
-          docker cp ${{ env.BACKEND_IMAGE_NAME }}-${{ needs.Get-Branch-Name.outputs.sanitized_branch_name }}/app/pylint-report.txt pylint-report.txt
         continue-on-error: true
       - name: Upload Pylint report as artifact database
         uses: actions/upload-artifact@v4
