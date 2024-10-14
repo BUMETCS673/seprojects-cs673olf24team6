@@ -21,6 +21,17 @@ env:
   REPO_NAME: "bumetcs673/seprojects-cs673olf24team6"
 
 jobs:
+  Docker-Compose-Test:
+    runs-on: ubuntu-latest
+    steps:
+    # Check out repository code
+    - uses: actions/checkout@v4
+  
+    # Run Docker Compose
+    - uses: adambirds/docker-compose-action@v1.5.0
+      with:
+        compose-file: "./code/docker-compose.yml"
+
   AWS-Deployement:
     runs-on: ubuntu-latest
     steps:
