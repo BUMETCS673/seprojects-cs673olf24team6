@@ -40,9 +40,9 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: top-movies-api
           environment_name: Top-movies-api-env 
-          version_label: 1
+          version_label: 2
           region: us-east-1
-          # deployment_package: topmoviesapi.zip
+          deployment_package: topmoviesapi.zip
 
   Get-Branch-Name:
     runs-on: ubuntu-latest
