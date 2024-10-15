@@ -14,7 +14,6 @@ function ResponseDisplayComponent({ message }) {
     // Display returned data in a table to the user.
   return (
     <div className="response-container">
-      <BarChart />
       <h3 className="response-header">Response Data:</h3>
       <table className="response-table">
         <thead>
