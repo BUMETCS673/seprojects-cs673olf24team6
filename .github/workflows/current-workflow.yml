@@ -410,10 +410,10 @@ jobs:
 
     steps:
       - name: Run pylint/pass or fail
-        run: pylint . > /app/pylint-report.txt 2>&1 || true
+        run: pylint /app > /tmp/pylint-report.txt 2>&1 || true
 
       - name: generate report
-        run: cat /app/pylint-report.txt
+        run: cat /tmp/pylint-report.txt
 
 #     - name: Run Pylint and generate report
 #        run: |
