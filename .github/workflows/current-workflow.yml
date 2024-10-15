@@ -419,7 +419,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pylint-report backend
-          path: pylint-report.txt
+          path: /app/pylint-report.txt
 
 
   Run-Pylint-Database:
@@ -446,7 +446,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pylint-report database
-          path: pylint-report.txt
+          path: /database/pylint-report.txt
 
 
   Run-Frontend-Unit-Tests:
