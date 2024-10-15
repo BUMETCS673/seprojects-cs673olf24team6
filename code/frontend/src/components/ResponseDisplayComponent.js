@@ -1,6 +1,5 @@
 import React from 'react';
 import '../assets/ResponseDisplayComponent.css';  // Import the CSS file
-import BarChart from '../components/BarChart';
 import '../assets/BarChart.css';
 
 // This component is responsible for displaying the data returned from the request.
