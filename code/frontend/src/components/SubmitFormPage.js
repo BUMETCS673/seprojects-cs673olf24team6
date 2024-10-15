@@ -2,6 +2,7 @@ import React, { useState, useEffect  } from 'react';
 import MovieQueryFormComponent from './MovieQueryFormComponent';
 import ResponseDisplayComponent from './ResponseDisplayComponent';
 
+
 function SubmitFormPage() {
     // Allows us to store the response as n object to use
   const [responseMessage, setResponseMessage] = useState(null);

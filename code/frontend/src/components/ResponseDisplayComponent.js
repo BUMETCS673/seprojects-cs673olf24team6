@@ -1,7 +1,8 @@
 import React from 'react';
 import '../assets/ResponseDisplayComponent.css';  // Import the CSS file
+import '../assets/BarChart.css';
 
-// This componenet is responible for displaying the data returned fromt he request.
+// This component is responsible for displaying the data returned from the request.
 function ResponseDisplayComponent({ message }) {
   console.log('Received message:', message.data);  // Log to check if 'message' has 'data'
 

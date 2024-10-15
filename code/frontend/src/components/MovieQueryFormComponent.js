@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import UserInputField from './UserInputField';
 import { fetchMovieData } from '../services/fetchMovieData';
-import '../assets/SubmitFormPage.css'
+import '../assets/SubmitFormPage.css';
 
-// This is the form that will hold the input feilds and handle the call the fuinction responsible for
+
+// This is the form that will hold the input fields and handle the call the function responsible for
 // fetching data from backend
 function MovieQueryFormComponent({ setData, setLoading }) {
 
-  // Using number values for simnplicity
+  // Using number values for simplicity
   // Years allowed are between 1900 and current year
   const currentYear = new Date().getFullYear();
   const years = Array.from(new Array(100), (val, index) => currentYear - index);
 
-  // Form and its data feilds
+
+  // Form and its data fields
   const [formData, setFormData] = useState({
     release_after: '',
     genre_select: '',
@@ -59,7 +61,7 @@ function MovieQueryFormComponent({ setData, setLoading }) {
   });
   };
 
-// Input feilds to be displayd to user.
+// Input fields to be displayed to user.
 return (
   <form id="submitForm" onSubmit={handleSubmit}>
     <div className="leftcol">

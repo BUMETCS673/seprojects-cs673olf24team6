@@ -1,5 +1,5 @@
 import React from 'react';
-// User input feilds componenet that is a component we abstract to utilize in several palces across the system.
+// User input fields component that is a component we abstract to utilize in several places across the system.
 function UserInputField({ label, name, type = 'text', value, onChange }) {
   return (
     <div className="input-field">
