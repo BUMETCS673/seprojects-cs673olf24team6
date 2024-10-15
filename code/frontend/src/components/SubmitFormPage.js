@@ -27,9 +27,6 @@ function SubmitFormPage() {
 
         {loading && <p>Loading...</p>}
 
-        // display the chart here below
-        {!loading && responseMessage && <BarChart message={responseMessage} />}
-
         {!loading && responseMessage && <ResponseDisplayComponent message={responseMessage} />}
 
         {!loading && !responseMessage && <p>No data available yet.</p>}
