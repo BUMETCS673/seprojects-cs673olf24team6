@@ -123,7 +123,7 @@ jobs:
           environment_name: Top-movies-api-env 
           version_label: 9
           region: us-east-1
-          deployment_package: topmoviesapi.zip
+          # deployment_package: topmoviesapi.zip
 
   Get-Branch-Name:
     runs-on: ubuntu-latest
