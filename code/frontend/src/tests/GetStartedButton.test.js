@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
 import WelcomePage from '../components/WelcomePage';
 import SubmitFormPage from '../components/SubmitFormPage';  // Import the SubmitFormPage component
 import MovieQueryFormPage from '../components/MovieQueryFormComponent';  // Import the SubmitFormPage component
@@ -50,5 +51,61 @@ describe('MovieQueryFormPage Component', () => {
 
     fireEvent.change(inputElement, { target: { value } });
     expect(inputElement.value).toBe("1990");
+  });
+
+  test('renders the dropdown input; while also checking that it take a option', async () => {
+    const { getByTestId } = render(
+      <MemoryRouter>
+        <MovieQueryFormPage />
+      </MemoryRouter>
+    );
+    const user = userEvent.setup();
+
+    const dropdownRating = getByTestId("rating");
+    const dropdownGenre = getByTestId("genre");
+
+    expect(dropdownRating).toBeInTheDocument();
+    expect(dropdownGenre).toBeInTheDocument();
+
+    await user.selectOptions(dropdownGenre, "Drama");
+    await user.selectOptions(dropdownRating, "R");
+
+    expect(dropdownGenre.value).toBe("1");
+    expect(dropdownRating.value).toBe("1");
+  });
+
+  test('renders the clear button; Tests teh clear functionality', async () => {
+    const { getByText, getByRole, getByTestId } = render(
+      <MemoryRouter>
+        <MovieQueryFormPage />
+      </MemoryRouter>
+    );
+    const user = userEvent.setup();
+
+    const buttonElement = getByText(/Clear/i);
+    const inputElement = getByRole("spinbutton");
+    const dropdownRating = getByTestId("rating");
+    const dropdownGenre = getByTestId("genre");
+
+    expect(buttonElement).toBeInTheDocument();
+    expect(inputElement).toBeInTheDocument();
+    expect(dropdownRating).toBeInTheDocument();
+    expect(dropdownGenre).toBeInTheDocument();
+
+    const value = 1990;
+
+    fireEvent.change(inputElement, { target: { value } });
+    await user.selectOptions(dropdownGenre, "Drama");
+    await user.selectOptions(dropdownRating, "R");
+
+    expect(inputElement.value).toBe("1990");
+    expect(dropdownGenre.value).toBe("1");
+    expect(dropdownRating.value).toBe("1");
+
+    fireEvent.click(buttonElement);
+
+    expect(inputElement.value).toBe("");
+    expect(dropdownGenre.value).toBe("");
+    expect(dropdownRating.value).toBe("");
   });
 });
