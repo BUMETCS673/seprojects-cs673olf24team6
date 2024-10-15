@@ -1,0 +1,34 @@
+version: '3'
+services:
+  # Node
+  frontend:
+    image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/node_frontend:dev
+    ports:
+      - "3000:3000"
+    pull_policy: always
+    depends_on:
+      - backend
+
+  # Flask backend
+  backend:
+    image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/flask_backend:dev
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=/shared_data/movies.db  # Path inside the Flask container to connect to SQLite
+    pull_policy: always
+    depends_on:
+      - sqlite
+    volumes:
+      - app_data:/shared_data
+
+  # Database
+  sqlite:
+    image: ghcr.io/bumetcs673/seprojects-cs673olf24team6/sqlite_database:dev
+    volumes:
+      - app_data:/database/src
+    pull_policy: always
+
+# Global Var
+volumes:
+  app_data:

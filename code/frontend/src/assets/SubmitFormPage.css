@@ -1,0 +1,72 @@
+{/* This need to be refactored back in */}
+.container {
+    display: inline-block;
+    cursor: pointer;
+    background: blue;
+    position: absolute;
+
+}
+{/* may need to be removed given time contrainsts */}
+.bar1, .bar2, .bar3 {
+    width: 28px;
+    height: 3px;
+    background-color: #000000;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+.form-page {
+  background-color: white;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+}
+
+{/* Work from Alex and James that got moved during refactoring */}
+.leftcol {
+  padding: 20px;
+  background-color: #ddd;
+}
+
+.input label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.input input,
+.input select {
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.center-text {
+  text-align: center;
+}
+
+textarea {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
