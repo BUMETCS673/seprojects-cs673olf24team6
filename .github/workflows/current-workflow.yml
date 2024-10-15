@@ -111,7 +111,7 @@ jobs:
         working-directory: /app/tests
         run: pytest process_query_request_test.py
 
-  Run-Pylint-Backend:
+  Run-Backend-PyLint:
     name: Pylint test backend
     runs-on: ubuntu-latest
     needs: [Get-Branch-Name, Run-Backend-Unit-Tests]
