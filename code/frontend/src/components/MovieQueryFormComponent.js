@@ -69,19 +69,20 @@ return (
         <UserInputField
           label="Released After"
           name="release_after"
+          id="release_after"
           type="number"  // This will need to a num
-          value={formData.release_start}
+          value={formData.release_after}
           onChange={handleInputChange}
           min="1900"
           max={new Date().getFullYear()}
         />
-
 
       <div className="input">
         <label htmlFor="genre_select">Genres: </label>
         <select
           name="genre_select"
           id="genre_select"
+          data-testid="genre"
           value={formData.genre_select}
           onChange={handleInputChange}
         >
@@ -116,6 +117,7 @@ return (
         <select
           name="rating_select"
           id="rating_select"
+          data-testid="rating"
           value={formData.rating_select}
           onChange={handleInputChange}
         >

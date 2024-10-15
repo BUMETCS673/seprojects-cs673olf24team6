@@ -1,3 +1,11 @@
+"""This script processes raw movie data from a CSV file and prepares it for
+insertion into an SQLite database. It cleans, organizes, and splits the data
+into multiple relational tables (e.g., Age Rating, Director, Writers, Cast,
+Genre, Movie) based on the movie information provided. After processing,
+the data is loaded into the appropriate tables in the SQLite database.
+"""
+
+
 import pandas as pd
 
 raw_movie_data = pd.read_csv('/database/src/IMDB_Top_250_Movies.csv')
@@ -30,9 +38,6 @@ certificate_data['rating_id'] = certificate_data['certificate'].map(
     dict(zip(age_rating_data['rating_title'], age_rating_data['rating_id']))
 )
 
-# Copying age_rating_data to AgeRating.csv file
-#age_rating_data['rating_title'].to_csv('AgeRating.csv', index=False, header=True)
-
 
 #---------------------------------------------------
 # Data for the Director and Movie_Director tables
@@ -43,7 +48,8 @@ director_table = pd.DataFrame()
 movie_director_table['movie_id'] = data['rank'].copy()
 movie_director_table['director_name'] = data['directors'].copy()
 
-movie_director_table['director_name'] = movie_director_table['director_name'].str.split(',')
+movie_director_table['director_name'] = (
+    movie_director_table['director_name'].str.split(','))
 movie_director_table = movie_director_table.explode('director_name')
 director_table['director_name'] = movie_director_table['director_name'].copy()
 
@@ -56,9 +62,11 @@ director_table['director_id'] = pk_director_table
 
 director_table = director_table[['director_id','director_name']]
 
-movie_director_table['director_id'] = movie_director_table['director_name'].map(
-    dict(zip(director_table['director_name'], director_table['director_id']))
-)
+movie_director_table['director_id'] = (
+    movie_director_table['director_name'].map(dict(zip(
+        director_table['director_name'],
+        director_table['director_id']))
+))
 
 movie_director_table = movie_director_table[['movie_id','director_id']]
 
@@ -71,7 +79,8 @@ writers_table = pd.DataFrame()
 movie_writers_table['movie_id'] = data['rank'].copy()
 movie_writers_table['writer_name'] = data['writers'].copy()
 
-movie_writers_table['writer_name'] = movie_writers_table['writer_name'].str.split(',')
+movie_writers_table['writer_name'] = (
+    movie_writers_table['writer_name'].str.split(','))
 movie_writers_table = movie_writers_table.explode('writer_name')
 writers_table['writer_name'] = movie_writers_table['writer_name'].copy()
 
@@ -127,7 +136,8 @@ genre_table = pd.DataFrame()
 movie_genre_table['movie_id'] = data['rank'].copy()
 movie_genre_table['genre_name'] = data['genre'].copy()
 
-movie_genre_table['genre_name'] = movie_genre_table['genre_name'].str.split(',')
+movie_genre_table['genre_name'] = (
+    movie_genre_table['genre_name'].str.split(','))
 movie_genre_table = movie_genre_table.explode('genre_name')
 genre_table['genre_name'] = movie_genre_table['genre_name'].copy()
 
@@ -169,12 +179,14 @@ for i in runtime_orig['run_time']:
     if i == "Not Available":    # If the runtime is unavailable
         runtime_temp.append(0)
 
-    elif (i.find("h") >= 0) and (i.find("m") >= 0): # If the runtime format is 0h 00m
+    # If the runtime format is 0h 00m
+    elif (i.find("h") >= 0) and (i.find("m") >= 0):
         x = (int(i[0]) * 60) + (int(i[int(i.find(" ")):-1]))
         runtime_temp.append(x)
         x = 0
 
-    elif (i.find("h") >= 0) and (i.find("m") < 1): # If the runtime format is 00m
+    # If the runtime format is 00m
+    elif (i.find("h") >= 0) and (i.find("m") < 1):
         x = (int(i[0]) * 60)
         runtime_temp.append(x)
         x = 0
@@ -186,7 +198,6 @@ for i in runtime_orig['run_time']:
 
     else:
         pass
-
 
 
 # Adding runtime to the movie table
@@ -217,16 +228,43 @@ def load_data_into_tables():
     # Inserting data into SQLite Movies Database tables
     try:
         # KEEP and uncomment when done.
-        age_rating_data['rating_title'].to_sql('AGE_RATING', conn, if_exists='append', index=False)
-        director_table['director_name'].to_sql('DIRECTOR', conn, if_exists='append', index=False)
-        writers_table['writer_name'].to_sql('WRITERS', conn, if_exists='append', index=False)
-        cast_table['cast_name'].to_sql('CAST', conn, if_exists='append', index=False)
-        genre_table['genre_name'].to_sql('GENRE', conn, if_exists='append', index=False)
-        movie_table.to_sql('MOVIE', conn, if_exists='append', index=False)
-        movie_director_table.to_sql('MOVIE_DIRECTOR', conn, if_exists='append', index=False)
-        movie_writers_table.to_sql('MOVIE_WRITERS', conn, if_exists='append', index=False)
-        movie_cast_table.to_sql('MOVIE_CAST', conn, if_exists='append', index=False)
-        movie_genre_table.to_sql('MOVIE_GENRE', conn, if_exists='append', index=False)
+        age_rating_data['rating_title'].to_sql('AGE_RATING',
+                                               conn, if_exists='append',
+                                               index=False)
+        director_table['director_name'].to_sql('DIRECTOR',
+                                               conn,
+                                               if_exists='append',
+                                               index=False)
+        writers_table['writer_name'].to_sql('WRITERS',
+                                            conn,
+                                            if_exists='append',
+                                            index=False)
+        cast_table['cast_name'].to_sql('CAST',
+                                       conn,
+                                       if_exists='append',
+                                       index=False)
+        genre_table['genre_name'].to_sql('GENRE', conn,
+                                         if_exists='append',
+                                         index=False)
+        movie_table.to_sql('MOVIE',
+                           conn,
+                           if_exists='append',
+                           index=False)
+        movie_director_table.to_sql('MOVIE_DIRECTOR',
+                                    conn,
+                                    if_exists='append',
+                                    index=False)
+        movie_writers_table.to_sql('MOVIE_WRITERS',
+                                   conn,
+                                   if_exists='append',
+                                   index=False)
+        movie_cast_table.to_sql('MOVIE_CAST',
+                                conn,
+                                if_exists='append',
+                                index=False)
+        movie_genre_table.to_sql('MOVIE_GENRE',
+                                 conn, if_exists='append',
+                                 index=False)
 
         print("Data successfully loaded into tables.")
 
