@@ -1,8 +1,9 @@
-from flask_cors import CORS
-from flask import Flask, request, jsonify
-import json
 import os
 import sqlite3
+import json
+from flask_cors import CORS
+from flask import Flask, request, jsonify
+
 
 app = Flask(__name__)
 CORS(app)
@@ -10,14 +11,16 @@ CORS(app)
 
 def get_db_connection():
     db_path = os.getenv('DATABASE_URL', '/shared_data/movies.db')
+    # pylint: disable=no-member
     app.logger.info(f"Connecting to database at: {db_path}")
 
     try:
         conn = sqlite3.connect(db_path)
         conn.row_factory = sqlite3.Row
         return conn
-    except sqlite3.Error as e:
-        app.logger.info(f"Error connecting to database: {e}")
+    except sqlite3.Error as database_error:
+        # pylint: disable=no-member
+        app.logger.info(f"Error connecting to database: {database_error}")
         raise
 
 # Needs comments.
@@ -81,11 +84,14 @@ def process_data_request():
         response.status_code = 400
         return response
 
+    # pylint: disable=no-member
     app.logger.info(f"Received: {json.dumps(request_data)})")
 
     # Call query capture data
-    response_data = process_query(request_data.get('release_after'), request_data.get('genre_select'), request_data.get('genre_select'))
-
+    response_data = process_query(request_data.get('release_after'),
+                                  request_data.get('genre_select'),
+                                  request_data.get('genre_select'))
+    # pylint: disable=no-member
     app.logger.info(f"Sending response to client: {json.dumps(response_data)}")
     print(f"Sending response to client: {json.dumps(response_data)}")
     return jsonify(response_data), 200
