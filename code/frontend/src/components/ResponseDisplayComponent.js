@@ -1,6 +1,6 @@
 import React from 'react';
 import '../assets/ResponseDisplayComponent.css';  // Import the CSS file
-import '../assets/BarChart.css';
+//import '../assets/BarChart.css'; //asset being called which does not exist, causing deployment issues
 
 // This component is responsible for displaying the data returned from the request.
 function ResponseDisplayComponent({ message }) {
